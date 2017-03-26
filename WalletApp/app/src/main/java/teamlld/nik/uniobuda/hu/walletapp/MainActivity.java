@@ -1,5 +1,7 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -15,18 +17,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Random rand = new Random();
+        DashboardFragment fragment=DashboardFragment.newInstance();    // hivatalos fragment létrehozási mód
 
-        List<Transaction> items = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++) {
-            items.add(new Transaction("Tranzakció " + i, 5000 + rand.nextInt(5000), "HUF", rand.nextBoolean()));
-        }
-
-        TransactionAdapter adapter = new TransactionAdapter(items);
-        ListView lista = (ListView) findViewById(R.id.transactions_list);
-        lista.setAdapter(adapter);
-
-
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.replace(R.id.fragment_dashboard_container, fragment);
+        transaction.commit();
     }
 }
