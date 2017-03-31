@@ -17,17 +17,24 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@id/balance"
-        android:id="@+id/chart"
+        android:id="@+id/balanceChart"
         android:text="Balance chart"
         android:textStyle="bold"
         android:textSize="18sp"
+        />
+
+    <teamlld.nik.uniobuda.hu.walletapp.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/graphBalance"
+        android:layout_below="@id/balanceChart"
         />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/chart"
+        android:layout_below="@id/graphBalance"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textStyle="bold"
