@@ -12,10 +12,14 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    DatabaseHandler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler=new DatabaseHandler(this);
 
         DashboardFragment fragment=DashboardFragment.newInstance();    // hivatalos fragment létrehozási mód
 
@@ -23,5 +27,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction=manager.beginTransaction();
         transaction.replace(R.id.fragment_dashboard_container, fragment);
         transaction.commit();
+
+
+        //TODO insertek mire hívódjanak meg
     }
 }
