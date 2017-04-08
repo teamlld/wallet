@@ -13,6 +13,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by GERGO on 2017.03.31..
@@ -49,9 +50,10 @@ public class GraphView extends View {
     protected void Init()  // konstruktor helyett
     {
         values=new ArrayList<>(Max_Values);
-        for (int i=0; i<Max_Values; i++)
+        Random rnd=new Random();
+        for (int i=0;i<20;i++)
         {
-            this.values.add(0f);
+            addValue(rnd.nextFloat());
         }
         path=new Path();
         paint=new Paint();
@@ -63,7 +65,8 @@ public class GraphView extends View {
 
     public void addValue(float value)
     {
-        this.values.remove(0);
+        //TODO grfikonon megjelenő értékek számának tartása, vagy valamilyen felbontás szerinti megjelenítése pl:hónap
+        //this.values.remove(0);
         this.values.add(value);
         invalidate();
 

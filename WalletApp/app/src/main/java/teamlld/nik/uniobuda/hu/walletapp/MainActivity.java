@@ -1,5 +1,6 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -21,12 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
         handler=new DatabaseHandler(this);
 
-        DashboardFragment fragment=DashboardFragment.newInstance();    // hivatalos fragment létrehozási mód
-
-        FragmentManager manager=getSupportFragmentManager();
-        FragmentTransaction transaction=manager.beginTransaction();
-        transaction.replace(R.id.fragment_dashboard_container, fragment);
-        transaction.commit();
+        Intent intent = new Intent(this, DashboardActivity.class);
+        //intent.putExtra();
+        startActivity(intent);
 
 
         //TODO insertek mire hívódjanak meg
