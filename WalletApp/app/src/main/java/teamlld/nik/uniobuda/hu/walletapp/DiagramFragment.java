@@ -15,10 +15,10 @@ public class DiagramFragment extends Fragment {
 
     View rootView;
 
-    public static DiagramFragment newInstance(){
+    public static DiagramFragment newInstance() {
 
-        Bundle args=new Bundle();
-        DiagramFragment fragment= new DiagramFragment();
+        Bundle args = new Bundle();
+        DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,6 +28,6 @@ public class DiagramFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_diagram, container, false);
-        return  rootView;
+        return rootView;
     }
 }

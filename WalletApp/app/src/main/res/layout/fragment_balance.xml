@@ -2,15 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatTextView
-        android:layout_height="wrap_content"
+        android:id="@+id/title"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Balance"
-        android:textStyle="bold"
         android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:gravity="center_horizontal"
+        android:text="1500 HUF"
+        android:textSize="26sp"
+
         />
 
 </RelativeLayout>

@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class GraphView extends View {
 
-    public final static int Max_Values=50;
+    public final static int Max_Values = 50;
     protected List<Float> values;
     protected Path path;
     protected Paint paint;
@@ -49,22 +49,20 @@ public class GraphView extends View {
 
     protected void Init()  // konstruktor helyett
     {
-        values=new ArrayList<>(Max_Values);
-        Random rnd=new Random();
-        for (int i=0;i<20;i++)
-        {
+        values = new ArrayList<>(Max_Values);
+        Random rnd = new Random();
+        for (int i = 0; i < 20; i++) {
             addValue(rnd.nextFloat());
         }
-        path=new Path();
-        paint=new Paint();
+        path = new Path();
+        paint = new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(8f);
 
     }
 
-    public void addValue(float value)
-    {
+    public void addValue(float value) {
         //TODO grfikonon megjelenő értékek számának tartása, vagy valamilyen felbontás szerinti megjelenítése pl:hónap
         //this.values.remove(0);
         this.values.add(value);
@@ -76,19 +74,18 @@ public class GraphView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int width=getWidth();
-        int height=getHeight();
+        int width = getWidth();
+        int height = getHeight();
 
-        float widthStep=width/values.size();
-        float heightStep=widthStep;
-        float heightOffset=height>>1;
+        float widthStep = width / values.size();
+        float heightStep = widthStep;
+        float heightOffset = height >> 1;
 
         path.reset();
-        path.moveTo(0,-values.get(0) * heightStep + heightOffset);
+        path.moveTo(0, -values.get(0) * heightStep + heightOffset);
 
-        for (int i=1;i<values.size();i++)
-        {
-            path.lineTo(i* widthStep, -values.get(i)*heightStep+heightOffset);
+        for (int i = 1; i < values.size(); i++) {
+            path.lineTo(i * widthStep, -values.get(i) * heightStep + heightOffset);
         }
 
         canvas.drawPath(path, paint);

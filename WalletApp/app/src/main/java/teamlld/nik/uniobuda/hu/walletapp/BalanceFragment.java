@@ -15,10 +15,10 @@ public class BalanceFragment extends Fragment {
 
     View rootView;
 
-    public static BalanceFragment newInstance(){
+    public static BalanceFragment newInstance() {
 
-        Bundle args=new Bundle();
-        BalanceFragment fragment= new BalanceFragment();
+        Bundle args = new Bundle();
+        BalanceFragment fragment = new BalanceFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,6 +28,6 @@ public class BalanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_balance, container, false);
-        return  rootView;
+        return rootView;
     }
 }

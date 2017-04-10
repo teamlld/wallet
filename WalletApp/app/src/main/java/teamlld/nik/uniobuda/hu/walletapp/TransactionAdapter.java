@@ -48,10 +48,10 @@ public class TransactionAdapter extends BaseAdapter {
         Transaction transaction = items.get(position);
         nameTextView.setText(transaction.getName());
 
-        //A számok színét is át kéne állítani valahogy piros\zöld-re
+        //TODO A számok színét is át kéne állítani valahogy piros\zöld-re
         String elojel = transaction.isIncome() ? "+" : "-";
-        amountTextView.setText(elojel + Integer.toString(transaction.getAmount()) + " " + transaction.getCurrency());
+        amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 
-        return  listItemView;
+        return listItemView;
     }
 }

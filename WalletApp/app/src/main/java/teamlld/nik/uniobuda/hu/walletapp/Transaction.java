@@ -1,32 +1,39 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import java.util.Date;
+
 /**
  * Created by Atee on 2017. 03. 11..
  */
 
 public class Transaction {
     private String name;
-    private int amount;
-    private String currency;
+    private int value;
     private boolean income;
+    private Date date;
+    private String type; //TODO típus jó lesz stringként?
 
-    public Transaction(String name, int amount, String currency, boolean income) {
+    public Transaction(String name, int value, boolean income, String type) {
         this.name = name;
-        this.amount = amount;
-        this.currency = currency;
+        this.value = value;
         this.income = income;
+        this.type = type;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public String getCurrency() {
-        return currency;
+    public int getValue() {
+        return value;
     }
 
     public boolean isIncome() {
