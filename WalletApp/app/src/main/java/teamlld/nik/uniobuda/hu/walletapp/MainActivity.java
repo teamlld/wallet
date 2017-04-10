@@ -22,6 +22,9 @@ import com.facebook.login.widget.LoginButton;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    // Remélem mostmár tudok commitolni
+
     public static DatabaseHandler handler;
     LoginButton loginButton;
     CallbackManager callbackManager;
