@@ -33,7 +33,7 @@ public class LatestItemsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_latestitems, container, false);
+        rootView = inflater.inflate(R.layout.fragment_latest_items, container, false);
         return rootView;
     }
 
