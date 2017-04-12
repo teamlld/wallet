@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Transaction {
+    private int id;
     private String name;
     private int value;
     private boolean income;
