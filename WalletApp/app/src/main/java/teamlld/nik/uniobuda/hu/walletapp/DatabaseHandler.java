@@ -6,13 +6,36 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by GERGO on 2017.04.01..
  */
 
+interface NewTransactionListener{
+    void NewTransactionAdded(Transaction transaction);
+}
 
 public class DatabaseHandler {
+
+    // FIXME ennek a résznek nincs sok keresnivalója az adatbázisban, de egyelőre jobb ötletem nem volt
+    private List<NewTransactionListener> listeners = new ArrayList<NewTransactionListener>();
+
+    public void addListener(NewTransactionListener toAdd) {
+        listeners.add(toAdd);
+    }
+
+    private void transactionAdded(Transaction transaction)
+    {
+        for (NewTransactionListener listener : listeners)
+            listener.NewTransactionAdded(transaction);
+    }
+    // FIXME
+
 
     public final static String DB_NAME = "database";
     public final static int DB_VERSION = 1;
@@ -25,14 +48,13 @@ public class DatabaseHandler {
         helper = new DatabaseHelper(context);
     }
 
-    public long insertUser(String name, int balance) {
+    public long insertUser(String name, int balance, int userId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("balance", balance);
-
+        values.put("_userId",userId);
         long id = db.insert(TABLE_USERS, null, values);
-        //TODO insertConflict ?
         db.close();
         return id;
     }
@@ -45,21 +67,53 @@ public class DatabaseHandler {
         values.put("income", income);
         values.put("type", type);
         values.put("_userId", userId);
+
         long id = db.insert(TABLE_TRANSACTIONS, null, values);
         //TODO insertConflict ?
         db.close();
+
+        transactionAdded(new Transaction(name,value,income,type));
+
         return id;
     }
 
-    public Cursor getAllTransactions() {
+    public Cursor getAllTransactions(int userId) {
+        //a userId-hoz tartozó user összes tranzakcióját visszaadja
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.query(TABLE_TRANSACTIONS, null, null, null, null, null, null);
+        Cursor result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId DESC");
         result.moveToFirst();
         db.close();
         return result;
     }
 
-    //TODO lekérdezések kitalálása
+    public Cursor getLatestTransactions(int count,int userId) {
+        //a userId-hoz tartozó user count db utolsó tranzakcióját adja vissza
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM transactions WHERE _userId = ? ORDER BY _transactionId DESC LIMIT ?",new String[]{Integer.toString(userId), Integer.toString(count)});
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
+    public Cursor getUserById(int userId)
+    {
+        //visszaad egy user-t ID alapján, ha nem létezik akkor a Cursor üres lesz.
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result = db.query(TABLE_USERS, null, "_userId = ?",new String[]{Integer.toString(userId)} , null, null, null);
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
+    public void updateUserBalance(int userId, int newBalance)
+    {
+        //frissíti a user egyenlegét
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("balance",newBalance);
+        db.update(TABLE_USERS,values,"_userId = ?",new String[]{Integer.toString(userId)});
+        db.close();
+    }
 
     public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -70,7 +124,7 @@ public class DatabaseHandler {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_USERS + "(" +
-                    "_userId    INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "_userId    INTEGER PRIMARY KEY, " +
                     "name   VARCHAR(255)," +
                     "balance   INTEGER" +
                     ")");
@@ -80,7 +134,7 @@ public class DatabaseHandler {
                     "value  INTEGER," +
                     "income BOOLEAN," +
                     "type   VARCHAR(255)," +
-                    //     "date   DATETIME"  + TODO ezt visszarakni, egyelőre egyszerűbb volt enélkül
+                   // "date   DATETIME," + TODO ezt visszatenni
                     "_userId INTEGER," +
                     "FOREIGN KEY(_userId) REFERENCES " + TABLE_USERS + "(_userId)" +
                     ")");

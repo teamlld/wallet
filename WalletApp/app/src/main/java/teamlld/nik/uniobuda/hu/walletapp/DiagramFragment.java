@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by GERGO on 2017.04.08..
  */
 
-public class DiagramFragment extends Fragment {
+public class DiagramFragment extends Fragment implements NewTransactionListener{
 
     View rootView;
 
@@ -20,6 +20,7 @@ public class DiagramFragment extends Fragment {
         Bundle args = new Bundle();
         DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
+        MainActivity.handler.addListener(fragment);
         return fragment;
     }
 
@@ -29,5 +30,12 @@ public class DiagramFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_diagram, container, false);
         return rootView;
+    }
+
+    @Override
+    public void NewTransactionAdded(Transaction transaction) {
+        //TODO új tranzakció hozzáadásakor jelenjen meg a grafikonon.
+        //GraphView graphView = (GraphView) rootView.findViewById(R.id.balanceChart);
+        //graphView.addValue(transaction.getValue());
     }
 }

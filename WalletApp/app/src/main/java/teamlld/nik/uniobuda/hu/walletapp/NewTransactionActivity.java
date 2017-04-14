@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.util.Date;
+
 public class NewTransactionActivity extends AppCompatActivity {
 
     @Override
@@ -19,17 +21,23 @@ public class NewTransactionActivity extends AppCompatActivity {
         final EditText valueEditText = (EditText) findViewById(R.id.newTransactionValue);
         final EditText typeEditText = (EditText) findViewById(R.id.newTransactionType);
         final CheckBox incomeCheckBox = (CheckBox) findViewById(R.id.newTransactionIncome);
+        final int userId = getIntent().getExtras().getInt("userid");
 
 
         addNewTransactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO mielőtt beszúrúnk egy ellenőrzést kéne végezni, hogy numberbe csak number van-e, nem e üres, (vagy ezt dbhandlernél)
-                //TODO ha beszúrtuk visszatérünk a dashboardra
-                //TODO adatbázisba bekerül, de a listview-ban nem frissül, azt frissíteni, vagy visszaadni valahogy egy Transaction objektumot és azt belerakni a listview itemjeibe
 
-                MainActivity.handler.insertTransaction(nameEditText.getText().toString(), Integer.parseInt(valueEditText.getText().toString()), incomeCheckBox.isChecked(), typeEditText.getText().toString(), 0);
+                MainActivity.handler.insertTransaction(
+                        nameEditText.getText().toString(),
+                        Integer.parseInt(valueEditText.getText().toString()),
+                        incomeCheckBox.isChecked(),
+                        typeEditText.getText().toString(),
+                        userId
+                );
 
+                finish();
             }
         });
     }
