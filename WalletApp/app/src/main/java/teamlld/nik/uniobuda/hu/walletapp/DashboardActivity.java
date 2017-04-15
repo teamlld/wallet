@@ -2,7 +2,6 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.annotation.MainThread;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,11 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
-import com.facebook.login.widget.LoginButton;
-
-import java.util.Random;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -51,6 +46,7 @@ public class DashboardActivity extends AppCompatActivity {
             user.setId(userId);
             MainActivity.handler.insertUser(user.getName(), user.getBalance(), user.getId());
         }
+        MainActivity.handler.generateDemoDataTransactions(userId);
 
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);

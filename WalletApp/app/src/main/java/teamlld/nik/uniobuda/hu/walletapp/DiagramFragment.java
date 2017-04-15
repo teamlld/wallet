@@ -55,16 +55,23 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
 
         //TODO userId elérése + a DBhandlernek listát kellene visszadnia kurzor helyett itt
 
-        Cursor c=MainActivity.handler.getLatestTransactions(maxGraphItem,1000);
+        Cursor cursor=MainActivity.handler.getLatestTransactions(maxGraphItem,1000);
         graphPoints = new LineGraphSeries<DataPoint>();
 
-        /*for(; !c.isAfterLast(); c.moveToNext()) {
-            DataPoint point=new DataPoint(c.getLong(5), c.getInt(3)>0? c.getInt(2)*-1:c.getInt(2));
-            graphPoints.appendData(point,true, maxGraphItem);
+        //FIXME az adatbázisból null cursor jön vissza
 
+       /* try {
+            while (cursor.moveToNext()) {
+                boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+                DataPoint point=new DataPoint(cursor.getLong(cursor.getColumnIndex("date")), income? cursor.getInt(cursor.getColumnIndex("value"))*-1:cursor.getInt(cursor.getColumnIndex("value")));
+                graphPoints.appendData(point,true, maxGraphItem);
+            }
+        } finally {
+            cursor.close();
         }*/
 
-        for(int i=0;i<maxGraphItem;i++) {
+
+       for(int i=0;i<maxGraphItem;i++) {
             Random rnd= new Random();
             boolean b=rnd.nextBoolean();
             DataPoint point=new DataPoint(i*2,b?rnd.nextInt(1000):rnd.nextInt(1000)*-1);
