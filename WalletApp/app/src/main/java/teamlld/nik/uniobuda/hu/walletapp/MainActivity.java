@@ -19,17 +19,16 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    // Remélem mostmár tudok commitolni
-
     public static DatabaseHandler handler;
-    LoginButton loginButton;
-    CallbackManager callbackManager;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +44,24 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                 //intent.putExtra();
                 startActivity(intent);
+                finish();
             }
         });
 
 
-        if (AccessToken.getCurrentAccessToken() == null) {
+        if (Profile.getCurrentProfile() == null) {
 
             loginButton = (LoginButton) findViewById(R.id.login_button);
             callbackManager = CallbackManager.Factory.create();
-            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     handler = new DatabaseHandler(MainActivity.this);
                     Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                     //intent.putExtra();
                     startActivity(intent);
+                    finish();
                 }
 
                 @Override
@@ -79,12 +81,14 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
             //intent.putExtra();
             startActivity(intent);
+            finish();
         }
 
         //TODO insertek mire hívódjanak meg
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
