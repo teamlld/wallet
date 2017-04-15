@@ -7,7 +7,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class NewTransactionActivity extends AppCompatActivity {
 
@@ -27,17 +29,21 @@ public class NewTransactionActivity extends AppCompatActivity {
         addNewTransactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO mielőtt beszúrúnk egy ellenőrzést kéne végezni, hogy numberbe csak number van-e, nem e üres, (vagy ezt dbhandlernél)
 
-                MainActivity.handler.insertTransaction(
-                        nameEditText.getText().toString(),
-                        Integer.parseInt(valueEditText.getText().toString()),
-                        incomeCheckBox.isChecked(),
-                        typeEditText.getText().toString(),
-                        userId
-                );
+                //TODO type lehetne enum és a felületen dropdownlist
+                if(nameEditText.getText().length()>0 && valueEditText.getText().length()>0) {
+                    MainActivity.handler.insertTransaction(
+                            nameEditText.getText().toString(),
+                            Integer.parseInt(valueEditText.getText().toString()),
+                            incomeCheckBox.isChecked(),
+                            typeEditText.getText().toString(),
+                            Calendar.getInstance().getTimeInMillis(),
+                            userId
+                    );
 
-                finish();
+                    finish();
+                }
+                //TODO exception dobás?
             }
         });
     }

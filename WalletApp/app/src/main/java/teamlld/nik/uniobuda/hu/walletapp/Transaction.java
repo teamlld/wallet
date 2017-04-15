@@ -13,14 +13,15 @@ public class Transaction implements Parcelable{
     private String name;
     private int value;
     private boolean income;
-    private Date date;
     private String type; //TODO típus jó lesz stringként?
+    private long date;
 
-    public Transaction(String name, int value, boolean income, String type) {
+    public Transaction(String name, int value, boolean income, String type,long dateTime) {
         this.name = name;
         this.value = value;
         this.income = income;
         this.type = type;
+        this.date=dateTime;
     }
 
     protected Transaction(Parcel in) {
@@ -55,7 +56,7 @@ public class Transaction implements Parcelable{
         }
     };
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 

@@ -6,11 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by GERGO on 2017.04.01..
@@ -59,20 +62,21 @@ public class DatabaseHandler {
         return id;
     }
 
-    public long insertTransaction(String name, int value, boolean income, String type, int userId) {
+    public long insertTransaction(String name, int value, boolean income, String type, long time, int userId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("value", value);
         values.put("income", income);
         values.put("type", type);
+        values.put("date", time);
         values.put("_userId", userId);
 
         long id = db.insert(TABLE_TRANSACTIONS, null, values);
         //TODO insertConflict ?
         db.close();
 
-        transactionAdded(new Transaction(name,value,income,type));
+        transactionAdded(new Transaction(name,value,income,type,time));
 
         return id;
     }
@@ -115,6 +119,25 @@ public class DatabaseHandler {
         db.close();
     }
 
+    public static String converDateToString(Date time) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        //Date date = new Date();
+        return dateFormat.format(time);
+    }
+
+    public static Date convertStringToDate(String dateTme)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1=new Date();
+        try {
+            date1 = simpleDateFormat.parse(dateTme);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date1;
+    }
+
     public class DatabaseHelper extends SQLiteOpenHelper {
 
         public DatabaseHelper(Context context) {
@@ -134,7 +157,7 @@ public class DatabaseHandler {
                     "value  INTEGER," +
                     "income BOOLEAN," +
                     "type   VARCHAR(255)," +
-                   // "date   DATETIME," + TODO ezt visszatenni
+                    "date   INTEGER," +
                     "_userId INTEGER," +
                     "FOREIGN KEY(_userId) REFERENCES " + TABLE_USERS + "(_userId)" +
                     ")");
