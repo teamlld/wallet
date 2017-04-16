@@ -44,4 +44,13 @@
         android:paddingBottom="16dp"
         />
 
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_date"
+        android:text="Tranzakció dátuma"
+        android:textSize="26sp"
+        android:paddingBottom="16dp"
+        />
+
 </android.support.v7.widget.LinearLayoutCompat>

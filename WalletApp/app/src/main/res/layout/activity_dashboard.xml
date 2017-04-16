@@ -15,7 +15,7 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_weight="1.4"
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatButton
@@ -35,7 +35,7 @@
         android:id="@+id/balanceFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.5" />
+        android:layout_weight="1.4" />
 
     <FrameLayout
         android:id="@+id/diagramFragmentContainer"
@@ -47,7 +47,7 @@
         android:id="@+id/latesItemsFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1.1" />
 
     <android.support.v7.widget.AppCompatButton
         android:layout_width="wrap_content"

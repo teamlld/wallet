@@ -11,11 +11,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 /**
  * Created by GERGO on 2017.04.01..
@@ -64,29 +62,39 @@ public class DatabaseHandler {
         return id;
     }
 
-    public long insertTransaction(String name, int value, boolean income, String type, long dateTime, int userId) {
+    public long insertTransaction(String name, int value, boolean income, String type, long time, int userId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("value", value);
         values.put("income", income);
         values.put("type", type);
-        values.put("date", dateTime);
+        values.put("date", time);
         values.put("_userId", userId);
 
         long id = db.insert(TABLE_TRANSACTIONS, null, values);
         //TODO insertConflict ?
         db.close();
 
-        transactionAdded(new Transaction(name,value,income,type,dateTime));
+        transactionAdded(new Transaction(name,value,income,type,time));
 
         return id;
     }
 
-    public Cursor getAllTransactions(int userId) {
+    public Cursor getAllTransactions(int userId, boolean desc) {
         //a userId-hoz tartozó user összes tranzakcióját visszaadja
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId DESC");
+        Cursor result;
+
+        if (desc)
+        {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId DESC");
+        }
+        else
+        {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId");
+        }
+
         result.moveToFirst();
         db.close();
         return result;
@@ -121,7 +129,7 @@ public class DatabaseHandler {
         db.close();
     }
 
-   /* public static String converDateToString(Date time) {
+    public static String convertDateToString(Date time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         //Date date = new Date();
@@ -138,15 +146,6 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
         return date1;
-    }*/
-
-    public void generateDemoDataTransactions(int userid)
-    {
-        Random rnd=new Random();
-        for (int i=0;i<20;i++)
-        {
-            insertTransaction(i+". tranzakció",rnd.nextInt(15),rnd.nextBoolean(),"típus", Calendar.getInstance().getTimeInMillis(),userid);
-        }
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {
