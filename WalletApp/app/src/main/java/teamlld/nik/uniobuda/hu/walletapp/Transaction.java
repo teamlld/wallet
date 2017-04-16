@@ -29,6 +29,7 @@ public class Transaction implements Parcelable{
         value = in.readInt();
         income = in.readByte() != 0;
         type = in.readString();
+        date = in.readLong();
     }
 
     @Override
@@ -37,6 +38,7 @@ public class Transaction implements Parcelable{
         dest.writeInt(value);
         dest.writeByte((byte) (income ? 1 : 0));
         dest.writeString(type);
+        dest.writeLong(date);
     }
 
     @Override

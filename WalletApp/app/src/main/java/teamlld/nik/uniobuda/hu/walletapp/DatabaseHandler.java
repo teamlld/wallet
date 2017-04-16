@@ -81,10 +81,20 @@ public class DatabaseHandler {
         return id;
     }
 
-    public Cursor getAllTransactions(int userId) {
+    public Cursor getAllTransactions(int userId, boolean desc) {
         //a userId-hoz tartozó user összes tranzakcióját visszaadja
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId DESC");
+        Cursor result;
+
+        if (desc)
+        {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId DESC");
+        }
+        else
+        {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId");
+        }
+
         result.moveToFirst();
         db.close();
         return result;
@@ -119,7 +129,7 @@ public class DatabaseHandler {
         db.close();
     }
 
-    public static String converDateToString(Date time) {
+    public static String convertDateToString(Date time) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         //Date date = new Date();

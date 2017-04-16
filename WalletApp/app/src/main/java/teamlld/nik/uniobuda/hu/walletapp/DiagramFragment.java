@@ -30,9 +30,10 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     LineGraphSeries<DataPoint> graphPoints;
     GraphView graphview;
 
-    public static DiagramFragment newInstance() {
+    public static DiagramFragment newInstance(int userId) {
 
         Bundle args = new Bundle();
+        args.putInt("userid",userId);
         DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
         MainActivity.handler.addListener(fragment);
@@ -53,24 +54,24 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
 
         graphview=(GraphView)getView().findViewById(R.id.balanceGraph);
 
-        //TODO userId elérése + a DBhandlernek listát kellene visszadnia kurzor helyett itt
 
-        Cursor c=MainActivity.handler.getLatestTransactions(maxGraphItem,1000);
+
+        Cursor c = MainActivity.handler.getAllTransactions(getArguments().getInt("userid"),false);
         graphPoints = new LineGraphSeries<DataPoint>();
 
-        /*for(; !c.isAfterLast(); c.moveToNext()) {
-            DataPoint point=new DataPoint(c.getLong(5), c.getInt(3)>0? c.getInt(2)*-1:c.getInt(2));
-            graphPoints.appendData(point,true, maxGraphItem);
-
-        }*/
-
-        for(int i=0;i<maxGraphItem;i++) {
-            Random rnd= new Random();
-            boolean b=rnd.nextBoolean();
-            DataPoint point=new DataPoint(i*2,b?rnd.nextInt(1000):rnd.nextInt(1000)*-1);
+        for(; !c.isAfterLast(); c.moveToNext()) {
+            DataPoint point=new DataPoint(c.getLong(c.getColumnIndex("date")), c.getInt(c.getColumnIndex("income")) == 0 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1));
             graphPoints.appendData(point,true, maxGraphItem);
 
         }
+
+//        for(int i=0;i<maxGraphItem;i++) {
+//            Random rnd= new Random();
+//            boolean b=rnd.nextBoolean();
+//            DataPoint point=new DataPoint(i*2,b?rnd.nextInt(1000):rnd.nextInt(1000)*-1);
+//            graphPoints.appendData(point,true, maxGraphItem);
+//
+//        }
 
         graphview.addSeries(graphPoints);
         graphview.setTitle("Balance chart");

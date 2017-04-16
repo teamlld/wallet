@@ -15,6 +15,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView valueTextView = (TextView) findViewById(R.id.details_value);
         TextView incomeTextView = (TextView) findViewById(R.id.details_income);
         TextView typeTextView = (TextView) findViewById(R.id.details_type);
+        TextView dateTextView = (TextView) findViewById(R.id.details_date);
 
         if (getIntent().getExtras() != null){
             Bundle args = getIntent().getExtras();
@@ -34,6 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
                         incomeTextView.setText("Kiadás");
                     }
                     typeTextView.setText(selectedTransaction.getType());
+                    dateTextView.setText(Integer.toString((int)selectedTransaction.getDate()));
                 }
             }
         }
