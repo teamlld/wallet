@@ -46,7 +46,8 @@ public class DashboardActivity extends AppCompatActivity {
             user.setId(userId);
             MainActivity.handler.insertUser(user.getName(), user.getBalance(), user.getId());
         }
-        MainActivity.handler.generateDemoDataTransactions(userId);
+
+        //MainActivity.handler.LoadDatabaseWithDemoData();
 
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);

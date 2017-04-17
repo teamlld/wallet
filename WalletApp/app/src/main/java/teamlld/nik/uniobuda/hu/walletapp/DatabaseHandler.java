@@ -6,14 +6,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.nfc.FormatException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * Created by GERGO on 2017.04.01..
@@ -129,23 +132,22 @@ public class DatabaseHandler {
         db.close();
     }
 
-    public static String convertDateToString(Date time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        //Date date = new Date();
-        return dateFormat.format(time);
+    public long currentTimeToLong()
+    {
+        String newdate = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        return Long.parseLong(newdate);
     }
 
-    public static Date convertStringToDate(String dateTme)
+    public void LoadDatabaseWithDemoData()
     {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date1=new Date();
-        try {
-            date1 = simpleDateFormat.parse(dateTme);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Random rnd=new Random();
+        for (int i=0;i<9;i++)
+        {
+            String date="2017040"+(i+1);
+            insertTransaction(i+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),i+"type",Long.parseLong(date),1000);
         }
-        return date1;
+        long time=currentTimeToLong();
+        insertTransaction(15+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),15+"type",time,1000);
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {

@@ -1,6 +1,7 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by GERGO on 2017.04.08..
@@ -52,54 +50,69 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        graphPoints=new LineGraphSeries<DataPoint>();
         graphview=(GraphView)getView().findViewById(R.id.balanceGraph);
 
-
-
-        Cursor c = MainActivity.handler.getAllTransactions(getArguments().getInt("userid"),false);
-        graphPoints = new LineGraphSeries<DataPoint>();
-
-        for(; !c.isAfterLast(); c.moveToNext()) {
-            DataPoint point=new DataPoint(c.getLong(c.getColumnIndex("date")), c.getInt(c.getColumnIndex("income")) == 0 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1));
-            graphPoints.appendData(point,true, maxGraphItem);
-
+        DataPoint[] points= getDataPoints();
+        for (int i=0;i<points.length;i++)
+        {
+            graphPoints.appendData(points[i],true,maxGraphItem);
         }
-
-//        for(int i=0;i<maxGraphItem;i++) {
-//            Random rnd= new Random();
-//            boolean b=rnd.nextBoolean();
-//            DataPoint point=new DataPoint(i*2,b?rnd.nextInt(1000):rnd.nextInt(1000)*-1);
-//            graphPoints.appendData(point,true, maxGraphItem);
-//
-//        }
 
         graphview.addSeries(graphPoints);
         graphview.setTitle("Balance chart");
-       /* StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graphview);
-        staticLabelsFormatter.setHorizontalLabels(new String[] {"old", "middle", "new"});
-        graphview.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);*/
-
-        graphview.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(graphview.getContext()));
-        graphview.getGridLabelRenderer().setNumHorizontalLabels(3);
-
-
-        /*Date d1 = Calendar.getInstance().getTime();
-        Date d2 = Calendar.getInstance().getTime();
-
-        graphview.getViewport().setMinX(d1.getTime());
-        graphview.getViewport().setMaxX(d2.getTime());*/
+        setAxisLabels();
+        graphview.getViewport().setYAxisBoundsManual(true);
         graphview.getViewport().setXAxisBoundsManual(true);
+        graphview.getGridLabelRenderer().setLabelFormatter(
+                new DateAsXAxisLabelFormatter(getActivity(),
+                        SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)) {
+                    @Override
+                    public String formatLabel(double value, boolean isValueX) {
+                        if (isValueX)
+                            return String.valueOf(value); //super.formatLabel(value, isValueX);
+                        else
+                            return super.formatLabel(value, isValueX);
+                    }
+                });
+        graphview.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graphview.getGridLabelRenderer().setNumVerticalLabels(5);
+        graphPoints.setDrawDataPoints(true);
+        graphPoints.setDataPointsRadius(15f);
+        graphPoints.setBackgroundColor(Color.RED);
+        graphPoints.setThickness(8);
+        graphPoints.setAnimated(true);
 
-        graphview.getGridLabelRenderer().setHumanRounding(false);
+        //graphview.getGridLabelRenderer().setHumanRounding(false);
+    }
 
+    DataPoint[] getDataPoints()
+    {
+        Cursor c = MainActivity.handler.getAllTransactions(getArguments().getInt("userid"),false);
+        DataPoint[] result=new DataPoint[c.getCount()];
+        for(int i=0;i<result.length && !c.isAfterLast();i++)
+        {
+            result[i]=new DataPoint(c.getLong(c.getColumnIndex("date")), c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1));
+            c.moveToNext();
+
+        }
+
+        return  result;
+    }
+
+    void setAxisLabels()
+    {
+        //TODO új pont felvételénél nem köti össze
+        graphview.getViewport().setMinY(graphPoints.getLowestValueY());
+        graphview.getViewport().setMaxY(graphPoints.getHighestValueY());
+        graphview.getViewport().setMinX(graphPoints.getLowestValueX());
+        graphview.getViewport().setMaxX(graphPoints.getHighestValueX());
     }
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {
-        //TODO új tranzakció hozzáadásakor jelenjen meg a grafikonon.
-        DataPoint point= new DataPoint(transaction.getDate(), transaction.isIncome()?transaction.getValue():transaction.getValue()*-1);
-        graphview.getViewport().setMaxX(transaction.getDate());
-        graphPoints.appendData(point,true,maxGraphItem);
+        graphPoints.resetData(getDataPoints());
+        setAxisLabels();
     }
 
 }

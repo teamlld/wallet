@@ -7,10 +7,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 public class NewTransactionActivity extends AppCompatActivity {
 
     @Override
@@ -37,7 +33,7 @@ public class NewTransactionActivity extends AppCompatActivity {
                             Integer.parseInt(valueEditText.getText().toString()),
                             incomeCheckBox.isChecked(),
                             typeEditText.getText().toString(),
-                            Calendar.getInstance().getTimeInMillis(),
+                            MainActivity.handler.currentTimeToLong(),
                             userId
                     );
 
