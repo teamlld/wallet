@@ -138,7 +138,7 @@ public class DatabaseHandler {
         return Long.parseLong(newdate);
     }
 
-    public void LoadDatabaseWithDemoData()
+    public void loadDatabaseWithDemoData()
     {
         Random rnd=new Random();
         for (int i=0;i<9;i++)
@@ -146,8 +146,6 @@ public class DatabaseHandler {
             String date="2017040"+(i+1);
             insertTransaction(i+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),i+"type",Long.parseLong(date),1000);
         }
-        long time=currentTimeToLong();
-        insertTransaction(15+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),15+"type",time,1000);
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {
