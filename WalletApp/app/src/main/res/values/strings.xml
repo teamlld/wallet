@@ -2,4 +2,13 @@
     <string name="app_name">WalletApp</string>
     <string name="facebook_app_id">1445606218812457</string>
     <string name="fb_login_protocol_scheme">fb1445606218812457</string>
+    <string-array name="categories">
+        <item>Income</item>
+        <item>Food</item>
+        <item>Travel</item>
+        <item>Overhang</item>
+        <item>Insurance</item>
+        <item>Electonics</item>
+        <item>Car</item>
+    </string-array>
 </resources>

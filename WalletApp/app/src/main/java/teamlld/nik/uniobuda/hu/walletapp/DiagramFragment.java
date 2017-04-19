@@ -2,6 +2,7 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by GERGO on 2017.04.08..
@@ -61,43 +63,46 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
         DataPoint[] points= getDataPoints();
         for (int i=0;i<points.length;i++)
         {
-            graphPoints.appendData(points[i],true,maxGraphItem);
+            graphPoints.appendData(points[i], true, maxGraphItem);
         }
+        setGraphProperties();
 
+    }
+    void setGraphProperties()
+    {
         graphview.addSeries(graphPoints);
         graphview.setTitle("Balance chart");
         graphview.setTitleTextSize(64);
         graphview.setTitleColor(Color.RED);
+        graphview.setPadding(10,0,0,10);
         setAxisLabels();
-        graphview.getViewport().setYAxisBoundsManual(true);
-        graphview.getViewport().setXAxisBoundsManual(true);
+        graphview.getViewport().setScalable(true);
+
         final android.text.format.DateFormat df = new android.text.format.DateFormat();
         graphview.getGridLabelRenderer().setLabelFormatter(
-                new DateAsXAxisLabelFormatter(getActivity(),
-                        SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)) {
-                    @Override
-                    public String formatLabel(double value, boolean isValueX) {
-                        if (isValueX)
-                            return df.format("yyyy/MM/dd", new Date((long) value)).toString();
-                        else
-                        {
-                            NumberFormat nf=NumberFormat.getInstance();
-                            nf.setMaximumFractionDigits(0);
-                            nf.setRoundingMode(RoundingMode.CEILING);
-                            return nf.format(value);
+                new DateAsXAxisLabelFormatter(getActivity()));/*,
+                            SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)) {
+                        @Override
+                        public String formatLabel(double value, boolean isValueX) {
+                            if (isValueX)
+                                return super.formatLabel(value, isValueX);
+                            else
+                            return super.formatLabel(value,isValueX);
                         }
-                    }
-                });
+                    });*/
+        graphview.getGridLabelRenderer().setVerticalLabelsAlign(Paint.Align.RIGHT);
+        graphview.getGridLabelRenderer().setHorizontalLabelsAngle(30);
         graphview.getGridLabelRenderer().setNumHorizontalLabels(3);
         graphview.getGridLabelRenderer().setNumVerticalLabels(5);
+        graphview.getGridLabelRenderer().setLabelsSpace(10);  // tengelyfeliratok a grapview-tól
+        graphview.getGridLabelRenderer().setPadding(20);
         graphPoints.setDrawDataPoints(true);
         graphPoints.setDataPointsRadius(15f);
         graphPoints.setBackgroundColor(Color.RED);
         graphPoints.setThickness(8);
         graphPoints.setAnimated(true);
-        graphview.getGridLabelRenderer().setPadding(20);
-        /*graphview.getGridLabelRenderer().setHorizontalAxisTitle("Forint");
-        graphview.getGridLabelRenderer().setHorizontalAxisTitleTextSize(48);*/
+            /*graphview.getGridLabelRenderer().setHorizontalAxisTitle("Date");
+            graphview.getGridLabelRenderer().setHorizontalAxisTitleTextSize(48);*/
     }
 
     DataPoint[] getDataPoints()
@@ -107,8 +112,11 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
 
         double yvalue=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
         // TODO esetleg az első érték lehetne alapból a balance értéke a usernek
-        result[0]=new DataPoint(c.getLong(c.getColumnIndex("date")), yvalue);
+        Date date = new Date(c.getLong(c.getColumnIndex("date")));
+
+        result[0]=new DataPoint(date, yvalue);
         c.moveToNext();
+
 
         for(int i=1;i<result.length && !c.isAfterLast();i++)
         {
@@ -116,7 +124,8 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
             double d=result[i-1].getY();
             double cur=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
             yvalue=d+ cur;
-            result[i]=new DataPoint(c.getLong(c.getColumnIndex("date")), yvalue);
+            date = new Date(c.getLong(c.getColumnIndex("date")));
+            result[i]=new DataPoint(date, yvalue);
             c.moveToNext();
         }
         return  result;

@@ -41,13 +41,13 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
             //TODO egy activity amin ki tudja választani az új User a nevét, kezdő egyenlegét?
-            user.setName("Jani");
+            user.setName("Béla");
             user.setBalance(100000);
             user.setId(userId);
             MainActivity.handler.insertUser(user.getName(), user.getBalance(), user.getId());
         }
 
-        MainActivity.handler.loadDatabaseWithDemoData();
+        //MainActivity.handler.loadDatabaseWithDemoData();
 
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);

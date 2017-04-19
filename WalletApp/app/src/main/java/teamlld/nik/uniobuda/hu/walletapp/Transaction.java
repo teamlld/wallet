@@ -29,7 +29,7 @@ public class Transaction implements Parcelable{
         value = in.readInt();
         income = in.readByte() != 0;
         type = in.readString();
-        date = in.readLong();
+        date = in.readInt();
     }
 
     @Override

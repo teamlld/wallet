@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -132,20 +133,24 @@ public class DatabaseHandler {
         db.close();
     }
 
-    public long currentTimeToLong()
+    public int currentTimeToInt()
     {
         String newdate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        return Long.parseLong(newdate);
+        return Integer.parseInt(newdate);
     }
 
     public void loadDatabaseWithDemoData()
     {
         Random rnd=new Random();
-        for (int i=0;i<9;i++)
-        {
-            String date="2017040"+(i+1);
-            insertTransaction(i+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),i+"type",Long.parseLong(date),1000);
-        }
+        Date date1 = new GregorianCalendar(2017, Calendar.FEBRUARY, 1).getTime();
+        Date date2 = new GregorianCalendar(2017, Calendar.FEBRUARY, 4).getTime();
+        Date date3 = new GregorianCalendar(2017, Calendar.FEBRUARY, 13).getTime();
+
+            //String date="2017040"+(i+1);
+        insertTransaction(1+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),1+"type", date1.getTime(),1000);
+        insertTransaction(2+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),2+"type",date2.getTime(),1000);
+        insertTransaction(3+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),3+"type",date3.getTime(),1000);
+
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {
