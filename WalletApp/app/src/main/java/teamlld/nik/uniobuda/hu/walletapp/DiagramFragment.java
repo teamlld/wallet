@@ -34,11 +34,12 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     int maxGraphItem=20;
     LineGraphSeries<DataPoint> graphPoints;
     GraphView graphview;
+    User user;
 
-    public static DiagramFragment newInstance(int userId) {
+    public static DiagramFragment newInstance(User user) {
 
         Bundle args = new Bundle();
-        args.putInt("userid",userId);
+        args.putParcelable("user",user);
         DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
         MainActivity.handler.addListener(fragment);
@@ -56,6 +57,8 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        user = getArguments().getParcelable("user");
 
         graphPoints=new LineGraphSeries<DataPoint>();
         graphview=(GraphView)getView().findViewById(R.id.balanceGraph);
@@ -107,27 +110,35 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
 
     DataPoint[] getDataPoints()
     {
-        Cursor c = MainActivity.handler.getAllTransactions(getArguments().getInt("userid"),false);
+
+        Cursor c = MainActivity.handler.getAllTransactions(user.getId(),false);
+
         DataPoint[] result=new DataPoint[c.getCount()];
 
-        double yvalue=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
-        // TODO esetleg az első érték lehetne alapból a balance értéke a usernek
-        Date date = new Date(c.getLong(c.getColumnIndex("date")));
-
-        result[0]=new DataPoint(date, yvalue);
-        c.moveToNext();
-
-
-        for(int i=1;i<result.length && !c.isAfterLast();i++)
+        if (c.getCount() > 0)
         {
-            // meg kell nézni az előző értékhez képest és úgy beállítani az értéket
-            double d=result[i-1].getY();
-            double cur=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
-            yvalue=d+ cur;
-            date = new Date(c.getLong(c.getColumnIndex("date")));
-            result[i]=new DataPoint(date, yvalue);
+            double yvalue=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
+            // TODO esetleg az első érték lehetne alapból a balance értéke a usernek
+            // user.getBalance() -al már el lehet érni
+            Date date = new Date(c.getLong(c.getColumnIndex("date")));
+
+            result[0]=new DataPoint(date, yvalue);
             c.moveToNext();
+
+
+            for(int i=1;i<result.length && !c.isAfterLast();i++)
+            {
+                // meg kell nézni az előző értékhez képest és úgy beállítani az értéket
+                double d=result[i-1].getY();
+                double cur=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
+                yvalue=d+ cur;
+                date = new Date(c.getLong(c.getColumnIndex("date")));
+                result[i]=new DataPoint(date, yvalue);
+                c.moveToNext();
+            }
         }
+
+
         return  result;
     }
 

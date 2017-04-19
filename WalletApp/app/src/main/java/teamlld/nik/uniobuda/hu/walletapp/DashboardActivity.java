@@ -51,7 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
 
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
-        DiagramFragment diagramFragment = DiagramFragment.newInstance(userId);
+        DiagramFragment diagramFragment = DiagramFragment.newInstance(user);
         LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(userId);
 
         FragmentManager manager = getSupportFragmentManager();
