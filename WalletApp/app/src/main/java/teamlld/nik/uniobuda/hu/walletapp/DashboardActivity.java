@@ -9,26 +9,43 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    public static DatabaseHandler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        DashboardActivity.handler = new DatabaseHandler(DashboardActivity.this);
+
+        if (AccessToken.getCurrentAccessToken() == null) {
+            goLoginScreen();
+        }
+        if (getIntent().getExtras() != null){
+            Bundle args = getIntent().getExtras();
+            if (args.containsKey("name")){
+                Toast.makeText(DashboardActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
+            }
+            if (args.containsKey("id")){
+                Toast.makeText(DashboardActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
+            }
+        }
+
         Button button = (Button) findViewById(R.id.btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
-                startActivity(intent);
-                LoginManager.getInstance().logOut();
-                finish();
+                logout();
             }
         });
+
 
         final int userId = 1000; //TODO ezt az ID-t kapjuk majd a MainActivity-től
 
@@ -72,5 +89,15 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void goLoginScreen() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void logout(){
+        LoginManager.getInstance().logOut();
+        goLoginScreen();
     }
 }

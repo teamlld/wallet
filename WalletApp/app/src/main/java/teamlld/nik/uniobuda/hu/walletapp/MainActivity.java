@@ -27,7 +27,6 @@ import com.facebook.login.widget.LoginButton;
 public class MainActivity extends AppCompatActivity {
 
     public static DatabaseHandler handler;
-    private LoginButton loginButton;
     private CallbackManager callbackManager;
 
     @Override
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
+        /*
         Button debugLoginButton = (Button) findViewById(R.id.debuglogin);
         debugLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,42 +47,33 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+        */
 
 
-        if (Profile.getCurrentProfile() == null) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.addToBackStack(LoginFragment.class.getName());
+        ft.replace(R.id.login, new LoginFragment());
+        ft.commit();
 
-            loginButton = (LoginButton) findViewById(R.id.login_button);
-            callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
 
-            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    handler = new DatabaseHandler(MainActivity.this);
-                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-                    //intent.putExtra();
-                    startActivity(intent);
-                    finish();
-                }
+            }
 
-                @Override
-                public void onCancel() {
+            @Override
+            public void onCancel() {
 
-                }
+            }
 
-                @Override
-                public void onError(FacebookException error) {
+            @Override
+            public void onError(FacebookException error) {
 
-                }
-            });
-        }
-        else {
-            callbackManager = CallbackManager.Factory.create();
-            handler = new DatabaseHandler(MainActivity.this);
-            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-            //intent.putExtra();
-            startActivity(intent);
-            finish();
-        }
+            }
+        });
 
         //TODO insertek mire hívódjanak meg
     }

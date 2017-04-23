@@ -6,7 +6,7 @@
     tools:context="teamlld.nik.uniobuda.hu.walletapp.MainActivity">
 
 
-    <FrameLayout
+    <!--<FrameLayout
         android:id="@+id/fragment_dashboard_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
@@ -22,6 +22,11 @@
         android:layout_height="wrap_content"
         android:text="Debug login"
         android:id="@+id/debuglogin"
-        />
+        />-->
+
+    <FrameLayout
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
