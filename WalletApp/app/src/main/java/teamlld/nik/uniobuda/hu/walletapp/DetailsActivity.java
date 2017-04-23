@@ -1,7 +1,9 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -34,7 +36,17 @@ public class DetailsActivity extends AppCompatActivity {
                     {
                         incomeTextView.setText("Kiadás");
                     }
-                    typeTextView.setText(selectedTransaction.getType());
+
+                    Cursor cursor = MainActivity.handler.getTypeById(selectedTransaction.getTypeId());
+                    Log.d("typeid",Integer.toString(selectedTransaction.getTypeId()) );
+                    if (cursor.getCount() > 0)
+                    {
+                        typeTextView.setText(cursor.getString(cursor.getColumnIndex("name")));
+                    }
+                    else {
+                        typeTextView.setText("Ismeretlen típus");
+                    }
+
                     dateTextView.setText(Integer.toString((int)selectedTransaction.getDate()));
                 }
             }

@@ -9,18 +9,18 @@ import java.util.Date;
  * Created by Atee on 2017. 03. 11..
  */
 
-public class Transaction implements Parcelable{
+public class Transaction implements Parcelable {
     private String name;
     private int value;
     private boolean income;
-    private String type; //TODO típus jó lesz stringként?
+    private int typeId;
     private long date;
 
-    public Transaction(String name, int value, boolean income, String type,long dateTime) {
+    public Transaction(String name, int value, boolean income, int typeId,long dateTime) {
         this.name = name;
         this.value = value;
         this.income = income;
-        this.type = type;
+        this.typeId = typeId;
         this.date=dateTime;
     }
 
@@ -28,8 +28,8 @@ public class Transaction implements Parcelable{
         name = in.readString();
         value = in.readInt();
         income = in.readByte() != 0;
-        type = in.readString();
-        date = in.readInt();
+        typeId = in.readInt();
+        date = in.readLong();
     }
 
     @Override
@@ -37,7 +37,7 @@ public class Transaction implements Parcelable{
         dest.writeString(name);
         dest.writeInt(value);
         dest.writeByte((byte) (income ? 1 : 0));
-        dest.writeString(type);
+        dest.writeInt(typeId);
         dest.writeLong(date);
     }
 
@@ -62,8 +62,8 @@ public class Transaction implements Parcelable{
         return date;
     }
 
-    public String getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
     public String getName() {

@@ -33,13 +33,7 @@
         android:layout_below="@+id/newTransactionName"
         android:hint="Összeg"
         android:inputType="number" />
-<!--
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/newTransactionType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/newTransactionValue"
-        android:hint="Típus" />-->
+
     <android.support.v7.widget.AppCompatSpinner
         android:spinnerMode="dropdown"
         android:layout_width="match_parent"

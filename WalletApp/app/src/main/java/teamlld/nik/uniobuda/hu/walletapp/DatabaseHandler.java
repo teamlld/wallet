@@ -3,6 +3,7 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -48,6 +49,7 @@ public class DatabaseHandler {
     public final static int DB_VERSION = 1;
     public final static String TABLE_USERS = "users";
     public final static String TABLE_TRANSACTIONS = "transactions";
+    public final static String TABLE_TYPES = "types";
 
     public DatabaseHelper helper;
 
@@ -66,13 +68,13 @@ public class DatabaseHandler {
         return id;
     }
 
-    public long insertTransaction(String name, int value, boolean income, String type, long time, int userId) {
+    public long insertTransaction(String name, int value, boolean income, int typeId, long time, int userId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("value", value);
         values.put("income", income);
-        values.put("type", type);
+        values.put("_typeId", typeId);
         values.put("date", time);
         values.put("_userId", userId);
 
@@ -80,7 +82,7 @@ public class DatabaseHandler {
         //TODO insertConflict ?
         db.close();
 
-        transactionAdded(new Transaction(name,value,income,type,time));
+        transactionAdded(new Transaction(name,value,income,typeId,time));
 
         return id;
     }
@@ -123,6 +125,25 @@ public class DatabaseHandler {
         return result;
     }
 
+    public Cursor getTypeById(int typeId)
+    {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result = db.query(TABLE_TYPES, null, "_id = ?",new String[]{Integer.toString(typeId)} , null, null, null);
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
+    public Cursor getTypes(boolean income)
+    {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result;
+        result = db.query(TABLE_TYPES, null, "income = ?", new String[]{Integer.toString(income ? 1 : 0)}, null, null, null);
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
     public void updateUserBalance(int userId, int newBalance)
     {
         //frissíti a user egyenlegét
@@ -147,16 +168,19 @@ public class DatabaseHandler {
         Date date3 = new GregorianCalendar(2017, Calendar.FEBRUARY, 13).getTime();
 
             //String date="2017040"+(i+1);
-        insertTransaction(1+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),1+"type", date1.getTime(),1000);
-        insertTransaction(2+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),2+"type",date2.getTime(),1000);
-        insertTransaction(3+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),3+"type",date3.getTime(),1000);
+        insertTransaction(1+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),1, date1.getTime(),1000);
+        insertTransaction(2+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),2,date2.getTime(),1000);
+        insertTransaction(3+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),3,date3.getTime(),1000);
 
     }
 
     public class DatabaseHelper extends SQLiteOpenHelper {
 
+        Context context;
+
         public DatabaseHelper(Context context) {
             super(context, DB_NAME, null, DB_VERSION);
+            this.context = context;
         }
 
         @Override
@@ -171,11 +195,36 @@ public class DatabaseHandler {
                     "name   VARCHAR(255)," +
                     "value  INTEGER," +
                     "income BOOLEAN," +
-                    "type   VARCHAR(255)," +
+                    "_typeId   INTEGER," +
                     "date   INTEGER," +
                     "_userId INTEGER," +
-                    "FOREIGN KEY(_userId) REFERENCES " + TABLE_USERS + "(_userId)" +
+                    "FOREIGN KEY(_userId) REFERENCES " + TABLE_USERS + "(_userId)," +
+                    "FOREIGN KEY (_typeId) REFERENCES " + TABLE_TYPES + "(_id)" +
                     ")");
+            db.execSQL("CREATE TABLE " + TABLE_TYPES + "(" +
+                    "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "name VARCHAR(255)," +
+                    "income BOOLEAN" +
+                    ")");
+
+            InsertInitialTypes(db);
+        }
+
+        private void InsertInitialTypes(SQLiteDatabase db)
+        {
+            ContentValues values = new ContentValues();
+            String[] types_income = context.getResources().getStringArray(R.array.types_income);
+            for (int i = 0; i < types_income.length ; i++) {
+                values.put("name",types_income[i]);
+                values.put("income",true);
+                db.insert(TABLE_TYPES, null, values);
+            }
+            String[] types_expense = context.getResources().getStringArray(R.array.types_expense);
+            for (int i = 0; i < types_expense.length ; i++) {
+                values.put("name",types_expense[i]);
+                values.put("income",false);
+                db.insert(TABLE_TYPES, null, values);
+            }
         }
 
         //TODO upgradelés lépésekben
