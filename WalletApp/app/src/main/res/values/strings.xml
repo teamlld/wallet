@@ -2,6 +2,12 @@
     <string name="app_name">WalletApp</string>
     <string name="facebook_app_id">1445606218812457</string>
     <string name="fb_login_protocol_scheme">fb1445606218812457</string>
+    <string name="radio_income">Bevétel</string>
+    <string name="radio_expenditure">Kiadás</string>
+    <string name="button_addNewTransaction">Új tranzakció felvétele</string>
+    <string name="text_value">Összeg</string>
+    <string name="text_name">Név</string>
+    <string name="textView_addNewTrans">Új tranzakció hozzáadása</string>
     <string-array name="types_income">
         <item>Salary</item>
         <item>Gambling</item>

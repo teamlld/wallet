@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
@@ -19,8 +21,8 @@ import java.util.Date;
 
 public class NewTransactionActivity extends AppCompatActivity{
 
-    //String selectedSpinnerValue;
     int selectedId;
+    boolean isIncome;
     Spinner spinner;
     Cursor cursor_income;
     Cursor cursor_expense;
@@ -53,17 +55,9 @@ public class NewTransactionActivity extends AppCompatActivity{
         Button addNewTransactionButton = (Button) findViewById(R.id.addNewTransactionButton);
         final EditText nameEditText = (EditText) findViewById(R.id.newTransactionName);
         final EditText valueEditText = (EditText) findViewById(R.id.newTransactionValue);
-        final CheckBox incomeCheckBox = (CheckBox) findViewById(R.id.newTransactionIncome);
-
-        incomeCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SetSpinnerValues(incomeCheckBox.isChecked());
-            }
-        });
+        final RadioGroup incomeRadioGroup=(RadioGroup)findViewById(R.id.radioGroup_newTransaction);
 
         final int userId = getIntent().getExtras().getInt("userid");
-
 
         addNewTransactionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +69,7 @@ public class NewTransactionActivity extends AppCompatActivity{
                     MainActivity.handler.insertTransaction(
                             nameEditText.getText().toString(),
                             Integer.parseInt(valueEditText.getText().toString()),
-                            incomeCheckBox.isChecked(),
+                            isIncome,
                             selectedId,
                             now.getTime(),
                             userId
@@ -86,6 +80,24 @@ public class NewTransactionActivity extends AppCompatActivity{
                 //TODO exception dobás?
             }
         });
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.radio_income:
+                if (checked)
+                    isIncome=true;
+                    SetSpinnerValues(true);
+                    break;
+            case R.id.radio_expenditure:
+                if (checked)
+                    isIncome=false;
+                    SetSpinnerValues(false);
+                    break;
+        }
     }
 
     private void SetSpinnerValues(boolean income)
