@@ -16,26 +16,23 @@ import com.facebook.login.LoginManager;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    public static DatabaseHandler handler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        DashboardActivity.handler = new DatabaseHandler(DashboardActivity.this);
-
         if (AccessToken.getCurrentAccessToken() == null) {
             goLoginScreen();
         }
-        if (getIntent().getExtras() != null){
-            Bundle args = getIntent().getExtras();
-            if (args.containsKey("name")){
-                Toast.makeText(DashboardActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
-            }
-            if (args.containsKey("id")){
-                Toast.makeText(DashboardActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
-            }
+
+            if (getIntent().getExtras() != null){
+                Bundle args = getIntent().getExtras();
+                if (args.containsKey("name")){
+                    Toast.makeText(DashboardActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
+                }
+                if (args.containsKey("id")){
+                    Toast.makeText(DashboardActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
+                }
         }
 
         Button button = (Button) findViewById(R.id.btn);
@@ -46,7 +43,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-
+/*
         final int userId = 1000; //TODO ezt az ID-t kapjuk majd a MainActivity-től
 
         final User user = new User("temp", 0, 0);
@@ -88,7 +85,7 @@ public class DashboardActivity extends AppCompatActivity {
                 intent.putExtra("userid", userId);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     private void goLoginScreen() {
