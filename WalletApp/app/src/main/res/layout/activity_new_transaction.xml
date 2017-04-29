@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Új tranzakció hozzáadása"
+        android:text="@string/textView_addNewTrans"
         android:textSize="22sp" />
 
     <android.support.v7.widget.AppCompatEditText
@@ -24,37 +24,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/newTransactionTitle"
-        android:hint="Név" />
+        android:hint="@string/text_name" />
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/newTransactionValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/newTransactionName"
-        android:hint="Összeg"
+        android:hint="@string/text_value"
         android:inputType="number" />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/newTransactionType"
+    <android.support.v7.widget.AppCompatSpinner
+        android:spinnerMode="dropdown"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newTransactionValue"
-        android:hint="Típus" />
+        android:id="@+id/newTransactionType"
+        android:layout_below="@id/newTransactionValue"
+        />
 
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/newTransactionIncome"
-        android:layout_width="wrap_content"
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newTransactionType"
-        android:layout_centerHorizontal="true"
-        android:text="Bevétel?" />
+        android:id="@+id/radioGroup_newTransaction"
+        android:orientation="horizontal"
+        android:layout_below="@id/newTransactionType"
+        >
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radio_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_income"
+            android:onClick="onRadioButtonClicked"/>
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radio_expenditure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_expenditure"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/addNewTransactionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newTransactionIncome"
+        android:layout_below="@+id/radioGroup_newTransaction"
         android:layout_centerHorizontal="true"
-        android:text="Új tranzakció felvétele" />
+        android:text="@string/button_addNewTransaction" />
 
 </RelativeLayout>

@@ -11,12 +11,15 @@ import java.util.List;
  * Created by Atee on 2017. 03. 11..
  */
 
-public class TransactionAdapter extends BaseAdapter {
+public class TransactionAdapter extends BaseAdapter implements NewTransactionListener {
 
     private List<Transaction> items;
+    private int maxItems;
 
-    public TransactionAdapter(List<Transaction> items) {
+    public TransactionAdapter(List<Transaction> items, int maxItems) {
         this.items = items;
+        this.maxItems = maxItems;
+        MainActivity.handler.addListener(this);
     }
 
     @Override
@@ -25,7 +28,7 @@ public class TransactionAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Transaction getItem(int position) {
         return items == null ? null : items.get(position);
     }
 
@@ -53,5 +56,16 @@ public class TransactionAdapter extends BaseAdapter {
         amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 
         return listItemView;
+    }
+
+    @Override
+    public void NewTransactionAdded(Transaction transaction) {
+        //új tranzakció hozzáadásakor betesszük a 0. helyre (legfelülre) és ha több van már benn, mint kéne, akkor a legrégebbit kivesszük.
+        items.add(0,transaction);
+        if (items.size() > maxItems && items.get(maxItems) != null)
+        {
+            items.remove(maxItems);
+        }
+        notifyDataSetInvalidated();
     }
 }

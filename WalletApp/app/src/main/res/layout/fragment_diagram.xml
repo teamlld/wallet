@@ -4,17 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/balanceChart"
+    <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Balance chart"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <teamlld.nik.uniobuda.hu.walletapp.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/balanceChart" />
+        android:layout_height="match_parent"
+        android:id="@+id/balanceGraph"
+        />
 
 </RelativeLayout>
