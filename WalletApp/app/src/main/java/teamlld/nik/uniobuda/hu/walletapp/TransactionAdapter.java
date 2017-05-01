@@ -19,7 +19,7 @@ public class TransactionAdapter extends BaseAdapter implements NewTransactionLis
     public TransactionAdapter(List<Transaction> items, int maxItems) {
         this.items = items;
         this.maxItems = maxItems;
-        MainActivity.handler.addListener(this);
+        BaseActivity.database.addListener(this);
     }
 
     @Override

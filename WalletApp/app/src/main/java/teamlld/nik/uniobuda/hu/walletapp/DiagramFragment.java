@@ -42,7 +42,7 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
         args.putParcelable("user",user);
         DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
-        MainActivity.handler.addListener(fragment);
+        BaseActivity.database.addListener(fragment);
         return fragment;
     }
 
@@ -111,7 +111,7 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     DataPoint[] getDataPoints()
     {
 
-        Cursor c = MainActivity.handler.getAllTransactions(user.getId(),false);
+        Cursor c = BaseActivity.database.getAllTransactions(user.getId(),false);
 
         DataPoint[] result=new DataPoint[c.getCount()];
 

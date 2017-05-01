@@ -24,7 +24,7 @@ import java.util.Random;
  * Created by GERGO on 2017.04.01..
  */
 
-interface NewTransactionListener{
+interface NewTransactionListener {
     void NewTransactionAdded(Transaction transaction);
 }
 
@@ -37,8 +37,7 @@ public class DatabaseHandler {
         listeners.add(toAdd);
     }
 
-    private void transactionAdded(Transaction transaction)
-    {
+    private void transactionAdded(Transaction transaction) {
         for (NewTransactionListener listener : listeners)
             listener.NewTransactionAdded(transaction);
     }
@@ -51,10 +50,19 @@ public class DatabaseHandler {
     public final static String TABLE_TRANSACTIONS = "transactions";
     public final static String TABLE_TYPES = "types";
 
-    public DatabaseHelper helper;
+    public static DatabaseHandler handler = null;
+    public static DatabaseHelper helper = null;
 
-    public DatabaseHandler(Context context) {
+    private DatabaseHandler(Context context) {
         helper = new DatabaseHelper(context);
+    }
+
+    public static DatabaseHandler getInstance(Context context){
+        if (handler == null){
+            handler = new DatabaseHandler(context);
+        }
+
+        return handler;
     }
 
     public long insertUser(String name, int balance, int userId) {
@@ -62,7 +70,7 @@ public class DatabaseHandler {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("balance", balance);
-        values.put("_userId",userId);
+        values.put("_userId", userId);
         long id = db.insert(TABLE_USERS, null, values);
         db.close();
         return id;
@@ -82,7 +90,7 @@ public class DatabaseHandler {
         //TODO insertConflict ?
         db.close();
 
-        transactionAdded(new Transaction(name,value,income,typeId,time));
+        transactionAdded(new Transaction(name, value, income, typeId, time));
 
         return id;
     }
@@ -92,13 +100,10 @@ public class DatabaseHandler {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor result;
 
-        if (desc)
-        {
-            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId DESC");
-        }
-        else
-        {
-            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[] {Integer.toString(userId)}, null, null, "_transactionId");
+        if (desc) {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "_transactionId DESC");
+        } else {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "_transactionId");
         }
 
         result.moveToFirst();
@@ -106,36 +111,33 @@ public class DatabaseHandler {
         return result;
     }
 
-    public Cursor getLatestTransactions(int count,int userId) {
+    public Cursor getLatestTransactions(int count, int userId) {
         //a userId-hoz tartozó user count db utolsó tranzakcióját adja vissza
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.rawQuery("SELECT * FROM transactions WHERE _userId = ? ORDER BY _transactionId DESC LIMIT ?",new String[]{Integer.toString(userId), Integer.toString(count)});
+        Cursor result = db.rawQuery("SELECT * FROM transactions WHERE _userId = ? ORDER BY _transactionId DESC LIMIT ?", new String[]{Integer.toString(userId), Integer.toString(count)});
         result.moveToFirst();
         db.close();
         return result;
     }
 
-    public Cursor getUserById(int userId)
-    {
+    public Cursor getUserById(int userId) {
         //visszaad egy user-t ID alapján, ha nem létezik akkor a Cursor üres lesz.
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.query(TABLE_USERS, null, "_userId = ?",new String[]{Integer.toString(userId)} , null, null, null);
+        Cursor result = db.query(TABLE_USERS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, null);
         result.moveToFirst();
         db.close();
         return result;
     }
 
-    public Cursor getTypeById(int typeId)
-    {
+    public Cursor getTypeById(int typeId) {
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.query(TABLE_TYPES, null, "_id = ?",new String[]{Integer.toString(typeId)} , null, null, null);
+        Cursor result = db.query(TABLE_TYPES, null, "_id = ?", new String[]{Integer.toString(typeId)}, null, null, null);
         result.moveToFirst();
         db.close();
         return result;
     }
 
-    public Cursor getTypes(boolean income)
-    {
+    public Cursor getTypes(boolean income) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor result;
         result = db.query(TABLE_TYPES, null, "income = ?", new String[]{Integer.toString(income ? 1 : 0)}, null, null, null);
@@ -144,33 +146,30 @@ public class DatabaseHandler {
         return result;
     }
 
-    public void updateUserBalance(int userId, int newBalance)
-    {
+    public void updateUserBalance(int userId, int newBalance) {
         //frissíti a user egyenlegét
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("balance",newBalance);
-        db.update(TABLE_USERS,values,"_userId = ?",new String[]{Integer.toString(userId)});
+        values.put("balance", newBalance);
+        db.update(TABLE_USERS, values, "_userId = ?", new String[]{Integer.toString(userId)});
         db.close();
     }
 
-    public int currentTimeToInt()
-    {
+    public int currentTimeToInt() {
         String newdate = new SimpleDateFormat("yyyyMMdd").format(new Date());
         return Integer.parseInt(newdate);
     }
 
-    public void loadDatabaseWithDemoData()
-    {
-        Random rnd=new Random();
+    public void loadDatabaseWithDemoData() {
+        Random rnd = new Random();
         Date date1 = new GregorianCalendar(2017, Calendar.FEBRUARY, 1).getTime();
         Date date2 = new GregorianCalendar(2017, Calendar.FEBRUARY, 4).getTime();
         Date date3 = new GregorianCalendar(2017, Calendar.FEBRUARY, 13).getTime();
 
-            //String date="2017040"+(i+1);
-        insertTransaction(1+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),1, date1.getTime(),1000);
-        insertTransaction(2+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),2,date2.getTime(),1000);
-        insertTransaction(3+". trans.",rnd.nextInt(1000),rnd.nextBoolean(),3,date3.getTime(),1000);
+        //String date="2017040"+(i+1);
+        insertTransaction(1 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 1, date1.getTime(), 1000);
+        insertTransaction(2 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 2, date2.getTime(), 1000);
+        insertTransaction(3 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 3, date3.getTime(), 1000);
 
     }
 
@@ -210,19 +209,18 @@ public class DatabaseHandler {
             InsertInitialTypes(db);
         }
 
-        private void InsertInitialTypes(SQLiteDatabase db)
-        {
+        private void InsertInitialTypes(SQLiteDatabase db) {
             ContentValues values = new ContentValues();
             String[] types_income = context.getResources().getStringArray(R.array.types_income);
-            for (int i = 0; i < types_income.length ; i++) {
-                values.put("name",types_income[i]);
-                values.put("income",true);
+            for (int i = 0; i < types_income.length; i++) {
+                values.put("name", types_income[i]);
+                values.put("income", true);
                 db.insert(TABLE_TYPES, null, values);
             }
             String[] types_expense = context.getResources().getStringArray(R.array.types_expense);
-            for (int i = 0; i < types_expense.length ; i++) {
-                values.put("name",types_expense[i]);
-                values.put("income",false);
+            for (int i = 0; i < types_expense.length; i++) {
+                values.put("name", types_expense[i]);
+                values.put("income", false);
                 db.insert(TABLE_TYPES, null, values);
             }
         }

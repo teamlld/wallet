@@ -25,9 +25,9 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    public static DatabaseHandler handler;
+    //public static DatabaseHandler handler;
     private CallbackManager callbackManager;
 
     @Override

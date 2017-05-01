@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +43,13 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+
+
 /*
         final int userId = 1000; //TODO ezt az ID-t kapjuk majd a MainActivity-től
 
         final User user = new User("temp", 0, 0);
-        Cursor cursor = MainActivity.handler.getUserById(userId);
+        Cursor cursor = BaseActivity.database.getUserById(userId);
         if (cursor.getCount() > 0) {
             //van ilyen ID-val user,
             user.setName(cursor.getString(cursor.getColumnIndex("name")));
@@ -59,10 +61,10 @@ public class DashboardActivity extends AppCompatActivity {
             user.setName("Béla");
             user.setBalance(100000);
             user.setId(userId);
-            MainActivity.handler.insertUser(user.getName(), user.getBalance(), user.getId());
+            BaseActivity.database.insertUser(user.getName(), user.getBalance(), user.getId());
         }
 
-        //MainActivity.handler.loadDatabaseWithDemoData();
+        //BaseActivity.database.loadDatabaseWithDemoData();
 
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);

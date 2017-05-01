@@ -29,7 +29,7 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
 
         BalanceFragment fragment = new BalanceFragment();
         fragment.setArguments(args);
-        MainActivity.handler.addListener(fragment);
+        BaseActivity.database.addListener(fragment);
         return fragment;
     }
 
@@ -76,6 +76,6 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
         TextView balanceTextView = (TextView) rootView.findViewById(R.id.balance);
         balanceTextView.setText(Integer.toString(newBalance));
 
-        MainActivity.handler.updateUserBalance(currentUser.getId(),newBalance);
+        BaseActivity.database.updateUserBalance(currentUser.getId(),newBalance);
     }
 }

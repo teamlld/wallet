@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class DetailsActivity extends AppCompatActivity {
                         incomeTextView.setText("Kiadás");
                     }
 
-                    Cursor cursor = MainActivity.handler.getTypeById(selectedTransaction.getTypeId());
+                    Cursor cursor = BaseActivity.database.getTypeById(selectedTransaction.getTypeId());
                     Log.d("typeid",Integer.toString(selectedTransaction.getTypeId()) );
                     if (cursor.getCount() > 0)
                     {

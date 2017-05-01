@@ -45,10 +45,10 @@ public class LatestItemsFragment extends Fragment {
 
         List<Transaction> items = new ArrayList<>();
 
-       // Cursor cursor = MainActivity.handler.getAllTransactions();
+       // Cursor cursor = BaseActivity.database.getAllTransactions();
 
         int maxItems = 5;
-        Cursor cursor = MainActivity.handler.getLatestTransactions(maxItems,getArguments().getInt("userid"));
+        Cursor cursor = BaseActivity.database.getLatestTransactions(maxItems,getArguments().getInt("userid"));
         while (!cursor.isAfterLast()) {
             boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));

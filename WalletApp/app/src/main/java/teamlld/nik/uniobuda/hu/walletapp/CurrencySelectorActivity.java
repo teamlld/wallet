@@ -12,7 +12,7 @@ import java.util.List;
  * Created by admin on 2017. 05. 01..
  */
 
-public class CurrencySelectorActivity extends AppCompatActivity {
+public class CurrencySelectorActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
