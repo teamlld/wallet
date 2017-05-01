@@ -93,5 +93,6 @@ public class LoginFragment extends Fragment {
         intent.putExtra("name", profile.getName());
         intent.putExtra("id", profile.getId());
         startActivity(intent);
+        getActivity().finish();
     }
 }

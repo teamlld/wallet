@@ -49,6 +49,15 @@ public class NavDrawerActivity extends AppCompatActivity
             }
         });
 
+        Button convertButton = (Button) findViewById(R.id.convertbtn);
+        convertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NavDrawerActivity.this, CurrencySelectorActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
