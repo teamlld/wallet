@@ -91,6 +91,7 @@ public class DashboardActivity extends AppCompatActivity {
     private void goLoginScreen() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void logout(){

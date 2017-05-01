@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
 
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        /*LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
 
             }
-        });
+        });*/
 
         //TODO insertek mire hívódjanak meg
     }

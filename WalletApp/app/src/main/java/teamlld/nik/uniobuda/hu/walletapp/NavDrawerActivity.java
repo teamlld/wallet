@@ -1,5 +1,6 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -20,6 +26,29 @@ public class NavDrawerActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
+
+        if (AccessToken.getCurrentAccessToken() == null) {
+            goLoginScreen();
+        }
+
+        if (getIntent().getExtras() != null){
+            Bundle args = getIntent().getExtras();
+            if (args.containsKey("name")){
+                Toast.makeText(NavDrawerActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
+            }
+            if (args.containsKey("id")){
+                Toast.makeText(NavDrawerActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        Button button = (Button) findViewById(R.id.btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,5 +126,16 @@ public class NavDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void goLoginScreen() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void logout(){
+        LoginManager.getInstance().logOut();
+        goLoginScreen();
     }
 }
