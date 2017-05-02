@@ -89,7 +89,7 @@ public class DatabaseHandler {
         return id;
     }
 
-    public Cursor getAllTransactions(int userId, boolean desc) {
+    public Cursor getAllTransactionsOrderByDate(int userId, boolean desc) {
         //a userId-hoz tartozó user összes tranzakcióját visszaadja
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor result;
@@ -98,6 +98,21 @@ public class DatabaseHandler {
             result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "_transactionId DESC");
         } else {
             result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "_transactionId");
+        }
+
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
+    public Cursor getAllTransactionsOrderByValue(int userId, boolean desc){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result;
+
+        if (desc) {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "value DESC");
+        } else {
+            result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "value");
         }
 
         result.moveToFirst();

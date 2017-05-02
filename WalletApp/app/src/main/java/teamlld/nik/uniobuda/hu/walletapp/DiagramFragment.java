@@ -3,32 +3,25 @@ package teamlld.nik.uniobuda.hu.walletapp;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.math.RoundingMode;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by GERGO on 2017.04.08..
  */
 
-public class DiagramFragment extends Fragment implements NewTransactionListener{
+public class DiagramFragment extends Fragment implements NewTransactionListener {
 
     View rootView;
     int maxGraphItem=20;
@@ -42,7 +35,6 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
         args.putParcelable("user",user);
         DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
-        BaseActivity.database.addListener(fragment);
         return fragment;
     }
 
@@ -57,6 +49,8 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        BaseActivity.database.addListener(this);
 
         user = getArguments().getParcelable("user");
 
@@ -111,13 +105,13 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     DataPoint[] getDataPoints()
     {
 
-        Cursor c = BaseActivity.database.getAllTransactions(user.getId(),false);
+        Cursor c = BaseActivity.database.getAllTransactionsOrderByDate(user.getId(),false);
 
         DataPoint[] result=new DataPoint[c.getCount()];
 
         if (c.getCount() > 0)
         {
-            double yvalue=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
+            double yvalue = c.getInt(c.getColumnIndex("value"));
             // TODO esetleg az első érték lehetne alapból a balance értéke a usernek
             // user.getBalance() -al már el lehet érni
             Date date = new Date(c.getLong(c.getColumnIndex("date")));
@@ -130,7 +124,7 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
             {
                 // meg kell nézni az előző értékhez képest és úgy beállítani az értéket
                 double d=result[i-1].getY();
-                double cur=c.getInt(c.getColumnIndex("income")) == 1 ? c.getInt(c.getColumnIndex("value")) : c.getInt(c.getColumnIndex("value")) * (-1);
+                double cur = c.getInt(c.getColumnIndex("value"));
                 yvalue=d+ cur;
                 date = new Date(c.getLong(c.getColumnIndex("date")));
                 result[i]=new DataPoint(date, yvalue);

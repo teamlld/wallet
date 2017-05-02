@@ -1,25 +1,30 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Atee on 2017. 03. 11..
+ * Created by Atee on 2017. 05. 02..
  */
 
-public class TransactionAdapter extends BaseAdapter implements NewTransactionListener {
+public class AllTransactionsAdapter extends BaseAdapter {
 
     private List<Transaction> items;
-    private int maxItems;
 
-    public TransactionAdapter(List<Transaction> items, int maxItems) {
+    public void setItems(List<Transaction> items) {
         this.items = items;
-        this.maxItems = maxItems;
-        BaseActivity.database.addListener(this);
+        notifyDataSetInvalidated();
+    }
+
+    public AllTransactionsAdapter(List<Transaction> items) {
+        this.items = items;
     }
 
     @Override
@@ -51,21 +56,21 @@ public class TransactionAdapter extends BaseAdapter implements NewTransactionLis
         Transaction transaction = items.get(position);
         nameTextView.setText(transaction.getName());
 
-        //TODO A számok színét is át kéne állítani valahogy piros\zöld-re
-        String elojel = transaction.isIncome() ? "+" : "-";
+        String elojel = transaction.getValue() > 0 ? "+" : "";
+        if (transaction.getValue() > 0) {
+            amountTextView.setTextColor(Color.GREEN);
+        }
+        else {
+            amountTextView.setTextColor(Color.RED);
+        }
         amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 
         return listItemView;
     }
 
-    @Override
-    public void NewTransactionAdded(Transaction transaction) {
-        //új tranzakció hozzáadásakor betesszük a 0. helyre (legfelülre) és ha több van már benn, mint kéne, akkor a legrégebbit kivesszük.
-        items.add(0,transaction);
-        if (items.size() > maxItems && items.get(maxItems) != null)
-        {
-            items.remove(maxItems);
-        }
+    public void ReverseItems()
+    {
+        Collections.reverse(items);
         notifyDataSetInvalidated();
     }
 }

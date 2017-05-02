@@ -1,10 +1,13 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.Transaction;
 
 public class DetailsActivity extends BaseActivity {
 
@@ -28,7 +31,7 @@ public class DetailsActivity extends BaseActivity {
                 if (selectedTransaction != null){
                     nameTextView.setText(selectedTransaction.getName());
                     valueTextView.setText(Integer.toString(selectedTransaction.getValue()));
-                    if (selectedTransaction.isIncome())
+                    if (selectedTransaction.getValue() > 0)
                     {
                         incomeTextView.setText("Bevétel");
                     }

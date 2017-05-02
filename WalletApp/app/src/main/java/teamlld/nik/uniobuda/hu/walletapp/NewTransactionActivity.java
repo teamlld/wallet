@@ -1,25 +1,22 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
-import java.util.Calendar;
 import java.util.Date;
 
-public class NewTransactionActivity extends BaseActivity{
+import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+
+public class NewTransactionActivity extends BaseActivity {
 
     int selectedId;
     boolean isIncome;
@@ -33,8 +30,6 @@ public class NewTransactionActivity extends BaseActivity{
         setContentView(R.layout.activity_new_transaction);
 
         spinner = (Spinner) findViewById(R.id.newTransactionType);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.categories, android.R.layout.simple_spinner_item);
 
         cursor_income = BaseActivity.database.getTypes(true);
         cursor_expense = BaseActivity.database.getTypes(false);
@@ -43,7 +38,6 @@ public class NewTransactionActivity extends BaseActivity{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               // selectedSpinnerValue = spinner.getSelectedItem().toString();
                 selectedId = position + 1;
             }
             @Override
@@ -68,7 +62,7 @@ public class NewTransactionActivity extends BaseActivity{
                     Date now=new Date();
                     BaseActivity.database.insertTransaction(
                             nameEditText.getText().toString(),
-                            Integer.parseInt(valueEditText.getText().toString()),
+                            isIncome ? Integer.parseInt(valueEditText.getText().toString()) : Integer.parseInt(valueEditText.getText().toString()) * (-1),
                             isIncome,
                             selectedId,
                             now.getTime(),

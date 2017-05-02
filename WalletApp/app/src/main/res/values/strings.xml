@@ -9,20 +9,28 @@
     <string name="text_name">Név</string>
     <string name="textView_addNewTrans">Új tranzakció hozzáadása</string>
     <string-array name="types_income">
-        <item>Salary</item>
-        <item>Gambling</item>
-        <item>Studentship</item>
-        <item>Social support</item>
+        <item>Fizetés</item>
+        <item>Szerencsejáték</item>
+        <item>Ösztöndíj</item>
+        <item>Szociális támogatás</item>
         <item>Tippmix</item>
-        <item>Selling</item>
+        <item>Eladás</item>
     </string-array>
     <string-array name="types_expense">
-        <item>Food</item>
-        <item>Travel</item>
-        <item>Overhang</item>
-        <item>Insurance</item>
-        <item>Electonics</item>
-        <item>Car</item>
+        <item>Étel</item>
+        <item>Utazás</item>
+        <item>Szórakozás</item>
+        <item>Alkohol</item>
+        <item>Dohány</item>
+        <item>Biztosítás</item>
+        <item>Elektronikai cucc</item>
+        <item>Kocsi</item>
+    </string-array>
+    <string-array name="transaction_orderby_types">
+        <item>Idő szerint csökkenő</item>
+        <item>Idő szerint növekvő</item>
+        <item>Érték szerint csökkenő</item>
+        <item>Érték szerint növekvő</item>
     </string-array>
     <string name="title_activity_nav_drawer">NavDrawerActivity</string>
 

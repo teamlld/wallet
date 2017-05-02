@@ -22,6 +22,8 @@ import com.facebook.login.LoginManager;
 public class NavDrawerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class NavDrawerActivity extends BaseActivity
 
         final int userId = 1000; //TODO ezt az ID-t kapjuk majd a MainActivity-től
 
-        final User user = new User("temp", 0, 0);
+        user = new User("temp", 0, 0);
         Cursor cursor = BaseActivity.database.getUserById(userId);
         if (cursor.getCount() > 0) {
             //van ilyen ID-val user,
@@ -168,6 +170,13 @@ public class NavDrawerActivity extends BaseActivity
             logout();
         } else if (id == R.id.nav_all_transactions) {
             //TODO alltransactions meghívása
+            Intent intent = new Intent(NavDrawerActivity.this, AllTransactionsActivity.class);
+            intent.putExtra("userid", user.getId());
+            startActivity(intent);
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
         } else if (id == R.id.nav_graphs) {
             Intent intent = new Intent(this, DiagramActivity.class);
             startActivity(intent);

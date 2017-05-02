@@ -2,11 +2,15 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
+import teamlld.nik.uniobuda.hu.walletapp.Currency;
+import teamlld.nik.uniobuda.hu.walletapp.CurrencyAdapter;
+import teamlld.nik.uniobuda.hu.walletapp.R;
 
 /**
  * Created by admin on 2017. 05. 01..

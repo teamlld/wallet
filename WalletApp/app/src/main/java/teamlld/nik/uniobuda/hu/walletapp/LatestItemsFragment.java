@@ -45,8 +45,6 @@ public class LatestItemsFragment extends Fragment {
 
         List<Transaction> items = new ArrayList<>();
 
-       // Cursor cursor = BaseActivity.database.getAllTransactions();
-
         int maxItems = 5;
         Cursor cursor = BaseActivity.database.getLatestTransactions(maxItems,getArguments().getInt("userid"));
         while (!cursor.isAfterLast()) {
@@ -56,7 +54,7 @@ public class LatestItemsFragment extends Fragment {
             cursor.moveToNext();
         }
 
-        final TransactionAdapter adapter = new TransactionAdapter(items,maxItems);
+        final LatestTransactionsAdapter adapter = new LatestTransactionsAdapter(items,maxItems);
         ListView list = (ListView) rootView.findViewById(R.id.transactions_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
