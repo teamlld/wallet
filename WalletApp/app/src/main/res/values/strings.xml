@@ -35,4 +35,5 @@
     <string name="convert">Konvertálás</string>
     <string name="logout">Kijelentkezés</string>
     <string name="all_transactions">Összes tranzakció</string>
+    <string name="diagrams">Diagramok</string>
 </resources>

@@ -168,10 +168,10 @@ public class NavDrawerActivity extends BaseActivity
             logout();
         } else if (id == R.id.nav_all_transactions) {
             //TODO alltransactions meghívása
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_graphs) {
+            Intent intent = new Intent(this, DiagramActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

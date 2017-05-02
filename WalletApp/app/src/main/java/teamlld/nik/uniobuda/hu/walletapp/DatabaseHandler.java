@@ -3,21 +3,15 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.nfc.FormatException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -146,6 +140,17 @@ public class DatabaseHandler {
         return result;
     }
 
+    public Cursor getAllTransactionsGroupByCategory(int userId)
+    {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        //Cursor result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, "_typeId", null, "_transactionId ASC");
+        Cursor result=db.rawQuery("SELECT _typeId, COUNT(name) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" GROUP BY _typeId ORDER BY _typeId ASC",null);
+
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
     public void updateUserBalance(int userId, int newBalance) {
         //frissíti a user egyenlegét
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -155,10 +160,10 @@ public class DatabaseHandler {
         db.close();
     }
 
-    public int currentTimeToInt() {
+    /*public int currentTimeToInt() {
         String newdate = new SimpleDateFormat("yyyyMMdd").format(new Date());
         return Integer.parseInt(newdate);
-    }
+    }*/
 
     public void loadDatabaseWithDemoData() {
         Random rnd = new Random();
