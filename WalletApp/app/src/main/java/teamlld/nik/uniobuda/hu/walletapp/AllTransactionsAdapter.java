@@ -1,7 +1,7 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,18 +10,15 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Atee on 2017. 03. 11..
+ * Created by Atee on 2017. 05. 02..
  */
 
-public class TransactionAdapter extends BaseAdapter implements NewTransactionListener {
+public class AllTransactionsAdapter extends BaseAdapter {
 
     private List<Transaction> items;
-    private int maxItems;
 
-    public TransactionAdapter(List<Transaction> items, int maxItems) {
+    public AllTransactionsAdapter(List<Transaction> items) {
         this.items = items;
-        this.maxItems = maxItems;
-        BaseActivity.database.addListener(this);
     }
 
     @Override
@@ -63,16 +60,5 @@ public class TransactionAdapter extends BaseAdapter implements NewTransactionLis
         amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 
         return listItemView;
-    }
-
-    @Override
-    public void NewTransactionAdded(Transaction transaction) {
-        //új tranzakció hozzáadásakor betesszük a 0. helyre (legfelülre) és ha több van már benn, mint kéne, akkor a legrégebbit kivesszük.
-        items.add(0,transaction);
-        if (items.size() > maxItems && items.get(maxItems) != null)
-        {
-            items.remove(maxItems);
-        }
-        notifyDataSetInvalidated();
     }
 }

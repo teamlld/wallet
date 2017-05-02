@@ -1,25 +1,22 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
-import java.util.Calendar;
 import java.util.Date;
 
-public class NewTransactionActivity extends BaseActivity{
+import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+
+public class NewTransactionActivity extends BaseActivity {
 
     int selectedId;
     boolean isIncome;

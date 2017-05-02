@@ -56,7 +56,7 @@ public class LatestItemsFragment extends Fragment {
             cursor.moveToNext();
         }
 
-        final TransactionAdapter adapter = new TransactionAdapter(items,maxItems);
+        final LatestTransactionsAdapter adapter = new LatestTransactionsAdapter(items,maxItems);
         ListView list = (ListView) rootView.findViewById(R.id.transactions_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

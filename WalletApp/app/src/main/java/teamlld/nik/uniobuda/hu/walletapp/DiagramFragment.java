@@ -3,32 +3,25 @@ package teamlld.nik.uniobuda.hu.walletapp;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.math.RoundingMode;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by GERGO on 2017.04.08..
  */
 
-public class DiagramFragment extends Fragment implements NewTransactionListener{
+public class DiagramFragment extends Fragment implements NewTransactionListener {
 
     View rootView;
     int maxGraphItem=20;

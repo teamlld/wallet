@@ -168,6 +168,9 @@ public class NavDrawerActivity extends BaseActivity
             logout();
         } else if (id == R.id.nav_all_transactions) {
             //TODO alltransactions meghívása
+            Intent intent = new Intent(NavDrawerActivity.this, AllTransactionsActivity.class);
+            //intent.putExtra("userid", userId);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

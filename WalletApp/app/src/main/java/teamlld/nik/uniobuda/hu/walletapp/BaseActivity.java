@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import teamlld.nik.uniobuda.hu.walletapp.DatabaseHandler;
+
 /**
  * Created by admin on 2017. 05. 01..
  */
 
 public class BaseActivity extends AppCompatActivity {
 
-    protected static DatabaseHandler database;
+    public static DatabaseHandler database;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

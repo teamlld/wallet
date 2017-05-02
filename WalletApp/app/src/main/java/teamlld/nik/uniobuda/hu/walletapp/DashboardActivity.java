@@ -2,6 +2,9 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.os.Bundle;
 
+import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+
 public class DashboardActivity extends BaseActivity {
 
     @Override

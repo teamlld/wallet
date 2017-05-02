@@ -17,6 +17,9 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import teamlld.nik.uniobuda.hu.walletapp.NavDrawerActivity;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+
 /**
  * Created by admin on 2017. 04. 23..
  */

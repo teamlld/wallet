@@ -1,10 +1,13 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.Transaction;
 
 public class DetailsActivity extends BaseActivity {
 
