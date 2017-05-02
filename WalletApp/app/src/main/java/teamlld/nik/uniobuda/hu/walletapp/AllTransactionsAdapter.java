@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,6 +17,11 @@ import java.util.List;
 public class AllTransactionsAdapter extends BaseAdapter {
 
     private List<Transaction> items;
+
+    public void setItems(List<Transaction> items) {
+        this.items = items;
+        notifyDataSetInvalidated();
+    }
 
     public AllTransactionsAdapter(List<Transaction> items) {
         this.items = items;
@@ -60,5 +66,11 @@ public class AllTransactionsAdapter extends BaseAdapter {
         amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 
         return listItemView;
+    }
+
+    public void ReverseItems()
+    {
+        Collections.reverse(items);
+        notifyDataSetInvalidated();
     }
 }
