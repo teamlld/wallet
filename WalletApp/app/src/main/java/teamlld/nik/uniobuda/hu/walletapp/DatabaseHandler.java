@@ -138,7 +138,7 @@ public class DatabaseHandler {
                 result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value > 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId DESC");
             }
             else {
-                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value <= 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId");
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value <= 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId DESC");
             }
         }
         else {
