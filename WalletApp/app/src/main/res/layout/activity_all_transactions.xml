@@ -7,9 +7,17 @@
     android:orientation="vertical"
     tools:context="teamlld.nik.uniobuda.hu.walletapp.AllTransactionsActivity">
 
+    <android.support.v7.widget.AppCompatSpinner
+        android:spinnerMode="dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/transaction_order_by_spinner"
+        />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/all_transactions_list_view"
+        android:layout_below="@id/transaction_order_by_spinner"
         />
 </android.support.v7.widget.LinearLayoutCompat>
