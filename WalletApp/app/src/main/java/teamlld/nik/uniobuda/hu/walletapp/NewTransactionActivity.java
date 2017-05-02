@@ -33,8 +33,6 @@ public class NewTransactionActivity extends BaseActivity{
         setContentView(R.layout.activity_new_transaction);
 
         spinner = (Spinner) findViewById(R.id.newTransactionType);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.categories, android.R.layout.simple_spinner_item);
 
         cursor_income = BaseActivity.database.getTypes(true);
         cursor_expense = BaseActivity.database.getTypes(false);
@@ -43,7 +41,6 @@ public class NewTransactionActivity extends BaseActivity{
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               // selectedSpinnerValue = spinner.getSelectedItem().toString();
                 selectedId = position + 1;
             }
             @Override

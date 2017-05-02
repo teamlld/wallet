@@ -1,5 +1,7 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -51,8 +53,13 @@ public class TransactionAdapter extends BaseAdapter implements NewTransactionLis
         Transaction transaction = items.get(position);
         nameTextView.setText(transaction.getName());
 
-        //TODO A számok színét is át kéne állítani valahogy piros\zöld-re
         String elojel = transaction.isIncome() ? "+" : "-";
+        if (transaction.isIncome()) {
+            amountTextView.setTextColor(Color.GREEN);
+        }
+        else {
+            amountTextView.setTextColor(Color.RED);
+        }
         amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 
         return listItemView;

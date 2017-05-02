@@ -29,7 +29,6 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
 
         BalanceFragment fragment = new BalanceFragment();
         fragment.setArguments(args);
-        BaseActivity.database.addListener(fragment);
         return fragment;
     }
 
@@ -46,6 +45,8 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //beállítja az argumentumokban lévő user alapján a címet és az egyenleg textViewkat.
+        BaseActivity.database.addListener(this);
+
         TextView titleTextview = (TextView) rootView.findViewById(R.id.title);
         TextView balanceTextView = (TextView) rootView.findViewById(R.id.balance);
 

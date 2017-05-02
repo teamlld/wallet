@@ -42,7 +42,6 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
         args.putParcelable("user",user);
         DiagramFragment fragment = new DiagramFragment();
         fragment.setArguments(args);
-        BaseActivity.database.addListener(fragment);
         return fragment;
     }
 
@@ -57,6 +56,8 @@ public class DiagramFragment extends Fragment implements NewTransactionListener{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        BaseActivity.database.addListener(this);
 
         user = getArguments().getParcelable("user");
 
