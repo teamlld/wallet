@@ -20,7 +20,8 @@ public class AllTransactionsActivity extends BaseActivity {
 
         List<Transaction> items = new ArrayList<>();
 
-        Cursor cursor = BaseActivity.database.getAllTransactions(1000,true);
+        int userId = getIntent().getExtras().getInt("userid");
+        Cursor cursor = BaseActivity.database.getAllTransactions(userId,true);
 
         while (!cursor.isAfterLast()) {
             boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;

@@ -13,7 +13,7 @@ import teamlld.nik.uniobuda.hu.walletapp.DatabaseHandler;
 
 public class BaseActivity extends AppCompatActivity {
 
-    public static DatabaseHandler database;
+    protected static DatabaseHandler database;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
