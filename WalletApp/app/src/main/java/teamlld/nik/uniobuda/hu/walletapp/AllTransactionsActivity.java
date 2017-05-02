@@ -34,11 +34,10 @@ public class AllTransactionsActivity extends BaseActivity {
 
         InitAdapter();
 
-
         Spinner spinner = (Spinner) findViewById(R.id.transaction_order_by_spinner);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
               R.array.transaction_orderby_types, android.R.layout.simple_spinner_item);
-
+        //TODO simple_spinner_item lecserélése sajátra, ahol nagyobb a betű méret
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
@@ -47,12 +46,11 @@ public class AllTransactionsActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case ORDER_TYPE_DATE_DESC:
-                        if (latestOrderType == ORDER_TYPE_DATE_ASC)
+                        if (latestOrderType == ORDER_TYPE_DATE_ASC) // és radibutton nem változott akkor...
                         {
                             adapter.ReverseItems();
-                            Log.d("valami","reversed");
                         }
-                        else{
+                        else if (latestOrderType != ORDER_TYPE_DATE_DESC){
                             RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
                         }
                         latestOrderType = position;
@@ -61,9 +59,8 @@ public class AllTransactionsActivity extends BaseActivity {
                         if (latestOrderType == ORDER_TYPE_DATE_DESC)
                         {
                             adapter.ReverseItems();
-                            Log.d("valami","reversed");
                         }
-                        else{
+                        else if (latestOrderType != ORDER_TYPE_DATE_ASC){
                             RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
                         }
                         latestOrderType = position;
@@ -72,9 +69,8 @@ public class AllTransactionsActivity extends BaseActivity {
                         if (latestOrderType == ORDER_TYPE_VALUE_ASC)
                         {
                             adapter.ReverseItems();
-                            Log.d("valami","reversed");
                         }
-                        else{
+                        else if (latestOrderType != ORDER_TYPE_VALUE_DESC){
                             RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
                         }
                         latestOrderType = position;
@@ -83,9 +79,8 @@ public class AllTransactionsActivity extends BaseActivity {
                         if (latestOrderType == ORDER_TYPE_VALUE_DESC)
                         {
                             adapter.ReverseItems();
-                            Log.d("valami","reversed");
                         }
-                        else{
+                        else if (latestOrderType != ORDER_TYPE_VALUE_ASC){
                             RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
                         }
                         latestOrderType = position;
@@ -105,7 +100,17 @@ public class AllTransactionsActivity extends BaseActivity {
 
     private  void InitAdapter()
     {
-        adapter = new AllTransactionsAdapter(null);
+        Cursor cursor = BaseActivity.database.getAllTransactionsOrderByDate(userId,true);
+
+        List<Transaction> items = new ArrayList<>();
+        while (!cursor.isAfterLast()) {
+            boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+            items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
+
+            cursor.moveToNext();
+        }
+
+        adapter = new AllTransactionsAdapter(items);
         ListView list = (ListView) findViewById(R.id.all_transactions_list_view);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
