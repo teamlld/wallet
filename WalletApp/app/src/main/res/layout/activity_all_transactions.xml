@@ -27,10 +27,38 @@
         android:layout_alignParentRight="true"
         />
 
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/all_transactions_radio_group"
+        android:orientation="horizontal"
+        android:layout_below="@id/all_transactions_ordertext"
+        >
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/all_transactions_radio_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_income"
+            android:onClick="onRadioButtonClicked"/>
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/all_transactions_radio_expenditure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_expenditure"
+            android:onClick="onRadioButtonClicked"/>
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/all_transactions_radio_both"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_both"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/all_transactions_list_view"
-        android:layout_below="@id/transaction_order_by_spinner"
+        android:layout_below="@id/all_transactions_radio_group"
         />
 </RelativeLayout>

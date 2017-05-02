@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+
 /**
  * Created by GERGO on 2017.04.01..
  */
@@ -115,10 +116,65 @@ public class DatabaseHandler {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor result;
 
+
         if (desc) {
             result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "value DESC");
         } else {
             result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, null, null, "value");
+        }
+
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
+    public Cursor getTransactionsOrderByDate(int userId, boolean desc, boolean income){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result;
+
+
+        if (desc) {
+            if (income){
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value > 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId DESC");
+            }
+            else {
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value <= 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId");
+            }
+        }
+        else {
+            if (income){
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value > 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId");
+            }
+            else{
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value <= 0", new String[]{Integer.toString(userId)}, null, null, "_transactionId");
+            }
+        }
+
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
+    public Cursor getTransactionsOrderByValue(int userId, boolean desc, boolean income){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor result;
+
+
+        if (desc) {
+            if (income){
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value > 0", new String[]{Integer.toString(userId)}, null, null, "value DESC");
+            }
+            else {
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value <= 0", new String[]{Integer.toString(userId)}, null, null, "value DESC");
+            }
+        }
+        else {
+            if (income){
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value > 0", new String[]{Integer.toString(userId)}, null, null, "value");
+            }
+            else {
+                result = db.query(TABLE_TRANSACTIONS, null, "_userId = ? AND value <= 0", new String[]{Integer.toString(userId)}, null, null, "value");
+            }
         }
 
         result.moveToFirst();
