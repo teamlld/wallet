@@ -1,18 +1,6 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.facebook.AccessToken;
-import com.facebook.login.LoginManager;
 
 public class DashboardActivity extends BaseActivity {
 
@@ -21,7 +9,7 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        if (AccessToken.getCurrentAccessToken() == null) {
+       /* if (AccessToken.getCurrentAccessToken() == null) {
             goLoginScreen();
         }
 
@@ -41,7 +29,7 @@ public class DashboardActivity extends BaseActivity {
             public void onClick(View v) {
                 logout();
             }
-        });
+        });*/
 
 
 
@@ -90,7 +78,7 @@ public class DashboardActivity extends BaseActivity {
         });*/
     }
 
-    private void goLoginScreen() {
+    /*private void goLoginScreen() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -99,5 +87,5 @@ public class DashboardActivity extends BaseActivity {
     private void logout(){
         LoginManager.getInstance().logOut();
         goLoginScreen();
-    }
+    }*/
 }
