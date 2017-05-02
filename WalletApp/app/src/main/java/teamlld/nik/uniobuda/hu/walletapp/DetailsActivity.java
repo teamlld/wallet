@@ -31,7 +31,7 @@ public class DetailsActivity extends BaseActivity {
                 if (selectedTransaction != null){
                     nameTextView.setText(selectedTransaction.getName());
                     valueTextView.setText(Integer.toString(selectedTransaction.getValue()));
-                    if (selectedTransaction.isIncome())
+                    if (selectedTransaction.getValue() > 0)
                     {
                         incomeTextView.setText("Bevétel");
                     }

@@ -62,7 +62,7 @@ public class NewTransactionActivity extends BaseActivity {
                     Date now=new Date();
                     BaseActivity.database.insertTransaction(
                             nameEditText.getText().toString(),
-                            Integer.parseInt(valueEditText.getText().toString()),
+                            isIncome ? Integer.parseInt(valueEditText.getText().toString()) : Integer.parseInt(valueEditText.getText().toString()) * (-1),
                             isIncome,
                             selectedId,
                             now.getTime(),

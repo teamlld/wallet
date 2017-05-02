@@ -52,8 +52,8 @@ public class LatestTransactionsAdapter extends BaseAdapter implements NewTransac
         Transaction transaction = items.get(position);
         nameTextView.setText(transaction.getName());
 
-        String elojel = transaction.isIncome() ? "+" : "-";
-        if (transaction.isIncome()) {
+        String elojel = transaction.getValue() > 0 ? "+" : "";
+        if (transaction.getValue() > 0) {
             amountTextView.setTextColor(Color.GREEN);
         }
         else {
