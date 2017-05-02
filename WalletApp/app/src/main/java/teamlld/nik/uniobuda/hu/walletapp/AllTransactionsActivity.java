@@ -50,9 +50,10 @@ public class AllTransactionsActivity extends BaseActivity {
                         if (latestOrderType == ORDER_TYPE_DATE_ASC)
                         {
                             adapter.ReverseItems();
+                            Log.d("valami","reversed");
                         }
                         else{
-                            RefreshAdapter(BaseActivity.database.getAllTransactions(userId,true));
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
                         }
                         latestOrderType = position;
                         break;
@@ -60,17 +61,34 @@ public class AllTransactionsActivity extends BaseActivity {
                         if (latestOrderType == ORDER_TYPE_DATE_DESC)
                         {
                             adapter.ReverseItems();
+                            Log.d("valami","reversed");
                         }
                         else{
-                            RefreshAdapter(BaseActivity.database.getAllTransactions(userId,false));
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
                         }
                         latestOrderType = position;
                         break;
                     case ORDER_TYPE_VALUE_DESC:
-                        Log.d("valami","valcsökkenő");
+                        if (latestOrderType == ORDER_TYPE_VALUE_ASC)
+                        {
+                            adapter.ReverseItems();
+                            Log.d("valami","reversed");
+                        }
+                        else{
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
+                        }
+                        latestOrderType = position;
                         break;
                     case ORDER_TYPE_VALUE_ASC:
-                        Log.d("valami","valnövk");
+                        if (latestOrderType == ORDER_TYPE_VALUE_DESC)
+                        {
+                            adapter.ReverseItems();
+                            Log.d("valami","reversed");
+                        }
+                        else{
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
+                        }
+                        latestOrderType = position;
                         break;
                 }
             }

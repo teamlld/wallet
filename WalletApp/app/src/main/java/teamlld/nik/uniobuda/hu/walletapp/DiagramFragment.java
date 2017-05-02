@@ -105,7 +105,7 @@ public class DiagramFragment extends Fragment implements NewTransactionListener 
     DataPoint[] getDataPoints()
     {
 
-        Cursor c = BaseActivity.database.getAllTransactions(user.getId(),false);
+        Cursor c = BaseActivity.database.getAllTransactionsOrderByDate(user.getId(),false);
 
         DataPoint[] result=new DataPoint[c.getCount()];
 

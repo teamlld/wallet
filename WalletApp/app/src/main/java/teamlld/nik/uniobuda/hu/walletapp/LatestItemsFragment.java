@@ -45,7 +45,7 @@ public class LatestItemsFragment extends Fragment {
 
         List<Transaction> items = new ArrayList<>();
 
-       // Cursor cursor = BaseActivity.database.getAllTransactions();
+       // Cursor cursor = BaseActivity.database.getAllTransactionsOrderByDate();
 
         int maxItems = 5;
         Cursor cursor = BaseActivity.database.getLatestTransactions(maxItems,getArguments().getInt("userid"));
