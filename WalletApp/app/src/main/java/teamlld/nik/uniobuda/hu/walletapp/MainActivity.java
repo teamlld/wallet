@@ -25,9 +25,9 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    public static DatabaseHandler handler;
+    //public static DatabaseHandler handler;
     private CallbackManager callbackManager;
 
     @Override
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
 
         callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        /*LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
 
             }
-        });
+        });*/
 
         //TODO insertek mire hívódjanak meg
     }

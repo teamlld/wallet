@@ -19,7 +19,7 @@ import android.widget.Spinner;
 import java.util.Calendar;
 import java.util.Date;
 
-public class NewTransactionActivity extends AppCompatActivity{
+public class NewTransactionActivity extends BaseActivity{
 
     int selectedId;
     boolean isIncome;
@@ -36,8 +36,8 @@ public class NewTransactionActivity extends AppCompatActivity{
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 //                R.array.categories, android.R.layout.simple_spinner_item);
 
-        cursor_income = MainActivity.handler.getTypes(true);
-        cursor_expense = MainActivity.handler.getTypes(false);
+        cursor_income = BaseActivity.database.getTypes(true);
+        cursor_expense = BaseActivity.database.getTypes(false);
         SetSpinnerValues(false);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -66,7 +66,7 @@ public class NewTransactionActivity extends AppCompatActivity{
                 if(nameEditText.getText().length()>0 && valueEditText.getText().length()>0) {
 
                     Date now=new Date();
-                    MainActivity.handler.insertTransaction(
+                    BaseActivity.database.insertTransaction(
                             nameEditText.getText().toString(),
                             Integer.parseInt(valueEditText.getText().toString()),
                             isIncome,

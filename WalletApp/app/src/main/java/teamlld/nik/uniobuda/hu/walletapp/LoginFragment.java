@@ -89,9 +89,10 @@ public class LoginFragment extends Fragment {
     }
 
     private void goMainScreen(Profile profile) {
-        Intent intent = new Intent(getContext(), DashboardActivity.class);
+        Intent intent = new Intent(getContext(), NavDrawerActivity.class);
         intent.putExtra("name", profile.getName());
         intent.putExtra("id", profile.getId());
         startActivity(intent);
+        getActivity().finish();
     }
 }
