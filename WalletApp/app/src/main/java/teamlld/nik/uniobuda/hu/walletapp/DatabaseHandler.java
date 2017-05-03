@@ -205,7 +205,7 @@ public class DatabaseHandler {
     public Cursor getTypes(boolean income) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor result;
-        result = db.query(TABLE_TYPES, null, "income = ?", new String[]{Integer.toString(income ? 1 : 0)}, null, null, null);
+        result = db.query(TABLE_TYPES, null, "income = ?", new String[]{Integer.toString(income ? 1 : 0)}, null, null, "_id ASC");
         result.moveToFirst();
         db.close();
         return result;
@@ -214,7 +214,6 @@ public class DatabaseHandler {
     public Cursor getAllTransactionsGroupByCategory(int userId)
     {
         SQLiteDatabase db = helper.getReadableDatabase();
-        //Cursor result = db.query(TABLE_TRANSACTIONS, null, "_userId = ?", new String[]{Integer.toString(userId)}, "_typeId", null, "_transactionId ASC");
         Cursor result=db.rawQuery("SELECT _typeId, COUNT(name) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" GROUP BY _typeId ORDER BY _typeId ASC",null);
 
         result.moveToFirst();

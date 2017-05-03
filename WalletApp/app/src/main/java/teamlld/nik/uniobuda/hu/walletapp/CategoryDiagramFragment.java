@@ -48,52 +48,70 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
         super.onActivityCreated(savedInstanceState);
 
         graphPoints=new BarGraphSeries<DataPoint>();
-        graphview=(GraphView)getView().findViewById(R.id.balanceGraph);
+        graphview=(GraphView)getView().findViewById(R.id.categoryGraph);
 
         DataPoint[] points= getDataPoints();
-        for (int i=0;i<points.length;i++)
-        {
-            graphPoints.appendData(points[i], true, maxGraphItem);
-        }
-        setGraphProperties();
+        BarGraphSeries<DataPoint> series=new BarGraphSeries<DataPoint>(points);
 
-    }
+        graphview.addSeries(series);
 
-    DataPoint[] getDataPoints()
-    {
-        //FIXME userid honnan jön
-        Cursor c = BaseActivity.database.getAllTransactionsGroupByCategory(1000);
-        DataPoint[] result=new DataPoint[c.getCount()];
-        c.moveToFirst();
-
-        if (c.getCount() > 0)
-        {
-            for(int i=0;i<result.length && !c.isAfterLast();i++)
-            {
-                int cat=c.getInt(0);
-                /*Cursor c2=BaseActivity.database.getTypeById(cat);
-                String name=c2.getString(c2.getColumnIndex("name"));*/
-                result[i]=new DataPoint(cat, c.getInt(1));
-                c.moveToNext();
-            }
-        }
-
-        return  result;
-    }
-
-    void setGraphProperties()
-    {
-        graphPoints.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
                 return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
+        series.setSpacing(50);
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.RED);
+        series.setValuesOnTopSize(40);
+        series.setAnimated(true);
+        series.setTitle("Kategóriák szerinti költségek");
+        graphview.getViewport().setMinY(0.0);
+        graphview.getViewport().setMaxY(100.0);
 
-        graphPoints.setSpacing(50);
-        graphPoints.setDrawValuesOnTop(true);
-        graphPoints.setValuesOnTopColor(Color.RED);
     }
+
+    DataPoint[] getDataPoints()
+    {
+        Cursor cursorCat=BaseActivity.database.getTypes(false);
+        int[] categoriesId=new int[cursorCat.getCount()];
+        for(int i=0; !cursorCat.isAfterLast();i++)
+        {
+            categoriesId[i]=cursorCat.getInt(0);
+            cursorCat.moveToNext();
+        }
+
+
+        //FIXME userid honnan jön
+        Cursor c = BaseActivity.database.getAllTransactionsGroupByCategory(1000);
+
+        DataPoint[] result=new DataPoint[cursorCat.getCount()];
+
+        //c.moveToFirst();
+
+        if (c.getCount() > 0)
+        {
+            int j=0;
+            for(int i=0;i<result.length && !c.isAfterLast();i++)
+            {
+                int catId=c.getInt(0);
+                int catCount=0;
+                while(catId>categoriesId[j])
+                {
+                    if(catId==categoriesId[j]) {
+                        catCount = c.getInt(1);
+                    }
+                    j++;
+                }
+                j=i;
+                result[i]=new DataPoint(catId, catCount);
+                c.moveToNext();
+            }
+        }
+        return  result;
+    }
+
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {
