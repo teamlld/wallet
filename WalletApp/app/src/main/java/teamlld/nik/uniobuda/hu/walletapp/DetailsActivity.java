@@ -1,6 +1,7 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -30,14 +31,16 @@ public class DetailsActivity extends BaseActivity {
 
                 if (selectedTransaction != null){
                     nameTextView.setText(selectedTransaction.getName());
-                    valueTextView.setText(Integer.toString(selectedTransaction.getValue()));
+                    valueTextView.setText(String.valueOf(selectedTransaction.getValue()) + " HUF");
                     if (selectedTransaction.getValue() > 0)
                     {
                         incomeTextView.setText("Bevétel");
+                        incomeTextView.setTextColor(Color.GREEN);
                     }
                     else
                     {
                         incomeTextView.setText("Kiadás");
+                        incomeTextView.setTextColor(Color.RED);
                     }
 
                     Cursor cursor = BaseActivity.database.getTypeById(selectedTransaction.getTypeId());

@@ -24,13 +24,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".DashboardActivity"></activity>
-        <activity android:name=".NewTransactionActivity" />
+        <activity android:name=".NewTransactionActivity" android:label="Új tranzakció"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".DetailsActivity" />
+        <activity android:name=".DetailsActivity"  android:label="Részletek"/>
         <activity
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
@@ -42,7 +42,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CurrencySelectorActivity" />
-        <activity android:name=".AllTransactionsActivity"></activity>
+        <activity android:name=".AllTransactionsActivity" android:label="Összes tranzakció"></activity>
     </application>
 
 </manifest>
