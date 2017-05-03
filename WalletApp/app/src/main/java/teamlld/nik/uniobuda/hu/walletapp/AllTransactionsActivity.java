@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -19,8 +20,12 @@ public class AllTransactionsActivity extends BaseActivity {
     private final int ORDER_TYPE_DATE_ASC = 1;
     private final int ORDER_TYPE_VALUE_DESC = 2;
     private final int ORDER_TYPE_VALUE_ASC = 3;
+    private final int FILTER_TYPE_INCOME = 0;
+    private final int FILTER_TYPE_EXPENSE = 1;
+    private final int FILTER_TYPE_BOTH = 2;
 
     private int latestOrderType;
+    private int latestFilterType;
     private int userId;
     AllTransactionsAdapter adapter;
 
@@ -31,6 +36,7 @@ public class AllTransactionsActivity extends BaseActivity {
 
         userId = getIntent().getExtras().getInt("userid");
         latestOrderType = 0;
+        latestFilterType = 2;
 
         InitAdapter();
 
@@ -44,48 +50,8 @@ public class AllTransactionsActivity extends BaseActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case ORDER_TYPE_DATE_DESC:
-                        if (latestOrderType == ORDER_TYPE_DATE_ASC) // és radibutton nem változott akkor...
-                        {
-                            adapter.ReverseItems();
-                        }
-                        else if (latestOrderType != ORDER_TYPE_DATE_DESC){
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
-                        }
-                        latestOrderType = position;
-                        break;
-                    case ORDER_TYPE_DATE_ASC:
-                        if (latestOrderType == ORDER_TYPE_DATE_DESC)
-                        {
-                            adapter.ReverseItems();
-                        }
-                        else if (latestOrderType != ORDER_TYPE_DATE_ASC){
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
-                        }
-                        latestOrderType = position;
-                        break;
-                    case ORDER_TYPE_VALUE_DESC:
-                        if (latestOrderType == ORDER_TYPE_VALUE_ASC)
-                        {
-                            adapter.ReverseItems();
-                        }
-                        else if (latestOrderType != ORDER_TYPE_VALUE_DESC){
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
-                        }
-                        latestOrderType = position;
-                        break;
-                    case ORDER_TYPE_VALUE_ASC:
-                        if (latestOrderType == ORDER_TYPE_VALUE_DESC)
-                        {
-                            adapter.ReverseItems();
-                        }
-                        else if (latestOrderType != ORDER_TYPE_VALUE_ASC){
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
-                        }
-                        latestOrderType = position;
-                        break;
-                }
+                AllTransactionsActivity.this.SetOrder(latestFilterType,position);
+                latestOrderType = position;
             }
 
             @Override
@@ -96,6 +62,220 @@ public class AllTransactionsActivity extends BaseActivity {
 
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.all_transactions_radio_income:
+                if (checked){
+                    SetOrder(FILTER_TYPE_INCOME,latestOrderType);
+                    latestFilterType = FILTER_TYPE_INCOME;
+                }
+                break;
+            case R.id.all_transactions_radio_expenditure:
+                if (checked){
+                    SetOrder(FILTER_TYPE_EXPENSE,latestOrderType);
+                    latestFilterType = FILTER_TYPE_EXPENSE;
+                }
+                break;
+            case R.id.all_transactions_radio_both:
+                if (checked){
+                    SetOrder(FILTER_TYPE_BOTH,latestOrderType);
+                    latestFilterType = FILTER_TYPE_BOTH;
+                }
+                break;
+        }
+    }
+
+
+    public void SetOrder(int filterType, int orderType)
+    {
+        if (filterType != latestFilterType) //ha a radio buttont klikkeltük át, akkor fut le, ilyenkor mindenképp újból lekérjük a tranzakciókat
+        {
+            boolean income;
+            switch (filterType){ // 4 állapotú a spinner, 3 a radibogroup, így 12 lehetséges esetet kell megvizsgálni, és ez alapján lekérni az adatbázistól a tranzakciókat.
+                case FILTER_TYPE_BOTH:
+                    switch (orderType){
+                        case ORDER_TYPE_DATE_DESC:
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
+                            break;
+                        case ORDER_TYPE_DATE_ASC:
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
+                            break;
+                        case ORDER_TYPE_VALUE_DESC:
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
+                            break;
+                        case ORDER_TYPE_VALUE_ASC:
+                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
+                            break;
+                    }
+                    break;
+                case FILTER_TYPE_INCOME:
+                    income = true;
+                    switch (orderType){
+                        case ORDER_TYPE_DATE_DESC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                            break;
+                        case ORDER_TYPE_DATE_ASC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                            break;
+                        case ORDER_TYPE_VALUE_DESC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                            break;
+                        case ORDER_TYPE_VALUE_ASC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                            break;
+                    }
+                    break;
+                case FILTER_TYPE_EXPENSE:
+                    income = false;
+                    switch (orderType){
+                        case ORDER_TYPE_DATE_DESC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                            break;
+                        case ORDER_TYPE_DATE_ASC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                            break;
+                        case ORDER_TYPE_VALUE_DESC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                            break;
+                        case ORDER_TYPE_VALUE_ASC:
+                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                            break;
+                    }
+                    break;
+            }
+
+        }
+        else if (latestOrderType != orderType){  //ha a spinnerben választottunk más értéket akkor fut le, itt lehet kicsit optimalizálni.
+            boolean income;
+            switch (filterType) {
+                case FILTER_TYPE_BOTH:
+                    switch (orderType){
+                        case ORDER_TYPE_DATE_DESC:
+                            if (latestOrderType == ORDER_TYPE_DATE_ASC) // ha csak a sorrendet fordítjuk meg, nem kell új kérés, egyszerűen megfordítjuk az elemek sorrendjét
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
+                            }
+                            break;
+                        case ORDER_TYPE_DATE_ASC:
+                            if (latestOrderType == ORDER_TYPE_DATE_DESC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
+                            }
+                            break;
+                        case ORDER_TYPE_VALUE_DESC:
+                            if (latestOrderType == ORDER_TYPE_VALUE_ASC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
+                            }
+                            break;
+                        case ORDER_TYPE_VALUE_ASC:
+                            if (latestOrderType == ORDER_TYPE_VALUE_DESC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
+                            }
+                            break;
+                    }
+                    break;
+                case FILTER_TYPE_INCOME:
+                    income = true;
+                    switch (orderType){
+                        case ORDER_TYPE_DATE_DESC:
+                            if (latestOrderType == ORDER_TYPE_DATE_ASC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                            }
+                            break;
+                        case ORDER_TYPE_DATE_ASC:
+                            if (latestOrderType == ORDER_TYPE_DATE_DESC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                            }
+                            break;
+                        case ORDER_TYPE_VALUE_DESC:
+                            if (latestOrderType == ORDER_TYPE_VALUE_ASC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                            }
+                            break;
+                        case ORDER_TYPE_VALUE_ASC:
+                            if (latestOrderType == ORDER_TYPE_VALUE_DESC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                            }
+                            break;
+                    }
+                    break;
+                case FILTER_TYPE_EXPENSE:
+                    income = false;
+                    switch (orderType){
+                        case ORDER_TYPE_DATE_DESC:
+                            if (latestOrderType == ORDER_TYPE_DATE_ASC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                            }
+                            break;
+                        case ORDER_TYPE_DATE_ASC:
+                            if (latestOrderType == ORDER_TYPE_DATE_DESC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                            }
+                            break;
+                        case ORDER_TYPE_VALUE_DESC:
+                            if (latestOrderType == ORDER_TYPE_VALUE_ASC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                            }
+                            break;
+                        case ORDER_TYPE_VALUE_ASC:
+                            if (latestOrderType == ORDER_TYPE_VALUE_DESC)
+                            {
+                                adapter.ReverseItems();
+                            }
+                            else {
+                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                            }
+                            break;
+                    }
+                    break;
+            }
+        }
+    }
 
 
     private  void InitAdapter()

@@ -23,10 +23,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".DashboardActivity">
-
-        </activity>
-        <activity android:name=".NewTransactionActivity"/>
+        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".NewTransactionActivity" android:label="Új tranzakció"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -37,7 +35,6 @@
             android:name=".NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
