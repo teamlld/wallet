@@ -211,10 +211,11 @@ public class DatabaseHandler {
         return result;
     }
 
-    public Cursor getAllTransactionsGroupByCategory(int userId)
+    public Cursor getAllTransactionsGroupByCategory(int userId, boolean isIncome)
     {
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result=db.rawQuery("SELECT _typeId, COUNT(name) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" GROUP BY _typeId ORDER BY _typeId ASC",null);
+        int income=isIncome==true?1:0;
+        Cursor result=db.rawQuery("SELECT _typeId, COUNT(name) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" AND income="+income+" GROUP BY _typeId ORDER BY _typeId ASC",null);
 
         result.moveToFirst();
         db.close();
@@ -237,14 +238,13 @@ public class DatabaseHandler {
 
     public void loadDatabaseWithDemoData() {
         Random rnd = new Random();
-        Date date1 = new GregorianCalendar(2017, Calendar.FEBRUARY, 1).getTime();
-        Date date2 = new GregorianCalendar(2017, Calendar.FEBRUARY, 4).getTime();
-        Date date3 = new GregorianCalendar(2017, Calendar.FEBRUARY, 13).getTime();
+        Date date1 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
+        Date date2 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
+        Date date3 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
 
-        //String date="2017040"+(i+1);
-        insertTransaction(1 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 1, date1.getTime(), 1000);
-        insertTransaction(2 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 2, date2.getTime(), 1000);
-        insertTransaction(3 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 3, date3.getTime(), 1000);
+        insertTransaction(1 + ". trans.", rnd.nextInt(100), true, 0, date1.getTime(), 1000);
+        insertTransaction(2 + ". trans.", rnd.nextInt(100), false, 7, date2.getTime(), 1000);
+        insertTransaction(3 + ". trans.", rnd.nextInt(100), false, 8, date3.getTime(), 1000);
 
     }
 

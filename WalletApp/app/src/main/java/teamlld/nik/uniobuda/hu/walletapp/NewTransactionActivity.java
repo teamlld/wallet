@@ -13,9 +13,6 @@ import android.widget.Spinner;
 
 import java.util.Date;
 
-import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
-import teamlld.nik.uniobuda.hu.walletapp.R;
-
 public class NewTransactionActivity extends BaseActivity {
 
     int selectedId;
@@ -38,7 +35,7 @@ public class NewTransactionActivity extends BaseActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedId = position + 1;
+                setIdByIsIncomeFlag(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -74,6 +71,20 @@ public class NewTransactionActivity extends BaseActivity {
                 //TODO exception dobás?
             }
         });
+    }
+
+    void setIdByIsIncomeFlag(int position)
+    {
+        //elöl vannak a bevételek
+        if(!isIncome)
+        {
+            int l=getResources().getStringArray(R.array.types_income).length;
+            selectedId=l+position+1;
+        }
+        else
+        {
+            selectedId=position+1;
+        }
     }
 
     public void onRadioButtonClicked(View view) {

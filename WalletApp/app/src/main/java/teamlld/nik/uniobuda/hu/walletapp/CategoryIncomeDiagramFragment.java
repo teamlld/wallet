@@ -18,7 +18,7 @@ import com.jjoe64.graphview.series.DataPoint;
  * Created by GERGO on 2017.05.02..
  */
 
-public class CategoryDiagramFragment extends Fragment implements NewTransactionListener {
+public class CategoryIncomeDiagramFragment extends Fragment implements NewTransactionListener {
 
 
     View rootView;
@@ -26,10 +26,10 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
     BarGraphSeries<DataPoint> graphPoints;
     GraphView graphview;
 
-    public static CategoryDiagramFragment newInstance() {
+    public static CategoryIncomeDiagramFragment newInstance() {
 
         Bundle args = new Bundle();
-        CategoryDiagramFragment fragment = new CategoryDiagramFragment();
+        CategoryIncomeDiagramFragment fragment = new CategoryIncomeDiagramFragment();
         fragment.setArguments(args);
         BaseActivity.database.addListener(fragment);
         return fragment;
@@ -39,7 +39,7 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_category_diagram, container, false);
+        rootView = inflater.inflate(R.layout.fragment_category_income_diagram, container, false);
         return rootView;
     }
 
@@ -48,13 +48,13 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
         super.onActivityCreated(savedInstanceState);
 
         graphPoints=new BarGraphSeries<DataPoint>();
-        graphview=(GraphView)getView().findViewById(R.id.categoryGraph);
-        graphview.setTitle("Kategóriák szerinti költségek");
+        graphview=(GraphView)getView().findViewById(R.id.categoryIncomeGraph);
+        graphview.setTitle("Kategóriák szerinti bevételek");
         graphview.setTitleTextSize(64);
-        graphview.setTitleColor(Color.RED);
+        graphview.setTitleColor(Color.BLACK);
         graphview.setPadding(10,0,0,10);
 
-        DataPoint[] points= getDataPoints(false);
+        DataPoint[] points= getDataPoints(true);
         BarGraphSeries<DataPoint> series=new BarGraphSeries<DataPoint>(points);
 
         graphview.addSeries(series);

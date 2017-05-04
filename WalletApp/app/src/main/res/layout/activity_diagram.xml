@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="teamlld.nik.uniobuda.hu.walletapp.DiagramActivity">
+    tools:context="teamlld.nik.uniobuda.hu.walletapp.DiagramActivity"
+    android:orientation="vertical"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/categoryContainer"
+        android:layout_weight="0.5"
         />
 
-</RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/categoryIncomeContainer"
+        android:layout_weight="0.5"
+        />
+
+</LinearLayout>

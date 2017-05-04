@@ -13,10 +13,12 @@ public class DiagramActivity extends BaseActivity{
 
         //FIXME userID-t honnan kap
         CategoryDiagramFragment categoryFragment = CategoryDiagramFragment.newInstance();
+        CategoryIncomeDiagramFragment categoryIncomeFragment=CategoryIncomeDiagramFragment.newInstance();
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.categoryContainer, categoryFragment);
+        transaction.replace(R.id.categoryIncomeContainer, categoryIncomeFragment);
         transaction.commit();
     }
 }
