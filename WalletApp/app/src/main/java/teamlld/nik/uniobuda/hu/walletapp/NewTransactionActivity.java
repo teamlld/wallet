@@ -88,7 +88,6 @@ public class NewTransactionActivity extends BaseActivity {
     }
 
     public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         switch(view.getId()) {

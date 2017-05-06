@@ -1,11 +1,8 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
-import android.app.assist.AssistContent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
-import teamlld.nik.uniobuda.hu.walletapp.DatabaseHandler;
 
 /**
  * Created by admin on 2017. 05. 01..
@@ -14,6 +11,7 @@ import teamlld.nik.uniobuda.hu.walletapp.DatabaseHandler;
 public class BaseActivity extends AppCompatActivity {
 
     protected static DatabaseHandler database;
+    protected int currUserId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

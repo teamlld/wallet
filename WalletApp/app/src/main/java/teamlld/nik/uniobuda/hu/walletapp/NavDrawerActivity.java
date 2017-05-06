@@ -40,31 +40,29 @@ public class NavDrawerActivity extends BaseActivity
             }
             if (args.containsKey("id")){
                 Toast.makeText(NavDrawerActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
+                super.currUserId=args.getInt("id");
             }
         }
 
-        final int userId = 1000; //TODO ezt az ID-t kapjuk majd a MainActivity-től
-
         user = new User("temp", 0, 0);
-        Cursor cursor = BaseActivity.database.getUserById(userId);
+        Cursor cursor = database.getUserById(currUserId);
         if (cursor.getCount() > 0) {
             //van ilyen ID-val user,
             user.setName(cursor.getString(cursor.getColumnIndex("name")));
             user.setBalance(cursor.getInt(cursor.getColumnIndex("balance")));
-            user.setId(userId);
+            user.setId(currUserId);
         } else {
             //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
             //TODO egy activity amin ki tudja választani az új User a nevét, kezdő egyenlegét?
             user.setName("Béla");
             user.setBalance(100000);
-            user.setId(userId);
-            BaseActivity.database.insertUser(user.getName(), user.getBalance(), user.getId());
+            user.setId(currUserId);
+            database.insertUser(user.getName(), user.getBalance(), user.getId());
         }
-
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
         DiagramFragment diagramFragment = DiagramFragment.newInstance(user);
-        LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(userId);
+        LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(currUserId);
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -82,7 +80,7 @@ public class NavDrawerActivity extends BaseActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(NavDrawerActivity.this, NewTransactionActivity.class);
-                intent.putExtra("userid", userId);
+                intent.putExtra("userid", currUserId);
                 startActivity(intent);
             }
         });
@@ -137,9 +135,6 @@ public class NavDrawerActivity extends BaseActivity
             Intent intent = new Intent(NavDrawerActivity.this, AllTransactionsActivity.class);
             intent.putExtra("userid", user.getId());
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.nav_graphs) {
             Intent intent = new Intent(this, DiagramActivity.class);
