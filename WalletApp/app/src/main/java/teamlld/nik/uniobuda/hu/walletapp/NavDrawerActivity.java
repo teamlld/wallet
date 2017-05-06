@@ -62,11 +62,6 @@ public class NavDrawerActivity extends BaseActivity
         }
 
 
-        //TODO !!!!!!!!!!!!!!!! törölni majd
-       // BaseActivity.database.loadDatabaseWithDemoData();
-
-
-
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
         DiagramFragment diagramFragment = DiagramFragment.newInstance(user);
         LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(userId);

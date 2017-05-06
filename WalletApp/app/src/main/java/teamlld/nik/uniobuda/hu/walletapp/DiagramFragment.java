@@ -104,13 +104,12 @@ public class DiagramFragment extends Fragment implements NewTransactionListener 
 
     DataPoint[] getDataPoints()
     {
-
         Cursor c = BaseActivity.database.getAllTransactionsOrderByDate(user.getId(),false);
-
         DataPoint[] result=new DataPoint[c.getCount()];
 
         if (c.getCount() > 0)
         {
+
             double yvalue = c.getInt(c.getColumnIndex("value"));
             // TODO esetleg az első érték lehetne alapból a balance értéke a usernek
             // user.getBalance() -al már el lehet érni
@@ -131,8 +130,6 @@ public class DiagramFragment extends Fragment implements NewTransactionListener 
                 c.moveToNext();
             }
         }
-
-
         return  result;
     }
 

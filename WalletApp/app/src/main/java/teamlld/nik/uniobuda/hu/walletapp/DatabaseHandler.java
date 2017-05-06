@@ -36,7 +36,6 @@ public class DatabaseHandler {
         for (NewTransactionListener listener : listeners)
             listener.NewTransactionAdded(transaction);
     }
-    // FIXME
 
 
     public final static String DB_NAME = "database";
@@ -215,12 +214,13 @@ public class DatabaseHandler {
     {
         SQLiteDatabase db = helper.getReadableDatabase();
         int income=isIncome==true?1:0;
-        Cursor result=db.rawQuery("SELECT _typeId, COUNT(name) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" AND income="+income+" GROUP BY _typeId ORDER BY _typeId ASC",null);
+        Cursor result=db.rawQuery("SELECT _typeId, SUM(value) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" AND income="+income+" GROUP BY _typeId ORDER BY _typeId ASC",null);
 
         result.moveToFirst();
         db.close();
         return result;
     }
+
 
     public void updateUserBalance(int userId, int newBalance) {
         //frissíti a user egyenlegét

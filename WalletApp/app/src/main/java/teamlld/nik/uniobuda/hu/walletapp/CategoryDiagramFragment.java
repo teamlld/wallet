@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -22,8 +23,7 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
 
 
     View rootView;
-    int maxGraphItem=20;
-    BarGraphSeries<DataPoint> graphPoints;
+    BarGraphSeries<DataPoint> series;
     GraphView graphview;
 
     public static CategoryDiagramFragment newInstance() {
@@ -47,31 +47,40 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        graphPoints=new BarGraphSeries<DataPoint>();
         graphview=(GraphView)getView().findViewById(R.id.categoryGraph);
+
+        final DataPoint[] points= getDataPoints(false);
+        series=new BarGraphSeries<DataPoint>(points);
+        graphview.addSeries(series);
+
+        SetGraphAttributes();
+    }
+
+    void SetGraphAttributes()
+    {
         graphview.setTitle("Kategóriák szerinti költségek");
         graphview.setTitleTextSize(64);
-        graphview.setTitleColor(Color.RED);
-        graphview.setPadding(10,0,0,10);
+        graphview.setTitleColor(Color.BLACK);
+        graphview.getGridLabelRenderer().setVerticalAxisTitle("HUF");
+        //TODO resource-ba
 
-        DataPoint[] points= getDataPoints(false);
-        BarGraphSeries<DataPoint> series=new BarGraphSeries<DataPoint>(points);
-
-        graphview.addSeries(series);
+        graphview.getGridLabelRenderer().setHighlightZeroLines(true);
+        graphview.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+        graphview.getGridLabelRenderer().setPadding(50);
+        series.setSpacing(40);
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.RED);
+        series.setValuesOnTopSize(45);
+        series.setAnimated(true);
 
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
-                return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
+                return Color.rgb((int) data.getX()*255/6, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
-        series.setSpacing(50);
-        series.setDrawValuesOnTop(true);
-        series.setValuesOnTopColor(Color.RED);
-        series.setValuesOnTopSize(50);
-        series.setAnimated(true);
 
-        /*graphview.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+                /*graphview.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
                 if (isValueX) {
@@ -83,8 +92,6 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
                 }
             }
         });*/
-
-        //TODO 0 érték az y tengelyen legyen az alap
     }
 
     DataPoint[] getDataPoints(boolean isIncome)
@@ -97,30 +104,21 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
             cursorCat.moveToNext();
         }
 
-
         //FIXME userid honnan jön
         Cursor c = BaseActivity.database.getAllTransactionsGroupByCategory(1000, isIncome);
-
-        //cursorCat.getCount() a hossza ha minden kategóriát ki akarunk rakni majd
         DataPoint[] result=new DataPoint[c.getCount()];
 
         if (c.getCount() > 0)
         {
-            int j=0;
-            for(int i=0;i<result.length && !c.isAfterLast();i++)
+            for(int i=0;i<result.length;i++)
             {
-                int catId=c.getInt(0);
-                int catCount=0;
-                while(j<cursorCat.getCount() && catId>=categoriesId[j])
+                int catValueY=0;
+                if (!c.isAfterLast() && categoriesId[i]==c.getInt(0))
                 {
-                    if (catId == categoriesId[j]) {
-                        catCount = c.getInt(1);
-                    }
-                    j++;
+                    catValueY = c.getInt(1);
+                    c.moveToNext();
                 }
-
-                result[i]=new DataPoint(catId, catCount);
-                c.moveToNext();
+                result[i]=new DataPoint(i, catValueY);
             }
         }
         return  result;
@@ -129,6 +127,6 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {
-
+        series.resetData(getDataPoints(false));
     }
 }
