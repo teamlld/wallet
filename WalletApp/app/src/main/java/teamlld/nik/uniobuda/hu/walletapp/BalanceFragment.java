@@ -68,7 +68,7 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
         User currentUser = getArguments().getParcelable("user");
         int currentBalance = currentUser.getBalance();
 
-        int newBalance = currentBalance + (transaction.isIncome() ? transaction.getValue() : transaction.getValue() * (-1));
+        int newBalance = currentBalance + transaction.getValue();
 
         currentUser.setBalance(newBalance);
 

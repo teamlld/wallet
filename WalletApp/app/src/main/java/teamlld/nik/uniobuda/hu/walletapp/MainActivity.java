@@ -1,9 +1,9 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 
 import com.facebook.CallbackManager;
 
@@ -16,20 +16,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /*
-        Button debugLoginButton = (Button) findViewById(R.id.debuglogin);
-        debugLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handler = new DatabaseHandler(MainActivity.this);
-                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-                //intent.putExtra();
-                startActivity(intent);
-                finish();
-            }
-        });
-        */
 
 
         FragmentManager fm = getSupportFragmentManager();
@@ -56,8 +42,6 @@ public class MainActivity extends BaseActivity {
 
             }
         });*/
-
-        //TODO insertek mire hívódjanak meg
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

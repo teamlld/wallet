@@ -3,21 +3,15 @@ package teamlld.nik.uniobuda.hu.walletapp;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.nfc.FormatException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 
@@ -42,7 +36,6 @@ public class DatabaseHandler {
         for (NewTransactionListener listener : listeners)
             listener.NewTransactionAdded(transaction);
     }
-    // FIXME
 
 
     public final static String DB_NAME = "database";
@@ -211,11 +204,23 @@ public class DatabaseHandler {
     public Cursor getTypes(boolean income) {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor result;
-        result = db.query(TABLE_TYPES, null, "income = ?", new String[]{Integer.toString(income ? 1 : 0)}, null, null, null);
+        result = db.query(TABLE_TYPES, null, "income = ?", new String[]{Integer.toString(income ? 1 : 0)}, null, null, "_id ASC");
         result.moveToFirst();
         db.close();
         return result;
     }
+
+    public Cursor getAllTransactionsGroupByCategory(int userId, boolean isIncome)
+    {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        int income=isIncome==true?1:0;
+        Cursor result=db.rawQuery("SELECT _typeId, SUM(value) FROM "+TABLE_TRANSACTIONS+" WHERE _userId="+String.valueOf(userId)+" AND income="+income+" GROUP BY _typeId ORDER BY _typeId ASC",null);
+
+        result.moveToFirst();
+        db.close();
+        return result;
+    }
+
 
     public void updateUserBalance(int userId, int newBalance) {
         //frissíti a user egyenlegét
@@ -226,21 +231,20 @@ public class DatabaseHandler {
         db.close();
     }
 
-    public int currentTimeToInt() {
+    /*public int currentTimeToInt() {
         String newdate = new SimpleDateFormat("yyyyMMdd").format(new Date());
         return Integer.parseInt(newdate);
-    }
+    }*/
 
     public void loadDatabaseWithDemoData() {
         Random rnd = new Random();
-        Date date1 = new GregorianCalendar(2017, Calendar.FEBRUARY, 1).getTime();
-        Date date2 = new GregorianCalendar(2017, Calendar.FEBRUARY, 4).getTime();
-        Date date3 = new GregorianCalendar(2017, Calendar.FEBRUARY, 13).getTime();
+        Date date1 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
+        Date date2 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
+        Date date3 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
 
-        //String date="2017040"+(i+1);
-        insertTransaction(1 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 1, date1.getTime(), 1000);
-        insertTransaction(2 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 2, date2.getTime(), 1000);
-        insertTransaction(3 + ". trans.", rnd.nextInt(1000), rnd.nextBoolean(), 3, date3.getTime(), 1000);
+        insertTransaction(1 + ". trans.", rnd.nextInt(100), true, 0, date1.getTime(), 1000);
+        insertTransaction(2 + ". trans.", rnd.nextInt(100), false, 7, date2.getTime(), 1000);
+        insertTransaction(3 + ". trans.", rnd.nextInt(100), false, 8, date3.getTime(), 1000);
 
     }
 
