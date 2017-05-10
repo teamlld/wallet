@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,10 +7,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
-import teamlld.nik.uniobuda.hu.walletapp.Currency;
-import teamlld.nik.uniobuda.hu.walletapp.CurrencyAdapter;
 import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.adapters.CurrencyAdapter;
+import teamlld.nik.uniobuda.hu.walletapp.models.Currency;
 
 /**
  * Created by admin on 2017. 05. 01..

@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +18,12 @@ import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.fragments.BalanceDiagramFragment;
+import teamlld.nik.uniobuda.hu.walletapp.fragments.BalanceFragment;
+import teamlld.nik.uniobuda.hu.walletapp.fragments.LatestItemsFragment;
+import teamlld.nik.uniobuda.hu.walletapp.models.User;
 
 public class NavDrawerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -61,13 +67,13 @@ public class NavDrawerActivity extends BaseActivity
         }
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
-        DiagramFragment diagramFragment = DiagramFragment.newInstance(user);
+        BalanceDiagramFragment balanceDiagramFragment = BalanceDiagramFragment.newInstance(user);
         LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(currUserId);
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.balanceFragmentContainer, balanceFragment);
-        transaction.replace(R.id.diagramFragmentContainer, diagramFragment);
+        transaction.replace(R.id.diagramFragmentContainer, balanceDiagramFragment);
         transaction.replace(R.id.latesItemsFragmentContainer, latestItemsFragment);
         transaction.commit();
 

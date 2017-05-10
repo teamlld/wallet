@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
 import java.util.Date;
+
+import teamlld.nik.uniobuda.hu.walletapp.R;
 
 public class NewTransactionActivity extends BaseActivity {
 
@@ -28,8 +30,8 @@ public class NewTransactionActivity extends BaseActivity {
 
         spinner = (Spinner) findViewById(R.id.newTransactionType);
 
-        cursor_income = BaseActivity.database.getTypes(true);
-        cursor_expense = BaseActivity.database.getTypes(false);
+        cursor_income = database.getTypes(true);
+        cursor_expense = database.getTypes(false);
         SetSpinnerValues(false);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -57,7 +59,7 @@ public class NewTransactionActivity extends BaseActivity {
                 if(nameEditText.getText().length()>0 && valueEditText.getText().length()>0) {
 
                     Date now=new Date();
-                    BaseActivity.database.insertTransaction(
+                    database.insertTransaction(
                             nameEditText.getText().toString(),
                             isIncome ? Integer.parseInt(valueEditText.getText().toString()) : Integer.parseInt(valueEditText.getText().toString()) * (-1),
                             isIncome,

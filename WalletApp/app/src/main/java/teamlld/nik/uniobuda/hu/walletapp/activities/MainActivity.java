@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.facebook.CallbackManager;
+
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.fragments.LoginFragment;
 
 public class MainActivity extends BaseActivity {
 

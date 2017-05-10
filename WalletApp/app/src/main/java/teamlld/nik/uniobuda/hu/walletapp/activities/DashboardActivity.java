@@ -1,8 +1,7 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.os.Bundle;
 
-import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
 import teamlld.nik.uniobuda.hu.walletapp.R;
 
 public class DashboardActivity extends BaseActivity {
@@ -59,7 +58,7 @@ public class DashboardActivity extends BaseActivity {
 
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
-        DiagramFragment diagramFragment = DiagramFragment.newInstance(user);
+        BalanceDiagramFragment diagramFragment = BalanceDiagramFragment.newInstance(user);
         LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(userId);
 
         FragmentManager manager = getSupportFragmentManager();

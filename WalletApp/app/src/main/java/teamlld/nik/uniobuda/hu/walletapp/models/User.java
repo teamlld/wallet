@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

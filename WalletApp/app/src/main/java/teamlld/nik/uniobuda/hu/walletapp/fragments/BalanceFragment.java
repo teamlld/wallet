@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.data.DatabaseHandler;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
+import teamlld.nik.uniobuda.hu.walletapp.models.User;
+
 /**
  * Created by GERGO on 2017.04.08..
  */
@@ -15,6 +21,7 @@ import android.widget.TextView;
 public class BalanceFragment extends Fragment implements NewTransactionListener {
 
     View rootView;
+    DatabaseHandler database;
 
     public static BalanceFragment newInstance(User user) {
 
@@ -43,7 +50,8 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //beállítja az argumentumokban lévő user alapján a címet és az egyenleg textViewkat.
-        BaseActivity.database.addListener(this);
+        database=DatabaseHandler.getInstance(getContext());
+        database.addListener(this);
 
         TextView titleTextview = (TextView) rootView.findViewById(R.id.title);
         TextView balanceTextView = (TextView) rootView.findViewById(R.id.balance);
@@ -75,6 +83,6 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
         TextView balanceTextView = (TextView) rootView.findViewById(R.id.balance);
         balanceTextView.setText(Integer.toString(newBalance));
 
-        BaseActivity.database.updateUserBalance(currentUser.getId(),newBalance);
+        database.updateUserBalance(currentUser.getId(),newBalance);
     }
 }

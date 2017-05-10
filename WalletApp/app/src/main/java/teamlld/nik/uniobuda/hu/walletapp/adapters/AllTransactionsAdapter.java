@@ -1,7 +1,6 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.adapters;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +8,9 @@ import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
+
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 /**
  * Created by Atee on 2017. 05. 02..

@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.fragments;
 
 import android.database.Cursor;
 import android.graphics.Color;
@@ -17,23 +17,30 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Date;
 
+import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.data.DatabaseHandler;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
+import teamlld.nik.uniobuda.hu.walletapp.models.User;
+
 /**
  * Created by GERGO on 2017.04.08..
  */
 
-public class DiagramFragment extends Fragment implements NewTransactionListener {
+public class BalanceDiagramFragment extends Fragment implements NewTransactionListener {
 
     View rootView;
     int maxGraphItem=20;
     LineGraphSeries<DataPoint> graphPoints;
     GraphView graphview;
     User user;
+    DatabaseHandler database;
 
-    public static DiagramFragment newInstance(User user) {
+    public static BalanceDiagramFragment newInstance(User user) {
 
         Bundle args = new Bundle();
         args.putParcelable("user",user);
-        DiagramFragment fragment = new DiagramFragment();
+        BalanceDiagramFragment fragment = new BalanceDiagramFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,7 +57,8 @@ public class DiagramFragment extends Fragment implements NewTransactionListener 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        BaseActivity.database.addListener(this);
+        database=DatabaseHandler.getInstance(getContext());
+        database.addListener(this);
 
         user = getArguments().getParcelable("user");
 
@@ -104,7 +112,7 @@ public class DiagramFragment extends Fragment implements NewTransactionListener 
 
     DataPoint[] getDataPoints()
     {
-        Cursor c = BaseActivity.database.getAllTransactionsOrderByDate(user.getId(),false);
+        Cursor c = database.getAllTransactionsOrderByDate(user.getId(),false);
         DataPoint[] result=new DataPoint[c.getCount()];
 
         if (c.getCount() > 0)

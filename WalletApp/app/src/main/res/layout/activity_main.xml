@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="teamlld.nik.uniobuda.hu.walletapp.MainActivity">
+    tools:context="teamlld.nik.uniobuda.hu.walletapp.activities.MainActivity">
 
 
     <!--<FrameLayout

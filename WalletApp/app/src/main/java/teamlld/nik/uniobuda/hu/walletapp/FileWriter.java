@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
+
 /**
  * Created by GERGO on 2017.05.01..
  */

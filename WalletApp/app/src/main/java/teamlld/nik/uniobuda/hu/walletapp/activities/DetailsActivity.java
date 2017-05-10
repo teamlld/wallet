@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.database.Cursor;
 import android.graphics.Color;
@@ -6,9 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import teamlld.nik.uniobuda.hu.walletapp.BaseActivity;
 import teamlld.nik.uniobuda.hu.walletapp.R;
-import teamlld.nik.uniobuda.hu.walletapp.Transaction;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class DetailsActivity extends BaseActivity {
 
@@ -43,7 +42,7 @@ public class DetailsActivity extends BaseActivity {
                         incomeTextView.setTextColor(Color.RED);
                     }
 
-                    Cursor cursor = BaseActivity.database.getTypeById(selectedTransaction.getTypeId());
+                    Cursor cursor = database.getTypeById(selectedTransaction.getTypeId());
                     Log.d("typeid",Integer.toString(selectedTransaction.getTypeId()) );
                     if (cursor.getCount() > 0)
                     {

@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.fragments;
 
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,6 +15,11 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
+import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.data.DatabaseHandler;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
+
 /**
  * Created by GERGO on 2017.05.02..
  */
@@ -25,14 +30,21 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
     int maxGraphItem=20;
     BarGraphSeries<DataPoint> series;
     GraphView graphview;
+    DatabaseHandler database;
 
-    public static CategoryIncomeDiagramFragment newInstance() {
+    /*public static CategoryIncomeDiagramFragment newInstance() {
 
         Bundle args = new Bundle();
         CategoryIncomeDiagramFragment fragment = new CategoryIncomeDiagramFragment();
         fragment.setArguments(args);
         BaseActivity.database.addListener(fragment);
         return fragment;
+    }*/
+
+    public CategoryIncomeDiagramFragment()
+    {
+        database=DatabaseHandler.getInstance(getContext());
+        database.addListener(this);
     }
 
     @Nullable
@@ -97,7 +109,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
 
     DataPoint[] getDataPoints(boolean isIncome)
     {
-        Cursor cursorCat=BaseActivity.database.getTypes(isIncome);
+        Cursor cursorCat=database.getTypes(isIncome);
         int[] categoriesId=new int[cursorCat.getCount()];
         for(int i=0; !cursorCat.isAfterLast();i++)
         {
@@ -106,7 +118,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
         }
 
         //FIXME userid honnan jön
-        Cursor c = BaseActivity.database.getAllTransactionsGroupByCategory(1000, isIncome);
+        Cursor c = database.getAllTransactionsGroupByCategory(0, isIncome);
         DataPoint[] result=new DataPoint[cursorCat.getCount()];
 
         if (c.getCount() > 0)

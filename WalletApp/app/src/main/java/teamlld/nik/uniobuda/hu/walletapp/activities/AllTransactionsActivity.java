@@ -1,9 +1,8 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +12,10 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.adapters.AllTransactionsAdapter;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class AllTransactionsActivity extends BaseActivity {
 
@@ -98,16 +101,16 @@ public class AllTransactionsActivity extends BaseActivity {
                 case FILTER_TYPE_BOTH:
                     switch (orderType){
                         case ORDER_TYPE_DATE_DESC:
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
+                            RefreshAdapter(database.getAllTransactionsOrderByDate(userId,true));
                             break;
                         case ORDER_TYPE_DATE_ASC:
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
+                            RefreshAdapter(database.getAllTransactionsOrderByDate(userId,false));
                             break;
                         case ORDER_TYPE_VALUE_DESC:
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
+                            RefreshAdapter(database.getAllTransactionsOrderByValue(userId,true));
                             break;
                         case ORDER_TYPE_VALUE_ASC:
-                            RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
+                            RefreshAdapter(database.getAllTransactionsOrderByValue(userId,false));
                             break;
                     }
                     break;
@@ -115,16 +118,16 @@ public class AllTransactionsActivity extends BaseActivity {
                     income = true;
                     switch (orderType){
                         case ORDER_TYPE_DATE_DESC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                            RefreshAdapter(database.getTransactionsOrderByDate(userId,true,income));
                             break;
                         case ORDER_TYPE_DATE_ASC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                            RefreshAdapter(database.getTransactionsOrderByDate(userId,false,income));
                             break;
                         case ORDER_TYPE_VALUE_DESC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                            RefreshAdapter(database.getTransactionsOrderByValue(userId,true,income));
                             break;
                         case ORDER_TYPE_VALUE_ASC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                            RefreshAdapter(database.getTransactionsOrderByValue(userId,false,income));
                             break;
                     }
                     break;
@@ -132,16 +135,16 @@ public class AllTransactionsActivity extends BaseActivity {
                     income = false;
                     switch (orderType){
                         case ORDER_TYPE_DATE_DESC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                            RefreshAdapter(database.getTransactionsOrderByDate(userId,true,income));
                             break;
                         case ORDER_TYPE_DATE_ASC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                            RefreshAdapter(database.getTransactionsOrderByDate(userId,false,income));
                             break;
                         case ORDER_TYPE_VALUE_DESC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                            RefreshAdapter(database.getTransactionsOrderByValue(userId,true,income));
                             break;
                         case ORDER_TYPE_VALUE_ASC:
-                            RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                            RefreshAdapter(database.getTransactionsOrderByValue(userId,false,income));
                             break;
                     }
                     break;
@@ -159,7 +162,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,true));
+                                RefreshAdapter(database.getAllTransactionsOrderByDate(userId,true));
                             }
                             break;
                         case ORDER_TYPE_DATE_ASC:
@@ -168,7 +171,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByDate(userId,false));
+                                RefreshAdapter(database.getAllTransactionsOrderByDate(userId,false));
                             }
                             break;
                         case ORDER_TYPE_VALUE_DESC:
@@ -177,7 +180,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,true));
+                                RefreshAdapter(database.getAllTransactionsOrderByValue(userId,true));
                             }
                             break;
                         case ORDER_TYPE_VALUE_ASC:
@@ -186,7 +189,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getAllTransactionsOrderByValue(userId,false));
+                                RefreshAdapter(database.getAllTransactionsOrderByValue(userId,false));
                             }
                             break;
                     }
@@ -200,7 +203,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                                RefreshAdapter(database.getTransactionsOrderByDate(userId,true,income));
                             }
                             break;
                         case ORDER_TYPE_DATE_ASC:
@@ -209,7 +212,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                                RefreshAdapter(database.getTransactionsOrderByDate(userId,false,income));
                             }
                             break;
                         case ORDER_TYPE_VALUE_DESC:
@@ -218,7 +221,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                                RefreshAdapter(database.getTransactionsOrderByValue(userId,true,income));
                             }
                             break;
                         case ORDER_TYPE_VALUE_ASC:
@@ -227,7 +230,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                                RefreshAdapter(database.getTransactionsOrderByValue(userId,false,income));
                             }
                             break;
                     }
@@ -241,7 +244,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,true,income));
+                                RefreshAdapter(database.getTransactionsOrderByDate(userId,true,income));
                             }
                             break;
                         case ORDER_TYPE_DATE_ASC:
@@ -250,7 +253,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByDate(userId,false,income));
+                                RefreshAdapter(database.getTransactionsOrderByDate(userId,false,income));
                             }
                             break;
                         case ORDER_TYPE_VALUE_DESC:
@@ -259,7 +262,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,true,income));
+                                RefreshAdapter(database.getTransactionsOrderByValue(userId,true,income));
                             }
                             break;
                         case ORDER_TYPE_VALUE_ASC:
@@ -268,7 +271,7 @@ public class AllTransactionsActivity extends BaseActivity {
                                 adapter.ReverseItems();
                             }
                             else {
-                                RefreshAdapter(BaseActivity.database.getTransactionsOrderByValue(userId,false,income));
+                                RefreshAdapter(database.getTransactionsOrderByValue(userId,false,income));
                             }
                             break;
                     }
@@ -280,7 +283,7 @@ public class AllTransactionsActivity extends BaseActivity {
 
     private  void InitAdapter()
     {
-        Cursor cursor = BaseActivity.database.getAllTransactionsOrderByDate(userId,true);
+        Cursor cursor = database.getAllTransactionsOrderByDate(userId,true);
 
         List<Transaction> items = new ArrayList<>();
         while (!cursor.isAfterLast()) {

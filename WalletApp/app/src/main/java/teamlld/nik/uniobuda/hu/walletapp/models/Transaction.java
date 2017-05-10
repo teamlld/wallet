@@ -1,9 +1,7 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Date;
 
 /**
  * Created by Atee on 2017. 03. 11..

@@ -1,5 +1,6 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+
+import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.data.DatabaseHandler;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 /**
  * Created by Atee on 2017. 03. 11..
@@ -16,11 +22,13 @@ public class LatestTransactionsAdapter extends BaseAdapter implements NewTransac
 
     private List<Transaction> items;
     private int maxItems;
+    DatabaseHandler database;
 
-    public LatestTransactionsAdapter(List<Transaction> items, int maxItems) {
+    public LatestTransactionsAdapter(List<Transaction> items, int maxItems, Context context) {
         this.items = items;
         this.maxItems = maxItems;
-        BaseActivity.database.addListener(this);
+        database=DatabaseHandler.getInstance(context);
+        database.addListener(this);
     }
 
     @Override

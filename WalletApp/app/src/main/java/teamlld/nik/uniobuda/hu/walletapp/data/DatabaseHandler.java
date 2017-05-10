@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.data;
 
 
 import android.content.ContentValues;
@@ -14,14 +14,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
+import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
-/**
- * Created by GERGO on 2017.04.01..
- */
-
-interface NewTransactionListener {
-    void NewTransactionAdded(Transaction transaction);
-}
 
 public class DatabaseHandler {
 

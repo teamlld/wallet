@@ -1,4 +1,4 @@
-package teamlld.nik.uniobuda.hu.walletapp;
+package teamlld.nik.uniobuda.hu.walletapp.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +14,12 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.activities.DetailsActivity;
+import teamlld.nik.uniobuda.hu.walletapp.adapters.LatestTransactionsAdapter;
+import teamlld.nik.uniobuda.hu.walletapp.data.DatabaseHandler;
+import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
+
 /**
  * Created by GERGO on 2017.04.08..
  */
@@ -21,6 +27,7 @@ import java.util.List;
 public class LatestItemsFragment extends Fragment {
 
     View rootView;
+    DatabaseHandler database;
 
     public static LatestItemsFragment newInstance(int userId) {
 
@@ -43,10 +50,12 @@ public class LatestItemsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        database=DatabaseHandler.getInstance(getContext());
+
         List<Transaction> items = new ArrayList<>();
 
         int maxItems = 5;
-        Cursor cursor = BaseActivity.database.getLatestTransactions(maxItems,getArguments().getInt("userid"));
+        Cursor cursor = database.getLatestTransactions(maxItems,getArguments().getInt("userid"));
         while (!cursor.isAfterLast()) {
             boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
@@ -54,7 +63,7 @@ public class LatestItemsFragment extends Fragment {
             cursor.moveToNext();
         }
 
-        final LatestTransactionsAdapter adapter = new LatestTransactionsAdapter(items,maxItems);
+        final LatestTransactionsAdapter adapter = new LatestTransactionsAdapter(items,maxItems,getContext());
         ListView list = (ListView) rootView.findViewById(R.id.transactions_list);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
