@@ -72,11 +72,10 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
 
     void SetGraphAttributes()
     {
-        graphview.setTitle("Kategóriák szerinti költségek");
+        graphview.setTitle(String.valueOf(R.string.catDiagramTitle));
         graphview.setTitleTextSize(64);
         graphview.setTitleColor(Color.BLACK);
-        graphview.getGridLabelRenderer().setVerticalAxisTitle("HUF");
-        //TODO resource-ba
+        graphview.getGridLabelRenderer().setVerticalAxisTitle(String.valueOf(R.string.diagramYAxisValueCurrency));
 
         graphview.getGridLabelRenderer().setHighlightZeroLines(true);
         graphview.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);

@@ -15,10 +15,6 @@ public class DiagramActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagram);
 
-        //FIXME userID-t honnan kap
-       /* CategoryDiagramFragment categoryFragment = CategoryDiagramFragment.newInstance();
-        CategoryIncomeDiagramFragment categoryIncomeFragment=CategoryIncomeDiagramFragment.newInstance();*/
-
         CategoryDiagramFragment categoryFragment =new CategoryDiagramFragment();
         CategoryIncomeDiagramFragment categoryIncomeFragment=new CategoryIncomeDiagramFragment();
 

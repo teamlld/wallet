@@ -46,4 +46,11 @@
     <string name="all_transactions">Összes tranzakció</string>
     <string name="diagrams">Diagramok</string>
     <string name="sorting_order">Rendezési sorrend:</string>
+    <string name="catDiagramTitle">"Kategóriák szerinti költségek"</string>
+    <string name="catIncomeDiagramTitle">"Kategóriák szerinti bevételek"</string>
+    <string name="diagramYAxisValueCurrency">HUF</string>
+    <string name="name">Név</string>
+    <string name="statingBalance">Kezdő összeg</string>
+    <string name="saveButton">Mentés</string>
+    <string name="settings">Beállítások</string>
 </resources>

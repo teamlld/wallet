@@ -55,12 +55,12 @@ public class DatabaseHandler {
         return handler;
     }
 
-    public long insertUser(String name, int balance, int userId) {
+    public long insertUser(String name, int balance/*, int userId*/) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("balance", balance);
-        values.put("_userId", userId);
+        //values.put("_userId", userId);
         long id = db.insert(TABLE_USERS, null, values);
         db.close();
         return id;
@@ -83,6 +83,18 @@ public class DatabaseHandler {
         transactionAdded(new Transaction(name, value, income, typeId, time));
 
         return id;
+    }
+
+    public void updateUserData(String name, int balance, int userId)
+    {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("balance", balance);
+
+        db.update(TABLE_USERS,values, "_userId = ?",new String[]{String.valueOf(userId)});
+
+        db.close();
     }
 
     public Cursor getAllTransactionsOrderByDate(int userId, boolean desc) {

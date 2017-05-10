@@ -29,6 +29,7 @@ public class NavDrawerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private User user;
+    public static final String SETTINGS_MESSAGE="isNewUser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,17 @@ public class NavDrawerActivity extends BaseActivity
             user.setId(currUserId);
         } else {
             //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
-            //TODO egy activity amin ki tudja választani az új User a nevét, kezdő egyenlegét?
-            user.setName("Béla");
+
+            //FIXME kommentezzétek ki ha nem jó !!!!
+            Intent intent=new Intent(this,SettingsActivity.class);
+            intent.putExtra(SETTINGS_MESSAGE, true);
+            startActivity(intent);
+            finish();
+
+            /*user.setName("Béla");
             user.setBalance(100000);
             user.setId(currUserId);
-            database.insertUser(user.getName(), user.getBalance(), user.getId());
+            database.insertUser(user.getName(), user.getBalance(), user.getId());*/
         }
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
@@ -145,7 +152,10 @@ public class NavDrawerActivity extends BaseActivity
         } else if (id == R.id.nav_graphs) {
             Intent intent = new Intent(this, DiagramActivity.class);
             startActivity(intent);
-            finish();
+        }
+        else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
