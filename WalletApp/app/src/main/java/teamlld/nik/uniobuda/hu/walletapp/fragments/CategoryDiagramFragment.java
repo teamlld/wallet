@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
@@ -75,7 +76,7 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
         graphview.setTitle(getResources().getString(R.string.catDiagramTitle));
         graphview.setTitleTextSize(64);
         graphview.setTitleColor(Color.BLACK);
-        graphview.getGridLabelRenderer().setVerticalAxisTitle(getResources().getString(R.string.diagramYAxisValueCurrency));
+       // graphview.getGridLabelRenderer().setVerticalAxisTitle(getResources().getString(R.string.diagramYAxisValueCurrency));
 
         graphview.getGridLabelRenderer().setHighlightZeroLines(true);
         graphview.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
@@ -92,6 +93,13 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
                 return Color.rgb((int) data.getX()*255/6, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
+
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graphview);
+        staticLabelsFormatter.setHorizontalLabels(getResources().getStringArray(R.array.types_expense));
+        graphview.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graphview.getGridLabelRenderer().setHorizontalLabelsAngle(30);
+        graphview.getGridLabelRenderer().setPadding(15);
+       // graphview.getGridLabelRenderer().setLabelHorizontalHeight(10);
 
                 /*graphview.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
@@ -133,7 +141,7 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
                     catValueY = c.getInt(1)*-1;
                     c.moveToNext();
                 }
-                result[i]=new DataPoint(i, catValueY);
+                result[i]=new DataPoint(i+1, catValueY);
             }
         }
         return  result;
