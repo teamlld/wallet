@@ -70,10 +70,10 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
 
     void SetGraphAttributes()
     {
-        graphview.setTitle(String.valueOf(R.string.catIncomeDiagramTitle));
+        graphview.setTitle(getResources().getString(R.string.catIncomeDiagramTitle));
         graphview.setTitleTextSize(64);
         graphview.setTitleColor(Color.BLACK);
-        graphview.getGridLabelRenderer().setVerticalAxisTitle(String.valueOf(R.string.diagramYAxisValueCurrency));
+        graphview.getGridLabelRenderer().setVerticalAxisTitle(getResources().getString(R.string.diagramYAxisValueCurrency));
 
         graphview.getGridLabelRenderer().setHighlightZeroLines(true);
         graphview.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);

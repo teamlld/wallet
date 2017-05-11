@@ -72,10 +72,10 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
 
     void SetGraphAttributes()
     {
-        graphview.setTitle(String.valueOf(R.string.catDiagramTitle));
+        graphview.setTitle(getResources().getString(R.string.catDiagramTitle));
         graphview.setTitleTextSize(64);
         graphview.setTitleColor(Color.BLACK);
-        graphview.getGridLabelRenderer().setVerticalAxisTitle(String.valueOf(R.string.diagramYAxisValueCurrency));
+        graphview.getGridLabelRenderer().setVerticalAxisTitle(getResources().getString(R.string.diagramYAxisValueCurrency));
 
         graphview.getGridLabelRenderer().setHighlightZeroLines(true);
         graphview.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
@@ -117,9 +117,11 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
             cursorCat.moveToNext();
         }
 
+        //TODO x axis label
+
         //FIXME userid honnan jön
         Cursor c = database.getAllTransactionsGroupByCategory(0, isIncome);
-        DataPoint[] result=new DataPoint[c.getCount()];
+        DataPoint[] result=new DataPoint[cursorCat.getCount()];
 
         if (c.getCount() > 0)
         {
@@ -128,7 +130,7 @@ public class CategoryDiagramFragment extends Fragment implements NewTransactionL
                 int catValueY=0;
                 if (!c.isAfterLast() && categoriesId[i]==c.getInt(0))
                 {
-                    catValueY = c.getInt(1);
+                    catValueY = c.getInt(1)*-1;
                     c.moveToNext();
                 }
                 result[i]=new DataPoint(i, catValueY);

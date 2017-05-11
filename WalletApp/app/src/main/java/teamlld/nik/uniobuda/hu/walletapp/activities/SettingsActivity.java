@@ -39,6 +39,7 @@ public class SettingsActivity extends BaseActivity {
 
                         database.updateUserData(nameValue, balance, currUserId);
                     }
+                    finish();
                 }
             }
         });

@@ -61,7 +61,7 @@ public class NavDrawerActivity extends BaseActivity
         } else {
             //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
 
-            //FIXME kommentezzétek ki ha nem jó !!!!
+            //FIXME meghívása új user esetén + id-t az adatbázis ad vissza
             /*Intent intent=new Intent(this,SettingsActivity.class);
             intent.putExtra(SETTINGS_MESSAGE, true);
             startActivity(intent);
@@ -155,6 +155,7 @@ public class NavDrawerActivity extends BaseActivity
         }
         else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra(SETTINGS_MESSAGE,false);
             startActivity(intent);
         }
 
