@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Az adott számla utóbbi tranzakciói:"
+        android:text="@string/latest_trans"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <ListView
         android:id="@+id/transactions_list"

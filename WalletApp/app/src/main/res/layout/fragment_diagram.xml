@@ -4,10 +4,20 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical">
 
-<com.jjoe64.graphview.GraphView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/balanceGraph"
-    />
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:text="@string/balance_chart"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/balanceChart"
+        android:layout_below="@+id/title"
+        />
 
 </RelativeLayout>

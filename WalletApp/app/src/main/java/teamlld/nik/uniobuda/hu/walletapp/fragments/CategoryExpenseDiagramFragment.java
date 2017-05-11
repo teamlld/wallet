@@ -31,15 +31,19 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
  * Created by GERGO on 2017.05.02..
  */
 
-public class CategoryIncomeDiagramFragment extends Fragment implements NewTransactionListener {
+public class CategoryExpenseDiagramFragment extends Fragment implements NewTransactionListener {
+
 
     View rootView;
-    int maxGraphItem=20;
     BarChart chart;
+
     DatabaseHandler database;
 
-    public CategoryIncomeDiagramFragment()
+
+    public CategoryExpenseDiagramFragment()
     {
+        Bundle args=new Bundle();
+        setArguments(args);
         database=DatabaseHandler.getInstance(getContext());
         database.addListener(this);
     }
@@ -48,7 +52,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_category_income_diagram, container, false);
+        rootView = inflater.inflate(R.layout.fragment_category_expense_diagram, container, false);
         return rootView;
     }
 
@@ -56,9 +60,9 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        chart=(BarChart)getView().findViewById(R.id.incomeChart);
+        chart=(BarChart)getView().findViewById(R.id.expenseChart);
 
-        BarDataSet dataset=new BarDataSet(getDataPoints(true),"categories");
+        BarDataSet dataset=new BarDataSet(getDataPoints(false),"categories");
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
         dataset.setValueTextSize(15f);
 
@@ -70,7 +74,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
 
     void SetGraphAttributes()
     {
-        List<String> labels= Arrays.asList(getResources().getStringArray(R.array.types_income));
+        List<String> labels= Arrays.asList(getResources().getStringArray(R.array.types_expense));
         chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         Description desc=new Description();
@@ -102,6 +106,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
             cursorCat.moveToNext();
         }
 
+
         //FIXME userid honnan jön
         Cursor c = database.getAllTransactionsGroupByCategory(0, isIncome);
         List<BarEntry> result=new ArrayList<BarEntry>();
@@ -113,7 +118,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
                 int catValueY=0;
                 if (!c.isAfterLast() && categoriesId[i]==c.getInt(0))
                 {
-                    catValueY = c.getInt(1);
+                    catValueY = c.getInt(1)*-1;
                     c.moveToNext();
                 }
                 result.add(new BarEntry(i, catValueY));

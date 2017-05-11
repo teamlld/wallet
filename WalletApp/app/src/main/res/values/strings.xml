@@ -13,7 +13,7 @@
         <item>Fizetés</item>
         <item>Szerencsejáték</item>
         <item>Ösztöndíj</item>
-        <item>Szociális támogatás</item>
+        <item>Szoc.Tám.</item>
         <item>Tippmix</item>
         <item>Eladás</item>
     </string-array>
@@ -24,7 +24,7 @@
         <item>Alkohol</item>
         <item>Dohány</item>
         <item>Biztosítás</item>
-        <item>Elektronikai cucc</item>
+        <item>Elektronika</item>
         <item>Kocsi</item>
     </string-array>
     <string-array name="transaction_orderby_types">
@@ -46,12 +46,15 @@
     <string name="all_transactions">Összes tranzakció</string>
     <string name="diagrams">Diagramok</string>
     <string name="sorting_order">Rendezési sorrend:</string>
-    <string name="catDiagramTitle">"Kategóriák szerinti költségek"</string>
-    <string name="catIncomeDiagramTitle">"Kategóriák szerinti bevételek"</string>
+    <string name="catDiagramTitle">"Kiadások kategóriák szerint"</string>
+    <string name="catIncomeDiagramTitle">"Bevételek kategóriák szerint"</string>
     <string name="diagramYAxisValueCurrency">HUF</string>
     <string name="name">Név</string>
     <string name="statingBalance">Kezdő összeg</string>
     <string name="saveButton">Mentés</string>
     <string name="settings">Beállítások</string>
     <string name="base_details">Alapadatok</string>
+    <string name="balance_chart">Egyenleg diagram</string>
+    <string name="latest_trans">Az adott számla utóbbi tranzakciói:</string>
+    <string name="balance">Balance</string>
 </resources>

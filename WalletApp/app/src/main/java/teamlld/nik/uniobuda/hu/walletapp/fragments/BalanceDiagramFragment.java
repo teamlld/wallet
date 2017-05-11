@@ -2,7 +2,6 @@ package teamlld.nik.uniobuda.hu.walletapp.fragments;
 
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
 import teamlld.nik.uniobuda.hu.walletapp.R;
@@ -31,8 +38,7 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
     View rootView;
     int maxGraphItem=20;
-    LineGraphSeries<DataPoint> graphPoints;
-    GraphView graphview;
+    LineChart chart;
     User user;
     DatabaseHandler database;
 
@@ -62,94 +68,83 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
         user = getArguments().getParcelable("user");
 
-        graphPoints=new LineGraphSeries<DataPoint>();
-        graphview=(GraphView)getView().findViewById(R.id.balanceGraph);
+        chart=(LineChart)getView().findViewById(R.id.balanceChart);
 
-        DataPoint[] points= getDataPoints();
-        for (int i=0;i<points.length;i++)
-        {
-            graphPoints.appendData(points[i], true, maxGraphItem);
-        }
+
+        LineDataSet dataset=new LineDataSet(getDataPoints(),"balance");
+        LineData data=new LineData(dataset);
+        chart.setData(data);
+
+        dataset.setCircleColor(Color.parseColor("#800000"));
+        //dataset.setCircleColorHole(Color.parseColor("#800000"));
+        dataset.setCircleRadius(5f);
+        dataset.setColor(Color.parseColor("#ff3300"));
+        dataset.setLineWidth(3f);
+
         setGraphProperties();
 
     }
     void setGraphProperties()
     {
-        graphview.addSeries(graphPoints);
-        graphview.setTitle("Balance chart");
-        graphview.setTitleTextSize(64);
-        graphview.setTitleColor(Color.RED);
-        graphview.setPadding(10,0,0,10);
-        setAxisLabels();
-        graphview.getViewport().setScalable(true);
 
-        final android.text.format.DateFormat df = new android.text.format.DateFormat();
-        graphview.getGridLabelRenderer().setLabelFormatter(
-                new DateAsXAxisLabelFormatter(getActivity()));/*,
-                            SimpleDateFormat.getDateInstance(SimpleDateFormat.SHORT)) {
-                        @Override
-                        public String formatLabel(double value, boolean isValueX) {
-                            if (isValueX)
-                                return super.formatLabel(value, isValueX);
-                            else
-                            return super.formatLabel(value,isValueX);
-                        }
-                    });*/
-        graphview.getGridLabelRenderer().setVerticalLabelsAlign(Paint.Align.RIGHT);
-        graphview.getGridLabelRenderer().setHorizontalLabelsAngle(30);
-        graphview.getGridLabelRenderer().setNumHorizontalLabels(3);
-        graphview.getGridLabelRenderer().setNumVerticalLabels(5);
-        graphview.getGridLabelRenderer().setLabelsSpace(10);  // tengelyfeliratok a grapview-tól
-        graphview.getGridLabelRenderer().setPadding(20);
-        graphPoints.setDrawDataPoints(true);
-        graphPoints.setDataPointsRadius(15f);
-        graphPoints.setBackgroundColor(Color.RED);
-        graphPoints.setThickness(8);
-        graphPoints.setAnimated(true);
-            /*graphview.getGridLabelRenderer().setHorizontalAxisTitle("Date");
-            graphview.getGridLabelRenderer().setHorizontalAxisTitleTextSize(48);*/
+        XAxis x=chart.getXAxis();
+        x.setTextSize(12f);
+        x.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+
+                return sdf.format(new Date((long)value));
+            }
+        });
+
+        YAxis yl=chart.getAxisLeft();
+        YAxis yr=chart.getAxisRight();
+        yl.setTextSize(12f);
+        yr.setTextSize(12f);
+
+        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        Description desc=new Description();
+        desc.setText("");
+        chart.setDescription(desc);
+        chart.getLegend().setEnabled(false);
+
+        chart.animateY(500);
+        chart.setExtraBottomOffset(10f);
     }
 
-    DataPoint[] getDataPoints()
+    List<Entry> getDataPoints()
     {
         Cursor c = database.getAllTransactionsOrderByDate(user.getId(),false);
-        DataPoint[] result=new DataPoint[c.getCount()];
+        List<Entry> result=new ArrayList<>();
 
         if (c.getCount() > 0)
         {
             //user balance alap értékétől induljon a grafikon
-            double yvalue = c.getInt(c.getColumnIndex("value"))+user.getBalance();
-            Date date = new Date(c.getLong(c.getColumnIndex("date")));
-            result[0]=new DataPoint(date, yvalue);
+            float yvalue = c.getFloat(c.getColumnIndex("value"))+user.getBalance();
+            float date=c.getFloat(c.getColumnIndex("date"));
+            result.add(new Entry(date, yvalue));
             c.moveToNext();
 
 
-            for(int i=1;i<result.length && !c.isAfterLast();i++)
+            for(int i=1;i<c.getCount() && !c.isAfterLast();i++)
             {
                 // meg kell nézni az előző értékhez képest és úgy beállítani az értéket
-                double d=result[i-1].getY();
-                double cur = c.getInt(c.getColumnIndex("value"));
+                float d=result.get(i-1).getY();
+                float cur = c.getFloat(c.getColumnIndex("value"));
                 yvalue=d+ cur;
-                date = new Date(c.getLong(c.getColumnIndex("date")));
-                result[i]=new DataPoint(date, yvalue);
+                date=c.getFloat(c.getColumnIndex("date"));
+                result.add(new Entry(date, yvalue));
                 c.moveToNext();
             }
         }
         return  result;
     }
 
-    void setAxisLabels()
-    {
-        graphview.getViewport().setMinY(graphPoints.getLowestValueY());
-        graphview.getViewport().setMaxY(graphPoints.getHighestValueY());
-        graphview.getViewport().setMinX(graphPoints.getLowestValueX());
-        graphview.getViewport().setMaxX(graphPoints.getHighestValueX());
-    }
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {
-        graphPoints.resetData(getDataPoints());
-        setAxisLabels();
+        chart.invalidate();
     }
 
 }

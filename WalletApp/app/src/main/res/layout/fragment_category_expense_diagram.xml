@@ -8,14 +8,14 @@
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/catIncomeDiagramTitle"
+        android:text="@string/catDiagramTitle"
         android:id="@+id/title"
         android:textSize="16dp"
         android:textColor="#000"
         />
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/incomeChart"
+        android:id="@+id/expenseChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
