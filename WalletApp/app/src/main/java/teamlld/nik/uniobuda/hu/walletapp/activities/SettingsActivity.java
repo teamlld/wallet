@@ -32,7 +32,7 @@ public class SettingsActivity extends BaseActivity {
                     String nameValue=name.getText().toString();
                     if(messageIsNewUser)
                     {
-                        database.insertUser(nameValue,balance);
+                        database.insertUser(nameValue,balance,currUserId);
                     }
                     else
                     {

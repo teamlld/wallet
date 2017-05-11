@@ -62,15 +62,15 @@ public class NavDrawerActivity extends BaseActivity
             //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
 
             //FIXME kommentezzétek ki ha nem jó !!!!
-            Intent intent=new Intent(this,SettingsActivity.class);
+            /*Intent intent=new Intent(this,SettingsActivity.class);
             intent.putExtra(SETTINGS_MESSAGE, true);
             startActivity(intent);
-            finish();
+            finish();*/
 
-            /*user.setName("Béla");
+            user.setName("Béla");
             user.setBalance(100000);
             user.setId(currUserId);
-            database.insertUser(user.getName(), user.getBalance(), user.getId());*/
+            database.insertUser(user.getName(), user.getBalance(), user.getId());
         }
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);

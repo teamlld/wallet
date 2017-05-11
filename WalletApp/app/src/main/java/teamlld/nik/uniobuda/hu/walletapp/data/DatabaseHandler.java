@@ -55,12 +55,12 @@ public class DatabaseHandler {
         return handler;
     }
 
-    public long insertUser(String name, int balance/*, int userId*/) {
+    public long insertUser(String name, int balance, int userId) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("balance", balance);
-        //values.put("_userId", userId);
+        values.put("_userId", userId);
         long id = db.insert(TABLE_USERS, null, values);
         db.close();
         return id;
