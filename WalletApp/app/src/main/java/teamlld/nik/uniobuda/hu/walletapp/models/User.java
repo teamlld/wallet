@@ -11,11 +11,13 @@ public class User implements Parcelable{
     private int id;
     private String name;
     private int balance;
+    private int startingBalance;
 
     protected User(Parcel in) {
         id = in.readInt();
         name = in.readString();
         balance = in.readInt();
+        startingBalance=in.readInt();
     }
 
     @Override
@@ -23,6 +25,7 @@ public class User implements Parcelable{
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeInt(balance);
+        dest.writeInt(startingBalance);
     }
 
     @Override
@@ -67,10 +70,15 @@ public class User implements Parcelable{
         this.name = name;
     }
 
-    public User(String name, int balance, int id) {
+    public int getStartingBalance(){return startingBalance;}
+
+    public void setStartingBalance(int stBalance){startingBalance=stBalance;}
+
+    public User(String name, int startingBalance, int id) {
 
         this.name = name;
-        this.balance = balance;
+        this.startingBalance = startingBalance;
+        this.balance=startingBalance;
         this.id = id;
     }
 

@@ -36,7 +36,6 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
 
     View rootView;
     BarChart chart;
-
     DatabaseHandler database;
 
 
@@ -81,11 +80,13 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
         desc.setText("");
         chart.setDescription(desc);
         chart.getLegend().setEnabled(false);
+        chart.setPinchZoom(true);
 
         XAxis x=chart.getXAxis();
         x.setTextSize(12f);
         x.setDrawGridLines(false);
         x.setLabelRotationAngle(30);
+
 
         YAxis yl=chart.getAxisLeft();
         YAxis yr=chart.getAxisRight();
@@ -122,6 +123,14 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
                     c.moveToNext();
                 }
                 result.add(new BarEntry(i, catValueY));
+            }
+        }
+        else
+        {
+            //azért kell hogy ne legyen a diagram helye üres ha még nincs tranzakció
+            for(int i=0;i<categoriesId.length;i++)
+            {
+                result.add(new BarEntry(i,0));
             }
         }
         return  result;

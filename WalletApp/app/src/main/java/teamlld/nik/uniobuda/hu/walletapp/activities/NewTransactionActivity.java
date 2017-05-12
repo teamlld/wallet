@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
@@ -48,7 +47,7 @@ public class NewTransactionActivity extends BaseActivity {
         Button addNewTransactionButton = (Button) findViewById(R.id.addNewTransactionButton);
         final EditText nameEditText = (EditText) findViewById(R.id.newTransactionName);
         final EditText valueEditText = (EditText) findViewById(R.id.newTransactionValue);
-        final RadioGroup incomeRadioGroup=(RadioGroup)findViewById(R.id.radioGroup_newTransaction);
+        //final RadioGroup incomeRadioGroup=(RadioGroup)findViewById(R.id.radioGroup_newTransaction);
 
         final int userId = getIntent().getExtras().getInt("userid");
 

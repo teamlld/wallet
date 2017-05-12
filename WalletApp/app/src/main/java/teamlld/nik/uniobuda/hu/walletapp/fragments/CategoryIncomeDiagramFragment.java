@@ -119,6 +119,14 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
                 result.add(new BarEntry(i, catValueY));
             }
         }
+        else
+        {
+            //azért kell hogy ne legyen a diagram helye üres ha még nincs tranzakció
+            for(int i=0;i<categoriesId.length;i++)
+            {
+                result.add(new BarEntry(i,0));
+            }
+        }
         return  result;
     }
 

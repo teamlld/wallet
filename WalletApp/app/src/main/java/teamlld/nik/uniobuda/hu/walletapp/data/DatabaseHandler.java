@@ -60,6 +60,7 @@ public class DatabaseHandler {
         ContentValues values = new ContentValues();
         values.put("name", name);
         values.put("balance", balance);
+        values.put("startingBalance", balance);
         values.put("_userId", userId);
         long id = db.insert(TABLE_USERS, null, values);
         db.close();
@@ -90,6 +91,7 @@ public class DatabaseHandler {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
+        //TODO startingBalance
         values.put("balance", balance);
 
         db.update(TABLE_USERS,values, "_userId = ?",new String[]{String.valueOf(userId)});
@@ -239,10 +241,6 @@ public class DatabaseHandler {
         db.close();
     }
 
-    /*public int currentTimeToInt() {
-        String newdate = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        return Integer.parseInt(newdate);
-    }*/
 
     public void loadDatabaseWithDemoData() {
         Random rnd = new Random();
@@ -270,7 +268,8 @@ public class DatabaseHandler {
             db.execSQL("CREATE TABLE " + TABLE_USERS + "(" +
                     "_userId    INTEGER PRIMARY KEY, " +
                     "name   VARCHAR(255)," +
-                    "balance   INTEGER" +
+                    "balance   INTEGER," +
+                    "startingBalance   INTEGER" +
                     ")");
             db.execSQL("CREATE TABLE " + TABLE_TRANSACTIONS + "(" +
                     "_transactionId    INTEGER PRIMARY KEY AUTOINCREMENT, " +

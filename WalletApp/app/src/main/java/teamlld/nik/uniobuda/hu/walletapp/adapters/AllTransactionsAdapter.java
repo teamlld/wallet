@@ -1,6 +1,6 @@
 package teamlld.nik.uniobuda.hu.walletapp.adapters;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,14 +19,17 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 public class AllTransactionsAdapter extends BaseAdapter {
 
     private List<Transaction> items;
+    Context context;
 
     public void setItems(List<Transaction> items) {
         this.items = items;
         notifyDataSetInvalidated();
     }
 
-    public AllTransactionsAdapter(List<Transaction> items) {
+    public AllTransactionsAdapter(List<Transaction> items, Context context)
+    {
         this.items = items;
+        this.context=context;
     }
 
     @Override
@@ -58,14 +61,14 @@ public class AllTransactionsAdapter extends BaseAdapter {
         Transaction transaction = items.get(position);
         nameTextView.setText(transaction.getName());
 
-        String elojel = transaction.getValue() > 0 ? "+" : "";
+        String sign = transaction.getValue() > 0 ? "+" : "";
         if (transaction.getValue() > 0) {
-            amountTextView.setTextColor(Color.GREEN);
+            amountTextView.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }
         else {
-            amountTextView.setTextColor(Color.RED);
+            amountTextView.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
-        amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
+        amountTextView.setText(sign + Integer.toString(transaction.getValue()) + " HUF");
 
         return listItemView;
     }

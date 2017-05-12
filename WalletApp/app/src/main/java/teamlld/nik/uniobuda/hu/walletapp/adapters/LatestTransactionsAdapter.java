@@ -1,7 +1,6 @@
 package teamlld.nik.uniobuda.hu.walletapp.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,11 +22,13 @@ public class LatestTransactionsAdapter extends BaseAdapter implements NewTransac
     private List<Transaction> items;
     private int maxItems;
     DatabaseHandler database;
+    Context context;
 
     public LatestTransactionsAdapter(List<Transaction> items, int maxItems, Context context) {
         this.items = items;
         this.maxItems = maxItems;
         database=DatabaseHandler.getInstance(context);
+        this.context=context;
         database.addListener(this);
     }
 
@@ -62,10 +63,10 @@ public class LatestTransactionsAdapter extends BaseAdapter implements NewTransac
 
         String elojel = transaction.getValue() > 0 ? "+" : "";
         if (transaction.getValue() > 0) {
-            amountTextView.setTextColor(Color.GREEN);
+            amountTextView.setTextColor(context.getResources().getColor(R.color.colorGreen));
         }
         else {
-            amountTextView.setTextColor(Color.RED);
+            amountTextView.setTextColor(context.getResources().getColor(R.color.colorRed));
         }
         amountTextView.setText(elojel + Integer.toString(transaction.getValue()) + " HUF");
 

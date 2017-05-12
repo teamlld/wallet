@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,8 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
     View rootView;
     int maxGraphItem=20;
     LineChart chart;
+    LineData data;
+    LineDataSet dataset;
     User user;
     DatabaseHandler database;
 
@@ -70,29 +73,27 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
         chart=(LineChart)getView().findViewById(R.id.balanceChart);
 
-
-        LineDataSet dataset=new LineDataSet(getDataPoints(),"balance");
-        LineData data=new LineData(dataset);
-        chart.setData(data);
-
-        dataset.setCircleColor(Color.parseColor("#800000"));
-        //dataset.setCircleColorHole(Color.parseColor("#800000"));
-        dataset.setCircleRadius(5f);
-        dataset.setColor(Color.parseColor("#ff3300"));
-        dataset.setLineWidth(3f);
-
-        setGraphProperties();
+        initializeDataAndDataSet();
 
     }
+
+    void initializeDataAndDataSet()
+    {
+        dataset=new LineDataSet(getDataPoints(),"balance");
+        data=new LineData(dataset);
+        chart.setData(data);
+
+        setGraphProperties();
+    }
+
     void setGraphProperties()
     {
-
         XAxis x=chart.getXAxis();
         x.setTextSize(12f);
         x.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
 
                 return sdf.format(new Date((long)value));
             }
@@ -102,6 +103,13 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         YAxis yr=chart.getAxisRight();
         yl.setTextSize(12f);
         yr.setTextSize(12f);
+        yl.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                DecimalFormat df=new DecimalFormat("###,###,###");
+                return df.format(value)+"";
+            }
+        });
 
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         Description desc=new Description();
@@ -111,6 +119,15 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
         chart.animateY(500);
         chart.setExtraBottomOffset(10f);
+        chart.setBackgroundColor(Color.rgb(245,245, 245));
+
+        dataset.setCircleColor(Color.parseColor("#008ae6"));
+        dataset.setCircleColorHole(Color.parseColor("#ffffff"));
+        dataset.setCircleRadius(7f);
+        dataset.setCircleHoleRadius(4f);
+        dataset.setColor(Color.parseColor("#008ae6"));
+        dataset.setLineWidth(4f);
+        dataset.setDrawValues(true);
     }
 
     List<Entry> getDataPoints()
@@ -118,14 +135,19 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         Cursor c = database.getAllTransactionsOrderByDate(user.getId(),false);
         List<Entry> result=new ArrayList<>();
 
+        if(c.getCount()==0)
+        {
+            result.add(new Entry(0,0));
+            return result;
+        }
+
         if (c.getCount() > 0)
         {
             //user balance alap értékétől induljon a grafikon
-            float yvalue = c.getFloat(c.getColumnIndex("value"))+user.getBalance();
+            float yvalue = c.getFloat(c.getColumnIndex("value"))+user.getStartingBalance();
             float date=c.getFloat(c.getColumnIndex("date"));
             result.add(new Entry(date, yvalue));
             c.moveToNext();
-
 
             for(int i=1;i<c.getCount() && !c.isAfterLast();i++)
             {
@@ -144,6 +166,9 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {
+
+        initializeDataAndDataSet();
+        data.notifyDataChanged();
         chart.invalidate();
     }
 

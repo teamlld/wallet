@@ -293,7 +293,7 @@ public class AllTransactionsActivity extends BaseActivity {
             cursor.moveToNext();
         }
 
-        adapter = new AllTransactionsAdapter(items);
+        adapter = new AllTransactionsAdapter(items,this);
         ListView list = (ListView) findViewById(R.id.all_transactions_list_view);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -57,7 +57,8 @@ public class NavDrawerActivity extends BaseActivity
             //van ilyen ID-val user,
             user.setName(cursor.getString(cursor.getColumnIndex("name")));
             user.setBalance(cursor.getInt(cursor.getColumnIndex("balance")));
-            user.setId(currUserId);
+            user.setStartingBalance(cursor.getInt(cursor.getColumnIndex("startingBalance")));
+            user.setId(cursor.getInt(cursor.getColumnIndex("_userId")));
         } else {
             //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
 
@@ -69,8 +70,9 @@ public class NavDrawerActivity extends BaseActivity
 
             user.setName("Béla");
             user.setBalance(100000);
+            user.setStartingBalance(100000);
             user.setId(currUserId);
-            database.insertUser(user.getName(), user.getBalance(), user.getId());
+            database.insertUser(user.getName(), user.getStartingBalance(), user.getId());
         }
 
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
