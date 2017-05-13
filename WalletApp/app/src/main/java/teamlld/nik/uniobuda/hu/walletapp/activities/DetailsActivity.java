@@ -8,7 +8,10 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+<<<<<<< HEAD
 import java.util.Locale;
+=======
+>>>>>>> export_to_csv
 
 import teamlld.nik.uniobuda.hu.walletapp.R;
 import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
@@ -66,9 +69,17 @@ public class DetailsActivity extends BaseActivity {
                         typeTextView.setText(getResources().getString(R.string.unknown_type));
                     }
 
+<<<<<<< HEAD
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
                     String date= sdf.format(new Date(selectedTransaction.getDate()));
                     dateTextView.setText(date);
+=======
+                    Date date = new Date(selectedTransaction.getDate());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+                    String dateString = formatter.format(date);
+
+                    dateTextView.setText(dateString);
+>>>>>>> export_to_csv
                 }
             }
         }
