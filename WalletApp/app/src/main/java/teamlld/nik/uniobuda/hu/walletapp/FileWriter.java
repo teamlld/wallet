@@ -8,6 +8,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
@@ -18,37 +19,36 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class FileWriter {
 
-    public static void WriteTextFileTest(Context context, Cursor cursor) throws IOException
-    {
-//        String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
-//        String fileName = "Transactions.csv";
-//        String filePath = baseDir + File.separator + fileName;
-       // File f = new File(filePath);
+    public static void WriteTextFileTest(Cursor cursor) throws IOException {
+        String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+        String fileName = "Transactions.csv";
+        String filePath = baseDir + File.separator + fileName;
 
-       // File f = new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"Transaction.csv");
-        //File f = new File(android.os.Environment.getExternalStorageDirectory(),"Transactions.csv");
+        File file = new File(filePath);
+        File fileDir = new File(baseDir);
 
-//        File f = new File(context.getFilesDir(),"Transaction.csv");
-//
-//        f.mkdir();
-//        f.createNewFile();
+        if (!fileDir.exists())
+        {
+            fileDir.mkdirs();
+        }
 
-       // FileOutputStream stream = new FileOutputStream(f);
+        if (!file.exists())
+        {
+            file.createNewFile();
+        }
 
-
-        Log.d("valami",context.getFilesDir().getAbsolutePath());
-
-        FileOutputStream stream = context.openFileOutput("Transaction.csv", context.MODE_PRIVATE);
+        FileOutputStream stream = new FileOutputStream(file,false);
+        OutputStreamWriter writer = new OutputStreamWriter(stream);
 
         while (!cursor.isAfterLast()) {
             String toWrite = cursor.getString(cursor.getColumnIndex(("name"))) + ";" +
                              cursor.getInt(cursor.getColumnIndex(("date"))) + ";" +
                              cursor.getInt(cursor.getColumnIndex(("value"))) + ";\n";
-            stream.write(toWrite.getBytes());
+            writer.write(toWrite);
             cursor.moveToNext();
         }
-        stream.flush();
-        stream.close();
+        writer.flush();
+        writer.close();
     }
 
     public static boolean isExternalStorageWritable() {
