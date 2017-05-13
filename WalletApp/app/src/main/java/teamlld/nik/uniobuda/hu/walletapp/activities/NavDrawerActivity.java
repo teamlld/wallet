@@ -31,6 +31,7 @@ public class NavDrawerActivity extends BaseActivity
 
     private User user;
     public static final String SETTINGS_MESSAGE="isNewUser";
+    private static final int SETTINGS_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class NavDrawerActivity extends BaseActivity
                 Intent intent=new Intent(this,SettingsActivity.class);
                 intent.putExtra(SETTINGS_MESSAGE, true);
                 intent.putExtra("userid",currUserId);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, SETTINGS_REQUEST_CODE);
             }
         }
     }
@@ -112,11 +113,13 @@ public class NavDrawerActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        user.setId(currUserId);
-        user.setName(data.getExtras().getString("username"));
-        user.setBalance(data.getExtras().getInt("balance"));
-        user.setStartingBalance(data.getExtras().getInt("balance"));
-        SetFragments();
+        if (requestCode == SETTINGS_REQUEST_CODE){
+            user.setId(currUserId);
+            user.setName(data.getExtras().getString("username"));
+            user.setBalance(data.getExtras().getInt("balance"));
+            user.setStartingBalance(data.getExtras().getInt("balance"));
+            SetFragments();
+        }
     }
 
     @Override
