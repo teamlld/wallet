@@ -46,7 +46,6 @@ public class AllTransactionsActivity extends BaseActivity {
         Spinner spinner = (Spinner) findViewById(R.id.transaction_order_by_spinner);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
               R.array.transaction_orderby_types, android.R.layout.simple_spinner_item);
-        //TODO simple_spinner_item lecserélése sajátra, ahol nagyobb a betű méret
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 

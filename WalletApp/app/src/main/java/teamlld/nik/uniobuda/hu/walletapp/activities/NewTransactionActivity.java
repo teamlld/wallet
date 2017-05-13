@@ -69,7 +69,6 @@ public class NewTransactionActivity extends BaseActivity {
 
                     finish();
                 }
-                //TODO exception dobás?
             }
         });
     }

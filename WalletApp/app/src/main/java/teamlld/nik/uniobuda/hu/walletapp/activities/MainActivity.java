@@ -12,7 +12,6 @@ import teamlld.nik.uniobuda.hu.walletapp.fragments.LoginFragment;
 
 public class MainActivity extends BaseActivity {
 
-    //public static DatabaseHandler handler;
     private CallbackManager callbackManager;
 
     @Override

@@ -33,7 +33,7 @@
         <item>Érték szerint csökkenő</item>
         <item>Érték szerint növekvő</item>
     </string-array>
-    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+    <string name="title_activity_nav_drawer">Áttekintés</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
