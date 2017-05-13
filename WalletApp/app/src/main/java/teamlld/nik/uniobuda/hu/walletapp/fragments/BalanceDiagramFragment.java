@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
 import teamlld.nik.uniobuda.hu.walletapp.R;
@@ -37,13 +38,13 @@ import teamlld.nik.uniobuda.hu.walletapp.models.User;
 
 public class BalanceDiagramFragment extends Fragment implements NewTransactionListener {
 
-    View rootView;
-    int maxGraphItem=20;
-    LineChart chart;
-    LineData data;
-    LineDataSet dataset;
-    User user;
-    DatabaseHandler database;
+    private View rootView;
+    private int maxGraphItem=20;
+    private LineChart chart;
+    private LineData data;
+    private LineDataSet dataset;
+    private User user;
+    private DatabaseHandler database;
 
     public static BalanceDiagramFragment newInstance(User user) {
 
@@ -77,7 +78,7 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
     }
 
-    void initializeDataAndDataSet()
+    private void initializeDataAndDataSet()
     {
         dataset=new LineDataSet(getDataPoints(),"balance");
         data=new LineData(dataset);
@@ -86,14 +87,14 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         setGraphProperties();
     }
 
-    void setGraphProperties()
+    private void setGraphProperties()
     {
         XAxis x=chart.getXAxis();
         x.setTextSize(12f);
         x.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd", Locale.getDefault());
 
                 return sdf.format(new Date((long)value));
             }
@@ -130,7 +131,7 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         dataset.setDrawValues(true);
     }
 
-    List<Entry> getDataPoints()
+    private List<Entry> getDataPoints()
     {
         Cursor c = database.getAllTransactionsOrderByDate(user.getId(),false);
         List<Entry> result=new ArrayList<>();

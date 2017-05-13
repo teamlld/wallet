@@ -16,11 +16,11 @@ import teamlld.nik.uniobuda.hu.walletapp.R;
 
 public class NewTransactionActivity extends BaseActivity {
 
-    int selectedId;
-    boolean isIncome;
-    Spinner spinner;
-    Cursor cursor_income;
-    Cursor cursor_expense;
+    private int selectedId;
+    private boolean isIncome;
+    private  Spinner spinner;
+    private Cursor cursor_income;
+    private Cursor cursor_expense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class NewTransactionActivity extends BaseActivity {
         });
     }
 
-    void setIdByIsIncomeFlag(int position)
+    private void setIdByIsIncomeFlag(int position)
     {
         //elöl vannak a bevételek
         if(!isIncome)

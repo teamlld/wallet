@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/base_details"
-        android:textSize="28dp"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:id="@+id/title"
         android:layout_marginBottom="10dp"
@@ -33,7 +33,7 @@
         android:id="@+id/startingBalance"
         android:hint="@string/statingBalance"
         android:layout_below="@id/name"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:inputType="number"
         />
 

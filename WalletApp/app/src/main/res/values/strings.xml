@@ -48,7 +48,7 @@
     <string name="sorting_order">Rendezési sorrend:</string>
     <string name="catDiagramTitle">"Kiadások kategóriák szerint"</string>
     <string name="catIncomeDiagramTitle">"Bevételek kategóriák szerint"</string>
-    <string name="diagramYAxisValueCurrency">HUF</string>
+    <string name="huf">&#160;HUF</string>
     <string name="name">Név</string>
     <string name="statingBalance">Kezdő összeg</string>
     <string name="saveButton">Mentés</string>
@@ -57,4 +57,14 @@
     <string name="balance_chart">Egyenleg diagram</string>
     <string name="latest_trans">Az adott számla utóbbi tranzakciói:</string>
     <string name="balance">Balance</string>
+    <string name="new_transaction">Új tranzakció</string>
+    <string name="all_transaction">Összes tranzakció</string>
+    <string name="transaction_details">A tranzakció részletei</string>
+    <string name="tr_det_name">Név:</string>
+    <string name="tr_det_type">Típus:</string>
+    <string name="tr_det_date">Dátum:</string>
+    <string name="balance_fragment">&#160;egyenlege:</string>
+    <string name="income">Bevétel</string>
+    <string name="expense">Kiadás</string>
+    <string name="unknown_type">Ismeretlen típus</string>
 </resources>

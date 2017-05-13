@@ -22,12 +22,12 @@
             android:id="@+id/newTransactionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Új tranzakció" />
+            android:text="@string/new_transaction" />
 
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Összes tranzakció" />
+            android:text="@string/all_transaction" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 

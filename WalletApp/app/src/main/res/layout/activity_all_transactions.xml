@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context="teamlld.nik.uniobuda.hu.walletapp.activities.AllTransactionsActivity">
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sorting_order"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:textStyle="bold"
+        android:textColor="#000000"
         android:paddingLeft="10dp"
-        android:textSize="16dp"
+        android:paddingTop="5dp"
+        android:textSize="16sp"
         android:id="@+id/all_transactions_ordertext"
         />
 
@@ -25,6 +25,7 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,8 +35,8 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_below="@id/all_transactions_ordertext"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="18dp"
         >
         <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/all_transactions_radio_income"

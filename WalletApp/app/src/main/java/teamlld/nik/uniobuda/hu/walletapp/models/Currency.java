@@ -6,8 +6,8 @@ package teamlld.nik.uniobuda.hu.walletapp.models;
 
 public class Currency {
 
-    String name;
-    double value;
+    private String name;
+    private double value;
 
     public void setName(String name) {
         this.name = name;

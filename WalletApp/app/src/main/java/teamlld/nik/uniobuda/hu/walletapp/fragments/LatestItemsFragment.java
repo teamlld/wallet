@@ -26,8 +26,8 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class LatestItemsFragment extends Fragment {
 
-    View rootView;
-    DatabaseHandler database;
+    private View rootView;
+    private DatabaseHandler database;
 
     public static LatestItemsFragment newInstance(int userId) {
 

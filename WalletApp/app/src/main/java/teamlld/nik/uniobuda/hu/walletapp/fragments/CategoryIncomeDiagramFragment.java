@@ -33,10 +33,10 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class CategoryIncomeDiagramFragment extends Fragment implements NewTransactionListener {
 
-    View rootView;
-    int maxGraphItem=20;
-    BarChart chart;
-    DatabaseHandler database;
+    private View rootView;
+    private int maxGraphItem=20;
+    private BarChart chart;
+    private DatabaseHandler database;
 
     public CategoryIncomeDiagramFragment()
     {
@@ -68,7 +68,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
         SetGraphAttributes();
     }
 
-    void SetGraphAttributes()
+    private void SetGraphAttributes()
     {
         List<String> labels= Arrays.asList(getResources().getStringArray(R.array.types_income));
         chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
@@ -92,7 +92,7 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
         chart.setExtraBottomOffset(10f);
     }
 
-    List<BarEntry> getDataPoints(boolean isIncome)
+    private List<BarEntry> getDataPoints(boolean isIncome)
     {
         Cursor cursorCat=database.getTypes(isIncome);
         int[] categoriesId=new int[cursorCat.getCount()];

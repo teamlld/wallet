@@ -30,7 +30,7 @@ public class AllTransactionsActivity extends BaseActivity {
     private int latestOrderType;
     private int latestFilterType;
     private int userId;
-    AllTransactionsAdapter adapter;
+    private AllTransactionsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class AllTransactionsActivity extends BaseActivity {
     }
 
 
-    public void SetOrder(int filterType, int orderType)
+    private void SetOrder(int filterType, int orderType)
     {
         if (filterType != latestFilterType) //ha a radio buttont klikkeltük át, akkor fut le, ilyenkor mindenképp újból lekérjük a tranzakciókat
         {

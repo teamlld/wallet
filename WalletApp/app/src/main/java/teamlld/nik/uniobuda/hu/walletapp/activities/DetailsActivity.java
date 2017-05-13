@@ -1,10 +1,14 @@
 package teamlld.nik.uniobuda.hu.walletapp.activities;
 
 import android.database.Cursor;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import teamlld.nik.uniobuda.hu.walletapp.R;
 import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
@@ -30,16 +34,26 @@ public class DetailsActivity extends BaseActivity {
 
                 if (selectedTransaction != null){
                     nameTextView.setText(selectedTransaction.getName());
-                    valueTextView.setText(String.valueOf(selectedTransaction.getValue()) + " HUF");
+                    valueTextView.setText(String.valueOf(selectedTransaction.getValue()) + getResources().getString(R.string.huf));
                     if (selectedTransaction.getValue() > 0)
                     {
-                        incomeTextView.setText("Bevétel");
-                        incomeTextView.setTextColor(Color.GREEN);
+                        incomeTextView.setText(getResources().getString(R.string.income));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            incomeTextView.setTextColor(getResources().getColor(R.color.colorGreen,null));
+                        }
+                        else {
+                            incomeTextView.setTextColor(getResources().getColor(R.color.colorGreen));
+                        }
                     }
                     else
                     {
-                        incomeTextView.setText("Kiadás");
-                        incomeTextView.setTextColor(Color.RED);
+                        incomeTextView.setText(getResources().getString(R.string.expense));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            incomeTextView.setTextColor(getResources().getColor(R.color.colorRed,null));
+                        }
+                        else {
+                            incomeTextView.setTextColor(getResources().getColor(R.color.colorRed));
+                        }
                     }
 
                     Cursor cursor = database.getTypeById(selectedTransaction.getTypeId());
@@ -49,10 +63,12 @@ public class DetailsActivity extends BaseActivity {
                         typeTextView.setText(cursor.getString(cursor.getColumnIndex("name")));
                     }
                     else {
-                        typeTextView.setText("Ismeretlen típus");
+                        typeTextView.setText(getResources().getString(R.string.unknown_type));
                     }
 
-                    dateTextView.setText(Integer.toString((int)selectedTransaction.getDate()));
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                    String date= sdf.format(new Date(selectedTransaction.getDate()));
+                    dateTextView.setText(date);
                 }
             }
         }

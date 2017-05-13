@@ -9,7 +9,7 @@ android:orientation="vertical">
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:text="@string/balance_chart"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         />
 

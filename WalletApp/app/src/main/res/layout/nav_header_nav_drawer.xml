@@ -16,7 +16,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:background="@drawable/wallet_e" />
+        android:background="@drawable/wallet_e"
+        android:contentDescription="@string/app_name"
+        />
 
     <TextView
         android:layout_width="match_parent"

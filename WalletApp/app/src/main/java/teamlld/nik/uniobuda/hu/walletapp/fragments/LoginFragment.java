@@ -26,8 +26,8 @@ import teamlld.nik.uniobuda.hu.walletapp.activities.NavDrawerActivity;
 
 public class LoginFragment extends Fragment {
 
-    LoginButton loginButton;
-    CallbackManager callbackManager;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 
     @Nullable
     @Override

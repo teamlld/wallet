@@ -34,9 +34,9 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 public class CategoryExpenseDiagramFragment extends Fragment implements NewTransactionListener {
 
 
-    View rootView;
-    BarChart chart;
-    DatabaseHandler database;
+    private View rootView;
+    private BarChart chart;
+    private DatabaseHandler database;
 
 
     public CategoryExpenseDiagramFragment()
@@ -71,7 +71,7 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
         SetGraphAttributes();
     }
 
-    void SetGraphAttributes()
+    private void SetGraphAttributes()
     {
         List<String> labels= Arrays.asList(getResources().getStringArray(R.array.types_expense));
         chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
@@ -97,7 +97,7 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
         chart.setExtraBottomOffset(10f);
     }
 
-    List<BarEntry> getDataPoints(boolean isIncome)
+    private List<BarEntry> getDataPoints(boolean isIncome)
     {
         Cursor cursorCat=database.getTypes(isIncome);
         int[] categoriesId=new int[cursorCat.getCount()];
