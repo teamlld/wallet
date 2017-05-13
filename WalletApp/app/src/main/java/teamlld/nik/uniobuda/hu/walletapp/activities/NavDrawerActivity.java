@@ -171,7 +171,7 @@ public class NavDrawerActivity extends BaseActivity
             Intent intent = new Intent(this, DiagramActivity.class);
             startActivity(intent);
         }
-        else if (id == R.id.nav_settings) {
+        else if (id == R.id.nav_export) {
             if (FileWriter.isExternalStorageWritable()){
                 try {
                     FileWriter.WriteTextFileTest(database.getAllTransactionsOrderByDate(user.getId(),false));
