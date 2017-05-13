@@ -17,7 +17,7 @@ public class SettingsActivity extends BaseActivity {
 
         Intent intent = getIntent();
         final Boolean messageIsNewUser = intent.getExtras().getBoolean(NavDrawerActivity.SETTINGS_MESSAGE, false);
-
+        currUserId = intent.getExtras().getInt("userid");
 
         Button saveButton=(Button)findViewById(R.id.saveSettings);
         final EditText name=(EditText)findViewById(R.id.name);
@@ -39,6 +39,10 @@ public class SettingsActivity extends BaseActivity {
 
                         database.updateUserData(nameValue, balance, currUserId);
                     }
+                    Intent intent = new Intent();
+                    intent.putExtra("username",nameValue);
+                    intent.putExtra("balance",balance);
+                    setResult(RESULT_OK,intent);
                     finish();
                 }
             }

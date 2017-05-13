@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,42 +40,39 @@ public class NavDrawerActivity extends BaseActivity
         if (AccessToken.getCurrentAccessToken() == null) {
             goLoginScreen();
         }
-
-        if (getIntent().getExtras() != null){
-            Bundle args = getIntent().getExtras();
-            if (args.containsKey("name")){
-                Toast.makeText(NavDrawerActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
+        else {
+            if (getIntent().getExtras() != null){
+                Bundle args = getIntent().getExtras();
+                if (args.containsKey("name")){
+                    Toast.makeText(NavDrawerActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
+                }
+                if (args.containsKey("id")){
+                    Toast.makeText(NavDrawerActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
+                    super.currUserId=args.getInt("id");
+                }
             }
-            if (args.containsKey("id")){
-                Toast.makeText(NavDrawerActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
-                super.currUserId=args.getInt("id");
+
+            user = new User("temp", 0, 0);
+            Cursor cursor = database.getUserById(currUserId);
+            if (cursor.getCount() > 0) {
+                //van ilyen ID-val user,
+                user.setName(cursor.getString(cursor.getColumnIndex("name")));
+                user.setBalance(cursor.getInt(cursor.getColumnIndex("balance")));
+                user.setStartingBalance(cursor.getInt(cursor.getColumnIndex("startingBalance")));
+                user.setId(cursor.getInt(cursor.getColumnIndex("_userId")));
+                SetFragments();
+            } else {
+                //nincs ilyen ID-val user, indítunk egy activity-t ahol kezdőértékeket állíthat
+                Intent intent=new Intent(this,SettingsActivity.class);
+                intent.putExtra(SETTINGS_MESSAGE, true);
+                intent.putExtra("userid",currUserId);
+                startActivityForResult(intent,1);
             }
         }
+    }
 
-        user = new User("temp", 0, 0);
-        Cursor cursor = database.getUserById(currUserId);
-        if (cursor.getCount() > 0) {
-            //van ilyen ID-val user,
-            user.setName(cursor.getString(cursor.getColumnIndex("name")));
-            user.setBalance(cursor.getInt(cursor.getColumnIndex("balance")));
-            user.setStartingBalance(cursor.getInt(cursor.getColumnIndex("startingBalance")));
-            user.setId(cursor.getInt(cursor.getColumnIndex("_userId")));
-        } else {
-            //nincs ilyen ID-val user, beszúrjuk az adatbázisba is.
-
-            //FIXME meghívása új user esetén + id-t az adatbázis ad vissza
-            /*Intent intent=new Intent(this,SettingsActivity.class);
-            intent.putExtra(SETTINGS_MESSAGE, true);
-            startActivity(intent);
-            finish();*/
-
-            user.setName("Béla");
-            user.setBalance(100000);
-            user.setStartingBalance(100000);
-            user.setId(currUserId);
-            database.insertUser(user.getName(), user.getStartingBalance(), user.getId());
-        }
-
+    private void SetFragments()
+    {
         BalanceFragment balanceFragment = BalanceFragment.newInstance(user);
         BalanceDiagramFragment balanceDiagramFragment = BalanceDiagramFragment.newInstance(user);
         LatestItemsFragment latestItemsFragment = LatestItemsFragment.newInstance(currUserId);
@@ -111,6 +109,17 @@ public class NavDrawerActivity extends BaseActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        user.setId(currUserId);
+        user.setName(data.getExtras().getString("username"));
+        user.setBalance(data.getExtras().getInt("balance"));
+        user.setStartingBalance(data.getExtras().getInt("balance"));
+        SetFragments();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -143,7 +152,8 @@ public class NavDrawerActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_convert) {
-            //TODO converter meghívása
+            Intent intent = new Intent(NavDrawerActivity.this, CurrencySelectorActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logout) {
             logout();
         } else if (id == R.id.nav_all_transactions) {
