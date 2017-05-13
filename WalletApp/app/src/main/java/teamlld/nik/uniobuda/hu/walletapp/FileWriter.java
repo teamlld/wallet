@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
+import teamlld.nik.uniobuda.hu.walletapp.models.User;
 
 /**
  * Created by GERGO on 2017.05.01..
@@ -21,7 +22,7 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class FileWriter {
 
-    public static void WriteTextFileTest(Cursor cursor) throws IOException {
+    public static void WriteTextFileTest(Cursor cursor, User user) throws IOException {
         String baseDir = android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
         String fileName = "Transactions.csv";
         String filePath = baseDir + File.separator + fileName;
@@ -42,6 +43,8 @@ public class FileWriter {
         FileOutputStream stream = new FileOutputStream(file,false);
         OutputStreamWriter writer = new OutputStreamWriter(stream);
 
+        writer.write(user.getName() + " egyenlege;" + String.valueOf(user.getBalance()) + ";\n");
+
         while (!cursor.isAfterLast()) {
             Date date = new Date(cursor.getLong(cursor.getColumnIndex(("date"))));
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd hh:mm");
@@ -50,7 +53,6 @@ public class FileWriter {
                              dateString + ";" +
                              cursor.getInt(cursor.getColumnIndex(("value"))) + ";\n";
             writer.write(toWrite);
-            Log.d("debuglog",toWrite);
             cursor.moveToNext();
         }
         writer.flush();
