@@ -20,6 +20,9 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
+import java.io.IOException;
+
+import teamlld.nik.uniobuda.hu.walletapp.FileWriter;
 import teamlld.nik.uniobuda.hu.walletapp.R;
 import teamlld.nik.uniobuda.hu.walletapp.fragments.BalanceDiagramFragment;
 import teamlld.nik.uniobuda.hu.walletapp.fragments.BalanceFragment;
@@ -169,9 +172,18 @@ public class NavDrawerActivity extends BaseActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            intent.putExtra(SETTINGS_MESSAGE,false);
-            startActivity(intent);
+            if (FileWriter.isExternalStorageWritable()){
+                try {
+                    FileWriter.WriteTextFileTest(getApplicationContext() ,database.getAllTransactionsOrderByDate(user.getId(),false));
+                    Toast.makeText(this, "Tranzakciók sikeresen mentve!", Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    Toast.makeText(this, "Hiba történt a művelet során: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
+                Toast.makeText(this, "Csatlakoztass külső tárhelyet a mentéshez!", Toast.LENGTH_LONG).show();
+            }
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
