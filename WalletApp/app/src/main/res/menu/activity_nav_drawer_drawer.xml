@@ -16,7 +16,7 @@
             android:title="@string/diagrams" />
         <item
             android:id="@+id/nav_export"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_send_black_24dp"
             android:title="Exportálás CSV-be" />
         <item
             android:id="@+id/nav_logout"
