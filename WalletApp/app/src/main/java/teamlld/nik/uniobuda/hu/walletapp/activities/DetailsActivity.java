@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import teamlld.nik.uniobuda.hu.walletapp.R;
 import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
@@ -52,7 +55,11 @@ public class DetailsActivity extends BaseActivity {
                         typeTextView.setText("Ismeretlen típus");
                     }
 
-                    dateTextView.setText(Integer.toString((int)selectedTransaction.getDate()));
+                    Date date = new Date(selectedTransaction.getDate());
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+                    String dateString = formatter.format(date);
+
+                    dateTextView.setText(dateString);
                 }
             }
         }

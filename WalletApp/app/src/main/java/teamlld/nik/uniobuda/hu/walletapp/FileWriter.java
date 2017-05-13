@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
@@ -41,10 +43,14 @@ public class FileWriter {
         OutputStreamWriter writer = new OutputStreamWriter(stream);
 
         while (!cursor.isAfterLast()) {
+            Date date = new Date(cursor.getLong(cursor.getColumnIndex(("date"))));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd hh:mm");
+            String dateString = formatter.format(date);
             String toWrite = cursor.getString(cursor.getColumnIndex(("name"))) + ";" +
-                             cursor.getInt(cursor.getColumnIndex(("date"))) + ";" +
+                             dateString + ";" +
                              cursor.getInt(cursor.getColumnIndex(("value"))) + ";\n";
             writer.write(toWrite);
+            Log.d("debuglog",toWrite);
             cursor.moveToNext();
         }
         writer.flush();
