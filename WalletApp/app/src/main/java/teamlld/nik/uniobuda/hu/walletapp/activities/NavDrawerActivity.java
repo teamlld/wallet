@@ -1,8 +1,12 @@
 package teamlld.nik.uniobuda.hu.walletapp.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,8 +15,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -20,6 +22,9 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
+import java.io.IOException;
+
+import teamlld.nik.uniobuda.hu.walletapp.FileWriter;
 import teamlld.nik.uniobuda.hu.walletapp.R;
 import teamlld.nik.uniobuda.hu.walletapp.fragments.BalanceDiagramFragment;
 import teamlld.nik.uniobuda.hu.walletapp.fragments.BalanceFragment;
@@ -31,6 +36,8 @@ public class NavDrawerActivity extends BaseActivity
 
     private User user;
     public static final String SETTINGS_MESSAGE="isNewUser";
+    private static final int SETTINGS_REQUEST_CODE = 1;
+    private static final int FILE_EXTERNAL_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +73,7 @@ public class NavDrawerActivity extends BaseActivity
                 Intent intent=new Intent(this,SettingsActivity.class);
                 intent.putExtra(SETTINGS_MESSAGE, true);
                 intent.putExtra("userid",currUserId);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, SETTINGS_REQUEST_CODE);
             }
         }
     }
@@ -112,11 +119,13 @@ public class NavDrawerActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        user.setId(currUserId);
-        user.setName(data.getExtras().getString("username"));
-        user.setBalance(data.getExtras().getInt("balance"));
-        user.setStartingBalance(data.getExtras().getInt("balance"));
-        SetFragments();
+        if (requestCode == SETTINGS_REQUEST_CODE){
+            user.setId(currUserId);
+            user.setName(data.getExtras().getString("username"));
+            user.setBalance(data.getExtras().getInt("balance"));
+            user.setStartingBalance(data.getExtras().getInt("balance"));
+            SetFragments();
+        }
     }
 
     @Override
@@ -127,23 +136,6 @@ public class NavDrawerActivity extends BaseActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.nav_drawer, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -165,10 +157,23 @@ public class NavDrawerActivity extends BaseActivity
             Intent intent = new Intent(this, DiagramActivity.class);
             startActivity(intent);
         }
-        else if (id == R.id.nav_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            intent.putExtra(SETTINGS_MESSAGE,false);
-            startActivity(intent);
+        else if (id == R.id.nav_export) {
+            if (FileWriter.isExternalStorageWritable()){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED) {
+                        SaveToCSV();
+                    }
+                    else {
+                        requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, FILE_EXTERNAL_PERMISSION_CODE);
+                    }
+                }
+                else {
+                    SaveToCSV();
+                }
+            }
+            else {
+                Toast.makeText(this, "Csatlakoztass külső tárhelyet a mentéshez!", Toast.LENGTH_LONG).show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -187,6 +192,30 @@ public class NavDrawerActivity extends BaseActivity
         goLoginScreen();
     }
 
+    private void SaveToCSV()
+    {
+        try {
+            FileWriter.WriteTextFileTest(database.getAllTransactionsOrderByDate(user.getId(),false), user);
+            Toast.makeText(this, "Tranzakciók sikeresen mentve!", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(this, "Hiba történt a művelet során: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == FILE_EXTERNAL_PERMISSION_CODE)
+        {
+            if (grantResults.length > 0  && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                SaveToCSV();
+            } else {
+                Toast.makeText(this, "Nincs engedély a külső tárhelyre való mentésre!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -197,3 +226,4 @@ public class NavDrawerActivity extends BaseActivity
         super.onResume();
     }
 }
+

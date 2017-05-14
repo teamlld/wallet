@@ -26,8 +26,8 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class LatestItemsFragment extends Fragment {
 
-    View rootView;
-    DatabaseHandler database;
+    private View rootView;
+    private DatabaseHandler database;
 
     public static LatestItemsFragment newInstance(int userId) {
 
@@ -55,9 +55,9 @@ public class LatestItemsFragment extends Fragment {
         List<Transaction> items = new ArrayList<>();
 
         int maxItems = 5;
-        Cursor cursor = database.getLatestTransactions(maxItems,getArguments().getInt("userid"));
+        Cursor cursor = database.getLatestTransactions(maxItems,getArguments().getInt("userid"),true);
         while (!cursor.isAfterLast()) {
-            boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+            boolean income = cursor.getInt(cursor.getColumnIndex("income")) != 0;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
 
             cursor.moveToNext();

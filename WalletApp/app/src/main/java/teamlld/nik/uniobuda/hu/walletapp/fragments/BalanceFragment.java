@@ -20,8 +20,8 @@ import teamlld.nik.uniobuda.hu.walletapp.models.User;
 
 public class BalanceFragment extends Fragment implements NewTransactionListener {
 
-    View rootView;
-    DatabaseHandler database;
+    private View rootView;
+    private DatabaseHandler database;
 
     public static BalanceFragment newInstance(User user) {
 
@@ -63,8 +63,8 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
                 User user = args.getParcelable("user");
 
                 if (user != null){
-                    titleTextview.setText(user.getName() + " egyenlege:");
-                    balanceTextView.setText(Integer.toString(user.getBalance()));
+                    titleTextview.setText(user.getName() + getResources().getString(R.string.balance_fragment));
+                    balanceTextView.setText(Integer.toString(user.getBalance())+ getContext().getResources().getString(R.string.huf));
                 }
             }
         }
@@ -81,7 +81,7 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
         currentUser.setBalance(newBalance);
 
         TextView balanceTextView = (TextView) rootView.findViewById(R.id.balance);
-        balanceTextView.setText(Integer.toString(newBalance));
+        balanceTextView.setText(Integer.toString(newBalance)+getContext().getResources().getString(R.string.huf));
 
         database.updateUserBalance(currentUser.getId(),newBalance);
     }

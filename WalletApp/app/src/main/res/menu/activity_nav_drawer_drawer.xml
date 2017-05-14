@@ -15,9 +15,9 @@
             android:icon="@drawable/ic_assessment_black_24dp"
             android:title="@string/diagrams" />
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/settings" />
+            android:id="@+id/nav_export"
+            android:icon="@drawable/ic_send_black_24dp"
+            android:title="Exportálás CSV-be" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_directions_run_black_24dp"

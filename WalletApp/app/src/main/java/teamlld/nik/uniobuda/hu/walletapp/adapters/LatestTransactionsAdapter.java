@@ -21,8 +21,8 @@ public class LatestTransactionsAdapter extends BaseAdapter implements NewTransac
 
     private List<Transaction> items;
     private int maxItems;
-    DatabaseHandler database;
-    Context context;
+    private DatabaseHandler database;
+    private Context context;
 
     public LatestTransactionsAdapter(List<Transaction> items, int maxItems, Context context) {
         this.items = items;

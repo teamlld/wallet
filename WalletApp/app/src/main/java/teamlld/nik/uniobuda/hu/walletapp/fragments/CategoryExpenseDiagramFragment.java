@@ -15,8 +15,11 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,10 +37,10 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 public class CategoryExpenseDiagramFragment extends Fragment implements NewTransactionListener {
 
 
-    View rootView;
-    BarChart chart;
-    DatabaseHandler database;
-
+    private View rootView;
+    private BarChart chart;
+    private DatabaseHandler database;
+    private int currUserId;
 
     public CategoryExpenseDiagramFragment()
     {
@@ -59,10 +62,11 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        currUserId=getArguments().getInt("userId");
         chart=(BarChart)getView().findViewById(R.id.expenseChart);
 
         BarDataSet dataset=new BarDataSet(getDataPoints(false),"categories");
-        dataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        dataset.setColors(ColorTemplate.MATERIAL_COLORS);
         dataset.setValueTextSize(15f);
 
         BarData data=new BarData(dataset);
@@ -71,11 +75,8 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
         SetGraphAttributes();
     }
 
-    void SetGraphAttributes()
+    private void SetGraphAttributes()
     {
-        List<String> labels= Arrays.asList(getResources().getStringArray(R.array.types_expense));
-        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         Description desc=new Description();
         desc.setText("");
         chart.setDescription(desc);
@@ -86,7 +87,9 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
         x.setTextSize(12f);
         x.setDrawGridLines(false);
         x.setLabelRotationAngle(30);
-
+        List<String> labels= Arrays.asList(getResources().getStringArray(R.array.types_expense));
+        x.setValueFormatter(new IndexAxisValueFormatter(labels));
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis yl=chart.getAxisLeft();
         YAxis yr=chart.getAxisRight();
@@ -95,9 +98,15 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
 
         chart.animateY(500);
         chart.setExtraBottomOffset(10f);
+        chart.getData().setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return String.valueOf((int)value);
+            }
+        });
     }
 
-    List<BarEntry> getDataPoints(boolean isIncome)
+    private List<BarEntry> getDataPoints(boolean isIncome)
     {
         Cursor cursorCat=database.getTypes(isIncome);
         int[] categoriesId=new int[cursorCat.getCount()];
@@ -107,11 +116,8 @@ public class CategoryExpenseDiagramFragment extends Fragment implements NewTrans
             cursorCat.moveToNext();
         }
 
-
-        //FIXME userid honnan jön
-        Cursor c = database.getAllTransactionsGroupByCategory(0, isIncome);
+        Cursor c = database.getAllTransactionsGroupByCategory(currUserId, isIncome);
         List<BarEntry> result=new ArrayList<BarEntry>();
-
         if (c.getCount() > 0)
         {
             for(int i=0;i<cursorCat.getCount();i++)

@@ -30,7 +30,7 @@ public class AllTransactionsActivity extends BaseActivity {
     private int latestOrderType;
     private int latestFilterType;
     private int userId;
-    AllTransactionsAdapter adapter;
+    private AllTransactionsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class AllTransactionsActivity extends BaseActivity {
         Spinner spinner = (Spinner) findViewById(R.id.transaction_order_by_spinner);
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
               R.array.transaction_orderby_types, android.R.layout.simple_spinner_item);
-        //TODO simple_spinner_item lecserélése sajátra, ahol nagyobb a betű méret
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
@@ -92,7 +91,7 @@ public class AllTransactionsActivity extends BaseActivity {
     }
 
 
-    public void SetOrder(int filterType, int orderType)
+    private void SetOrder(int filterType, int orderType)
     {
         if (filterType != latestFilterType) //ha a radio buttont klikkeltük át, akkor fut le, ilyenkor mindenképp újból lekérjük a tranzakciókat
         {
@@ -287,7 +286,7 @@ public class AllTransactionsActivity extends BaseActivity {
 
         List<Transaction> items = new ArrayList<>();
         while (!cursor.isAfterLast()) {
-            boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+            boolean income = cursor.getInt(cursor.getColumnIndex("income")) != 0;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
 
             cursor.moveToNext();
@@ -313,7 +312,7 @@ public class AllTransactionsActivity extends BaseActivity {
     {
         List<Transaction> items = new ArrayList<>();
         while (!cursor.isAfterLast()) {
-            boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+            boolean income = cursor.getInt(cursor.getColumnIndex("income")) != 0;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
 
             cursor.moveToNext();

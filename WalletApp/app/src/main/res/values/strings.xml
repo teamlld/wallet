@@ -33,7 +33,7 @@
         <item>Érték szerint csökkenő</item>
         <item>Érték szerint növekvő</item>
     </string-array>
-    <string name="title_activity_nav_drawer">NavDrawerActivity</string>
+    <string name="title_activity_nav_drawer">Áttekintés</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,9 +46,9 @@
     <string name="all_transactions">Összes tranzakció</string>
     <string name="diagrams">Diagramok</string>
     <string name="sorting_order">Rendezési sorrend:</string>
-    <string name="catDiagramTitle">"Kiadások kategóriák szerint"</string>
-    <string name="catIncomeDiagramTitle">"Bevételek kategóriák szerint"</string>
-    <string name="diagramYAxisValueCurrency">HUF</string>
+    <string name="catDiagramTitle">"Kiadások kategóriák szerint (HUF)"</string>
+    <string name="catIncomeDiagramTitle">"Bevételek kategóriák szerint (HUF)"</string>
+    <string name="huf">&#160;HUF</string>
     <string name="name">Név</string>
     <string name="statingBalance">Kezdő összeg</string>
     <string name="saveButton">Mentés</string>
@@ -57,4 +57,15 @@
     <string name="balance_chart">Egyenleg diagram</string>
     <string name="latest_trans">Az adott számla utóbbi tranzakciói:</string>
     <string name="balance">Balance</string>
+    <string name="new_transaction">Új tranzakció</string>
+    <string name="all_transaction">Összes tranzakció</string>
+    <string name="transaction_details">A tranzakció részletei</string>
+    <string name="tr_det_name">Név:</string>
+    <string name="tr_det_type">Típus:</string>
+    <string name="tr_det_date">Dátum:</string>
+    <string name="balance_fragment">&#160;egyenlege:</string>
+    <string name="income">Bevétel</string>
+    <string name="expense">Kiadás</string>
+    <string name="unknown_type">Ismeretlen típus</string>
+    <string name="new_tr_details">Adatok:</string>
 </resources>

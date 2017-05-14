@@ -15,13 +15,18 @@ public class DiagramActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagram);
 
+        Bundle args=new Bundle();
+        args.putInt("userId",currUserId);
+
         CategoryIncomeDiagramFragment categoryIncomeFragment=new CategoryIncomeDiagramFragment();
-        CategoryExpenseDiagramFragment categoryFragment =new CategoryExpenseDiagramFragment();
+        categoryIncomeFragment.setArguments(args);
+        CategoryExpenseDiagramFragment categoryExpenseFragment =new CategoryExpenseDiagramFragment();
+        categoryExpenseFragment.setArguments(args);
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.categoryIncomeContainer, categoryIncomeFragment);
-        transaction.replace(R.id.categoryContainer, categoryFragment);
+        transaction.replace(R.id.categoryContainer, categoryExpenseFragment);
         transaction.commit();
     }
 }

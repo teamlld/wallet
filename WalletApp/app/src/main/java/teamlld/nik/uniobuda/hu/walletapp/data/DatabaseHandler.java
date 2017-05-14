@@ -8,11 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
 
 import teamlld.nik.uniobuda.hu.walletapp.NewTransactionListener;
 import teamlld.nik.uniobuda.hu.walletapp.R;
@@ -21,7 +17,6 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class DatabaseHandler {
 
-    // FIXME ennek a résznek nincs sok keresnivalója az adatbázisban, de egyelőre jobb ötletem nem volt
     private List<NewTransactionListener> listeners = new ArrayList<NewTransactionListener>();
 
     public void addListener(NewTransactionListener toAdd) {
@@ -78,7 +73,7 @@ public class DatabaseHandler {
         values.put("_userId", userId);
 
         long id = db.insert(TABLE_TRANSACTIONS, null, values);
-        //TODO insertConflict ?
+
         db.close();
 
         transactionAdded(new Transaction(name, value, income, typeId, time));
@@ -91,8 +86,7 @@ public class DatabaseHandler {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
-        //TODO startingBalance
-        values.put("balance", balance);
+        values.put("startingBalance", balance);
 
         db.update(TABLE_USERS,values, "_userId = ?",new String[]{String.valueOf(userId)});
 
@@ -185,10 +179,17 @@ public class DatabaseHandler {
         return result;
     }
 
-    public Cursor getLatestTransactions(int count, int userId) {
+    public Cursor getLatestTransactions(int count, int userId, boolean desc) {
         //a userId-hoz tartozó user count db utolsó tranzakcióját adja vissza
         SQLiteDatabase db = helper.getReadableDatabase();
-        Cursor result = db.rawQuery("SELECT * FROM transactions WHERE _userId = ? ORDER BY _transactionId DESC LIMIT ?", new String[]{Integer.toString(userId), Integer.toString(count)});
+        Cursor result;
+        if(desc) {
+            result = db.rawQuery("SELECT * FROM transactions WHERE _userId = ? ORDER BY _transactionId DESC LIMIT ?", new String[]{Integer.toString(userId), Integer.toString(count)});
+        }
+        else
+        {
+            result = db.rawQuery("SELECT * FROM transactions WHERE _userId = ? ORDER BY _transactionId ASC LIMIT ?", new String[]{Integer.toString(userId), Integer.toString(count)});
+        }
         result.moveToFirst();
         db.close();
         return result;
@@ -242,7 +243,7 @@ public class DatabaseHandler {
     }
 
 
-    public void loadDatabaseWithDemoData() {
+    /*public void loadDatabaseWithDemoData() {
         Random rnd = new Random();
         Date date1 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
         Date date2 = new GregorianCalendar(2017, Calendar.MAY, 1).getTime();
@@ -252,7 +253,7 @@ public class DatabaseHandler {
         insertTransaction(2 + ". trans.", rnd.nextInt(100), false, 7, date2.getTime(), 1000);
         insertTransaction(3 + ". trans.", rnd.nextInt(100), false, 8, date3.getTime(), 1000);
 
-    }
+    }*/
 
     public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -307,10 +308,9 @@ public class DatabaseHandler {
             }
         }
 
-        //TODO upgradelés lépésekben
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            //FIXME QnD
+
             db.execSQL("DROP TABLE IF EXIST " + TABLE_USERS);
             onCreate(db);
         }

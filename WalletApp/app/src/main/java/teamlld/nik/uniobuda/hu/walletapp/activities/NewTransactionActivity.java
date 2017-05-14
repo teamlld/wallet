@@ -16,11 +16,11 @@ import teamlld.nik.uniobuda.hu.walletapp.R;
 
 public class NewTransactionActivity extends BaseActivity {
 
-    int selectedId;
-    boolean isIncome;
-    Spinner spinner;
-    Cursor cursor_income;
-    Cursor cursor_expense;
+    private int selectedId;
+    private boolean isIncome;
+    private Spinner spinner;
+    private Cursor cursor_income;
+    private Cursor cursor_expense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,6 @@ public class NewTransactionActivity extends BaseActivity {
         Button addNewTransactionButton = (Button) findViewById(R.id.addNewTransactionButton);
         final EditText nameEditText = (EditText) findViewById(R.id.newTransactionName);
         final EditText valueEditText = (EditText) findViewById(R.id.newTransactionValue);
-        //final RadioGroup incomeRadioGroup=(RadioGroup)findViewById(R.id.radioGroup_newTransaction);
 
         final int userId = getIntent().getExtras().getInt("userid");
 
@@ -69,12 +68,11 @@ public class NewTransactionActivity extends BaseActivity {
 
                     finish();
                 }
-                //TODO exception dobás?
             }
         });
     }
 
-    void setIdByIsIncomeFlag(int position)
+    private void setIdByIsIncomeFlag(int position)
     {
         //elöl vannak a bevételek
         if(!isIncome)

@@ -9,8 +9,8 @@ import android.os.Parcelable;
 
 public class Currency implements Parcelable {
 
-    String name;
-    double value;
+    private String name;
+    private double value;
 
     protected Currency(Parcel in) {
         name = in.readString();
