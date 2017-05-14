@@ -43,7 +43,7 @@ public class FileWriter {
         FileOutputStream stream = new FileOutputStream(file,false);
         OutputStreamWriter writer = new OutputStreamWriter(stream);
 
-        writer.write(user.getName() + " egyenlege;" + String.valueOf(user.getBalance()) + ";\n");
+        writer.write(user.getName() + " egyenlege;" + String.valueOf(user.getBalance()) + "\n");
 
         while (!cursor.isAfterLast()) {
             Date date = new Date(cursor.getLong(cursor.getColumnIndex(("date"))));
@@ -51,7 +51,7 @@ public class FileWriter {
             String dateString = formatter.format(date);
             String toWrite = cursor.getString(cursor.getColumnIndex(("name"))) + ";" +
                              dateString + ";" +
-                             cursor.getInt(cursor.getColumnIndex(("value"))) + ";\n";
+                             cursor.getInt(cursor.getColumnIndex(("value"))) + "\n";
             writer.write(toWrite);
             cursor.moveToNext();
         }
