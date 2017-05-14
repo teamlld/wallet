@@ -16,38 +16,39 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/textView_addNewTrans"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        />
+    <View
+        android:id="@+id/line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        android:layout_below="@id/newTransactionTitle"
+        android:layout_marginBottom="20dp"
+        />
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/newTransactionName"
-        android:layout_width="match_parent"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/newTransactionTypes"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/newTransactionTitle"
-        android:hint="@string/text_name" />
+        android:layout_below="@id/line"
+        android:text="Típus:"
+        android:textSize="18sp"
+        android:paddingTop="4dp"
 
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/newTransactionValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/newTransactionName"
-        android:hint="@string/text_value"
-        android:inputType="number" />
-
-    <android.support.v7.widget.AppCompatSpinner
-        android:spinnerMode="dropdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/newTransactionType"
-        android:layout_below="@id/newTransactionValue"
         />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/radioGroup_newTransaction"
         android:orientation="horizontal"
-        android:layout_below="@id/newTransactionType"
-        >
+        android:layout_centerInParent="true"
+        android:layout_below="@id/line">
+
+
         <android.support.v7.widget.AppCompatRadioButton
             android:id="@+id/radio_income"
             android:layout_width="wrap_content"
@@ -63,12 +64,50 @@
             android:onClick="onRadioButtonClicked"/>
     </RadioGroup>
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/newTransactionCategoryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioGroup_newTransaction"
+        android:text="Kategóriák:"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="18sp"
+        android:padding="2sp"
+        />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:spinnerMode="dropdown"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newTransactionType"
+        android:layout_below="@id/newTransactionCategoryLabel"
+        android:layout_marginBottom="20dp"
+        />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/newTransactionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newTransactionType"
+        android:hint="@string/text_name" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/newTransactionValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newTransactionName"
+        android:hint="@string/text_value"
+        android:inputType="number" />
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/addNewTransactionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup_newTransaction"
+        android:layout_below="@+id/newTransactionValue"
         android:layout_centerHorizontal="true"
-        android:text="@string/button_addNewTransaction" />
+        android:text="@string/button_addNewTransaction"
+        android:layout_marginTop="10dp"
+        />
 
 </RelativeLayout>

@@ -25,7 +25,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DashboardActivity" />
         <activity
             android:name=".activities.NewTransactionActivity"
             android:label="Új tranzakció" />
@@ -34,7 +33,10 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activities.DetailsActivity" />
+        <activity
+            android:name=".activities.DetailsActivity"
+            android:label="Részletes adatok"
+            />
         <activity
             android:name=".activities.NavDrawerActivity"
             android:label="@string/title_activity_nav_drawer"
@@ -45,10 +47,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CurrencySelectorActivity" />
-        <activity android:name=".activities.DiagramActivity" />
-        <activity android:name=".activities.AllTransactionsActivity" />
-        <activity android:name=".activities.SettingsActivity"></activity>
+        <activity
+            android:name=".activities.CurrencySelectorActivity"
+            android:label="Pénznem kiválasztása"
+            />
+        <activity
+            android:name=".activities.DiagramActivity"
+            android:label="Összegző diagramok"
+            />
+        <activity
+            android:name=".activities.AllTransactionsActivity"
+            android:label="Összes tranzakció"
+            />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="Beállítások"
+            />
     </application>
-
 </manifest>

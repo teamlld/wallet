@@ -46,8 +46,8 @@
     <string name="all_transactions">Összes tranzakció</string>
     <string name="diagrams">Diagramok</string>
     <string name="sorting_order">Rendezési sorrend:</string>
-    <string name="catDiagramTitle">"Kiadások kategóriák szerint"</string>
-    <string name="catIncomeDiagramTitle">"Bevételek kategóriák szerint"</string>
+    <string name="catDiagramTitle">"Kiadások kategóriák szerint (HUF)"</string>
+    <string name="catIncomeDiagramTitle">"Bevételek kategóriák szerint (HUF)"</string>
     <string name="huf">&#160;HUF</string>
     <string name="name">Név</string>
     <string name="statingBalance">Kezdő összeg</string>

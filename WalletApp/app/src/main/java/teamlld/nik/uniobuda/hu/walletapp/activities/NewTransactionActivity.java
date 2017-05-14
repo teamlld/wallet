@@ -18,7 +18,7 @@ public class NewTransactionActivity extends BaseActivity {
 
     private int selectedId;
     private boolean isIncome;
-    private  Spinner spinner;
+    private Spinner spinner;
     private Cursor cursor_income;
     private Cursor cursor_expense;
 
@@ -47,7 +47,6 @@ public class NewTransactionActivity extends BaseActivity {
         Button addNewTransactionButton = (Button) findViewById(R.id.addNewTransactionButton);
         final EditText nameEditText = (EditText) findViewById(R.id.newTransactionName);
         final EditText valueEditText = (EditText) findViewById(R.id.newTransactionValue);
-        //final RadioGroup incomeRadioGroup=(RadioGroup)findViewById(R.id.radioGroup_newTransaction);
 
         final int userId = getIntent().getExtras().getInt("userid");
 

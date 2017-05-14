@@ -63,7 +63,7 @@ public class BalanceFragment extends Fragment implements NewTransactionListener 
                 User user = args.getParcelable("user");
 
                 if (user != null){
-                    titleTextview.setText(user.getName() + getResources().getString(R.string.balance_fragment));//" egyenlege:");
+                    titleTextview.setText(user.getName() + getResources().getString(R.string.balance_fragment));
                     balanceTextView.setText(Integer.toString(user.getBalance())+ getContext().getResources().getString(R.string.huf));
                 }
             }

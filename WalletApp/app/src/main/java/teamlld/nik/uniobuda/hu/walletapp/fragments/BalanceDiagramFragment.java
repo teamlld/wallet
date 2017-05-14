@@ -75,7 +75,6 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         chart=(LineChart)getView().findViewById(R.id.balanceChart);
 
         initializeDataAndDataSet();
-
     }
 
     private void initializeDataAndDataSet()
@@ -117,7 +116,6 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         desc.setText("");
         chart.setDescription(desc);
         chart.getLegend().setEnabled(false);
-
         chart.animateY(500);
         chart.setExtraBottomOffset(10f);
         chart.setBackgroundColor(Color.rgb(245,245, 245));
@@ -133,7 +131,7 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
     private List<Entry> getDataPoints()
     {
-        Cursor c = database.getAllTransactionsOrderByDate(user.getId(),false);
+        Cursor c = database.getLatestTransactions(maxGraphItem,user.getId(),false);
         List<Entry> result=new ArrayList<>();
 
         if(c.getCount()==0)
@@ -141,7 +139,6 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
             result.add(new Entry(0,0));
             return result;
         }
-
         if (c.getCount() > 0)
         {
             //user balance alap értékétől induljon a grafikon
@@ -170,6 +167,8 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
         initializeDataAndDataSet();
         data.notifyDataChanged();
+        //chart.setVisibleXRangeMaximum(transaction.getDate());
+        chart.fitScreen();
         chart.invalidate();
     }
 
