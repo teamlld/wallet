@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -28,11 +29,25 @@ public class LoginFragment extends Fragment {
 
     private LoginButton loginButton;
     private CallbackManager callbackManager;
+    private Button localLoginButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        localLoginButton = (Button) view.findViewById(R.id.local_login_button);
+
+        localLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), NavDrawerActivity.class);
+                intent.putExtra("facelogin", false);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+
         loginButton = (LoginButton) view.findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
         // If using in a fragment
@@ -93,8 +108,8 @@ public class LoginFragment extends Fragment {
 
     private void goMainScreen(Profile profile) {
         Intent intent = new Intent(getContext(), NavDrawerActivity.class);
-        intent.putExtra("name", profile.getName());
         intent.putExtra("id", profile.getId());
+        intent.putExtra("facelogin", true);
         startActivity(intent);
         getActivity().finish();
     }

@@ -44,37 +44,49 @@ public class NavDrawerActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
 
-        if (AccessToken.getCurrentAccessToken() == null) {
+        if (getIntent().getExtras() == null){
             goLoginScreen();
+            return;
         }
-        else {
-            if (getIntent().getExtras() != null){
-                Bundle args = getIntent().getExtras();
-                if (args.containsKey("name")){
-                    Toast.makeText(NavDrawerActivity.this, args.getString("name"), Toast.LENGTH_LONG).show();
-                }
-                if (args.containsKey("id")){
-                    Toast.makeText(NavDrawerActivity.this, args.getString("id"), Toast.LENGTH_LONG).show();
-                    super.currUserId=args.getInt("id");
-                }
+
+        if (getIntent().getExtras().getBoolean("facelogin")){
+            if (AccessToken.getCurrentAccessToken() == null) {
+                goLoginScreen();
+                return;
             }
 
-            user = new User("temp", 0, 0);
-            Cursor cursor = database.getUserById(currUserId);
-            if (cursor.getCount() > 0) {
-                //van ilyen ID-val user,
-                user.setName(cursor.getString(cursor.getColumnIndex("name")));
-                user.setBalance(cursor.getInt(cursor.getColumnIndex("balance")));
-                user.setStartingBalance(cursor.getInt(cursor.getColumnIndex("startingBalance")));
-                user.setId(cursor.getInt(cursor.getColumnIndex("_userId")));
-                SetFragments();
-            } else {
-                //nincs ilyen ID-val user, indítunk egy activity-t ahol kezdőértékeket állíthat
-                Intent intent=new Intent(this,SettingsActivity.class);
-                intent.putExtra(SETTINGS_MESSAGE, true);
-                intent.putExtra("userid",currUserId);
-                startActivityForResult(intent, SETTINGS_REQUEST_CODE);
+            Bundle args = getIntent().getExtras();
+            if (args.containsKey("id")){
+                super.currUserId=args.getInt("id");
             }
+
+            SetUser();
+
+        }
+        else {
+            currUserId = 0;
+            SetUser();
+        }
+
+    }
+
+    private void SetUser()
+    {
+        user = new User("temp", 0, 0);
+        Cursor cursor = database.getUserById(currUserId);
+        if (cursor.getCount() > 0) {
+            //van ilyen ID-val user,
+            user.setName(cursor.getString(cursor.getColumnIndex("name")));
+            user.setBalance(cursor.getInt(cursor.getColumnIndex("balance")));
+            user.setStartingBalance(cursor.getInt(cursor.getColumnIndex("startingBalance")));
+            user.setId(cursor.getInt(cursor.getColumnIndex("_userId")));
+            SetFragments();
+        } else {
+            //nincs ilyen ID-val user, indítunk egy activity-t ahol kezdőértékeket állíthat
+            Intent intent=new Intent(this, SettingsActivity.class);
+            intent.putExtra(SETTINGS_MESSAGE, true);
+            intent.putExtra("userid",currUserId);
+            startActivityForResult(intent, SETTINGS_REQUEST_CODE);
         }
     }
 

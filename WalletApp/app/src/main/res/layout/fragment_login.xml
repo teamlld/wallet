@@ -8,4 +8,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:id="@+id/local_login_button"
+        android:layout_above="@+id/login_button"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="40dp"
+        android:text="Helyi Bejelentkezés"
+        />
+
 </RelativeLayout>
