@@ -131,7 +131,7 @@ public class NavDrawerActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == SETTINGS_REQUEST_CODE){
+        if (requestCode == SETTINGS_REQUEST_CODE && data != null && data.getExtras() != null){
             user.setId(currUserId);
             user.setName(data.getExtras().getString("username"));
             user.setBalance(data.getExtras().getInt("balance"));

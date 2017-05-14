@@ -47,7 +47,13 @@ public class SettingsActivity extends BaseActivity {
                 }
             }
         });
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(SettingsActivity.this, NavDrawerActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
