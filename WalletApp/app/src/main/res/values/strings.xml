@@ -68,4 +68,9 @@
     <string name="expense">Kiadás</string>
     <string name="unknown_type">Ismeretlen típus</string>
     <string name="new_tr_details">Adatok:</string>
+    <string name="change_valuta">Valuta váltás</string>
+    <string name="sourceCurrency">Forrás</string>
+    <string name="destinationCurrency">Cél</string>
+    <string name="converter_enterTheValue">Írja be az összeget</string>
+    <string name="change">Átváltás</string>
 </resources>

@@ -63,7 +63,8 @@
             android:name=".activities.SettingsActivity"
             android:label="Beállítások"
             />
-        <activity android:name=".activities.ConverterActivity"
+        <activity
+            android:name=".activities.ConverterActivity"
             android:label="Konvertálás"/>
     </application>
 </manifest>
