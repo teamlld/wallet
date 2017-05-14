@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,12 +70,12 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
 
         database=DatabaseHandler.getInstance(getContext());
         database.addListener(this);
-
         user = getArguments().getParcelable("user");
-
         chart=(LineChart)getView().findViewById(R.id.balanceChart);
 
         initializeDataAndDataSet();
+        setGraphProperties();
+        resetChartViewPoint();
     }
 
     private void initializeDataAndDataSet()
@@ -82,8 +83,6 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         dataset=new LineDataSet(getDataPoints(),"balance");
         data=new LineData(dataset);
         chart.setData(data);
-
-        setGraphProperties();
     }
 
     private void setGraphProperties()
@@ -94,7 +93,6 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd", Locale.getDefault());
-
                 return sdf.format(new Date((long)value));
             }
         });
@@ -106,7 +104,7 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         yl.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                DecimalFormat df=new DecimalFormat("###,###,###");
+                DecimalFormat df=new DecimalFormat("###,###,###", DecimalFormatSymbols.getInstance());
                 return df.format(value)+"";
             }
         });
@@ -161,15 +159,21 @@ public class BalanceDiagramFragment extends Fragment implements NewTransactionLi
         return  result;
     }
 
+    private void resetChartViewPoint()
+    {
+        chart.getXAxis().setAxisMinimum(dataset.getXMin());
+        chart.getXAxis().setAxisMaximum(chart.getHighestVisibleX());
+        chart.invalidate();
+    }
+
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {
 
         initializeDataAndDataSet();
+        setGraphProperties();
         data.notifyDataChanged();
-        //chart.setVisibleXRangeMaximum(transaction.getDate());
-        chart.fitScreen();
-        chart.invalidate();
+        resetChartViewPoint();
     }
 
 }

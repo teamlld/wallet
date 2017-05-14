@@ -67,4 +67,5 @@
     <string name="income">Bevétel</string>
     <string name="expense">Kiadás</string>
     <string name="unknown_type">Ismeretlen típus</string>
+    <string name="new_tr_details">Adatok:</string>
 </resources>
