@@ -144,7 +144,7 @@ public class NavDrawerActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_convert) {
-            Intent intent = new Intent(NavDrawerActivity.this, CurrencySelectorActivity.class);
+            Intent intent = new Intent(NavDrawerActivity.this, ConverterActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             logout();

@@ -42,7 +42,8 @@ public class JsonDownloader extends Thread {
 
                 String line = "";
                 while ((line = reader.readLine()) != null) {
-                    stringBuffer.append(line);
+                    stringBuffer.append(line + "\n");
+
                 }
                 postSuccess(stringBuffer.toString());
                 return;

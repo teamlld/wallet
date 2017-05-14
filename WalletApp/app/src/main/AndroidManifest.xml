@@ -63,5 +63,6 @@
             android:name=".activities.SettingsActivity"
             android:label="Beállítások"
             />
+        <activity android:name=".activities.CurrencySelectorActivity" />
     </application>
 </manifest>

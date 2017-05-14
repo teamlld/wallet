@@ -5,10 +5,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import teamlld.nik.uniobuda.hu.walletapp.R;
+import teamlld.nik.uniobuda.hu.walletapp.activities.CurrencySelectorActivity;
 import teamlld.nik.uniobuda.hu.walletapp.models.Currency;
 
 /**
@@ -18,7 +20,7 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Currency;
 public class CurrencyAdapter extends BaseAdapter {
 
     private List<Currency> items;
-    private int mSelectedCurrency;
+    public static int mSelectedCurrency;
 
     public CurrencyAdapter(List<Currency> items) {
         this.items = items;
@@ -49,17 +51,18 @@ public class CurrencyAdapter extends BaseAdapter {
 
         Currency currency = items.get(position);
 
-        TextView name = (TextView)view.findViewById(R.id.name);
+        //TextView name = (TextView)view.findViewById(R.id.name);
         RadioButton radio = (RadioButton)view.findViewById(R.id.radio);
+        radio.setText(currency.getName());
 
-        name.setText(currency.getName());
-        if (position == mSelectedCurrency) radio.setChecked(true);
+        //name.setText(currency.getName());
+        if (position == CurrencySelectorActivity.selectedFrom) radio.setChecked(true);
         else radio.setChecked(false);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSelectedCurrency = position;
+                CurrencySelectorActivity.selectedFrom = position;
                 CurrencyAdapter.this.notifyDataSetChanged();
             }
         });
