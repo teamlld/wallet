@@ -47,6 +47,7 @@
         <activity android:name=".activities.DiagramActivity" />
         <activity android:name=".activities.AllTransactionsActivity" />
         <activity android:name=".activities.SettingsActivity"></activity>
+        <activity android:name=".activities.ConverterActivity"/>
     </application>
 
 </manifest>
