@@ -286,7 +286,7 @@ public class AllTransactionsActivity extends BaseActivity {
 
         List<Transaction> items = new ArrayList<>();
         while (!cursor.isAfterLast()) {
-            boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+            boolean income = cursor.getInt(cursor.getColumnIndex("income")) != 0;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
 
             cursor.moveToNext();
@@ -312,7 +312,7 @@ public class AllTransactionsActivity extends BaseActivity {
     {
         List<Transaction> items = new ArrayList<>();
         while (!cursor.isAfterLast()) {
-            boolean income = cursor.getInt(cursor.getColumnIndex("income")) == 0 ? false : true;
+            boolean income = cursor.getInt(cursor.getColumnIndex("income")) != 0;
             items.add(new Transaction(cursor.getString(cursor.getColumnIndex("name")), cursor.getInt(cursor.getColumnIndex("value")), income, cursor.getInt(cursor.getColumnIndex("_typeId")),cursor.getLong(cursor.getColumnIndex("date"))));
 
             cursor.moveToNext();

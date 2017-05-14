@@ -113,7 +113,6 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
             cursorCat.moveToNext();
         }
 
-        //FIXME userid honnan jön
         Cursor c = database.getAllTransactionsGroupByCategory(currUserId, isIncome);
         List<BarEntry> result=new ArrayList<BarEntry>();
 
@@ -140,7 +139,6 @@ public class CategoryIncomeDiagramFragment extends Fragment implements NewTransa
         }
         return  result;
     }
-
 
     @Override
     public void NewTransactionAdded(Transaction transaction) {

@@ -1,9 +1,7 @@
 package teamlld.nik.uniobuda.hu.walletapp;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,9 +9,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
-import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 import teamlld.nik.uniobuda.hu.walletapp.models.User;
 
 /**
@@ -61,9 +57,6 @@ public class FileWriter {
 
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 }

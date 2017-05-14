@@ -17,7 +17,6 @@ import teamlld.nik.uniobuda.hu.walletapp.models.Transaction;
 
 public class DatabaseHandler {
 
-    // FIXME ennek a résznek nincs sok keresnivalója az adatbázisban, de egyelőre jobb ötletem nem volt
     private List<NewTransactionListener> listeners = new ArrayList<NewTransactionListener>();
 
     public void addListener(NewTransactionListener toAdd) {
@@ -74,7 +73,7 @@ public class DatabaseHandler {
         values.put("_userId", userId);
 
         long id = db.insert(TABLE_TRANSACTIONS, null, values);
-        //TODO insertConflict ?
+
         db.close();
 
         transactionAdded(new Transaction(name, value, income, typeId, time));
@@ -309,10 +308,9 @@ public class DatabaseHandler {
             }
         }
 
-        //TODO upgradelés lépésekben
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            //FIXME QnD
+
             db.execSQL("DROP TABLE IF EXIST " + TABLE_USERS);
             onCreate(db);
         }
